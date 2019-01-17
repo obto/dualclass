@@ -20,7 +20,8 @@ pal.generateClass = function(level, person) {
 	newSkills = pal.addSkills(level, person.skills.slice(0));
 	person.skills = person.skills.concat(newSkills);
 
-	newSpells = pal.addSpells(level, person.spells.slice(0));
+	if (level >= 2)
+		newSpells = pal.addSpells(level, person.spells.slice(0));
 	// person.spells.push(newSpells);
 }
 pal.printClass = function(){
@@ -38,9 +39,11 @@ pal.printClass = function(){
 	$(".basics p").text("Level " + pal.level + " Paladin (" + pal.subclass + " Domain)");
 	$("div.feat p").text(pal.features.join(", "));
 	$("div.skills p").html(makeSkillText(pal.skills));
-	$("div.spells p").html(makeSpellText(pal.magic.oathspells));
-	$("div.slots").html(printSpellSlots(pal.magic.slots));
 	$("div.profs p").html(makeProfText(pal.proficiencies));
+	if ("spells" in pal.magic) {
+		$("div.spells p").html(makeSpellText(pal.magic.oathspells));
+		$("div.slots").html(printSpellSlots(pal.magic.slots));
+	}
 }
 pal.addFeatures = function(level) {
 	pal.features.push("Divine Sense", "Lay on Hands (" +(level * 5)+ " hp)");	

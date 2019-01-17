@@ -22,7 +22,8 @@ rngr.generateClass = function(level, person) {
 	var newSkills = rngr.addSkills(level, person.skills.slice(0));
 	person.skills = person.skills.concat(newSkills);
 
-	var newSpells = rngr.addSpells(level, person.spells.slice(0));
+	if (level >= 2)
+		var newSpells = rngr.addSpells(level, person.spells.slice(0));
 }
 
 rngr.printClass = function() {
@@ -39,9 +40,10 @@ rngr.printClass = function() {
 	$("div.feat p").text(rngr.features.join(", "));
 	$("div.skills p").html(makeSkillText(rngr.skills));
 	$("div.profs p").html(makeProfText(rngr.proficiencies));
-	$("div.spells p").html(makeSpellText(rngr.magic.spells));
-	$("div.slots").html(printSpellSlots(rngr.magic.slots));
-	// $("div.spells p").text(rngr.magic.spells + "");
+	if ("spells" in rngr.magic) {
+		$("div.spells p").html(makeSpellText(rngr.magic.spells));
+		$("div.slots").html(printSpellSlots(rngr.magic.slots));
+	}
 }
 
 rngr.addFeatures = function(level) {

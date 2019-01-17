@@ -21,14 +21,14 @@ person.proficiencies.armor = [];
 person.proficiencies.other = [];
 
 person.buildPerson = function() {
-	var classLevel = randInt(6, 20);
+	var classLevel = randInt(1, 16);
 	// var classLevel = 8;
 	person.level = classLevel;
 	var myRace = world.races[randInt(0, world.races.length)];
 	// myRace = elf;
 	
 	var myClass = world.classes[randInt(0, world.classes.length)];
-	myClass = rog;
+	// myClass = rog;
 	bgs.chooseBg(person);
 	bgs.printBg();
 	
