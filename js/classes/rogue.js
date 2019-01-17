@@ -77,8 +77,8 @@ rog.addFeatures = function(level) {
 rog.chooseSubclass = function(level) {
 	archs = ["Arcane Trickster","Assassin","Mastermind","Scout","Swashbuckler","Thief"];
 	c = archs[randInt(0,archs.length)];
-	// rog.subclass = c;
-	rog.subclass = "Arcane Trickster";
+	rog.subclass = c;
+	// rog.subclass = "Arcane Trickster";
 	rog.features.push("Roguish Archetype - "+c);
 
 	archs["Arcane Trickster"] = [["Spellcasting","Mage Hand Legerdemain"],"Magical Ambush","Versatile Trickster","Spell Thief"];
