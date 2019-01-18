@@ -1,4 +1,4 @@
-gnm = {};
+var gnm = {};
 gnm.rName = "Gnome";
 gnm.rSize = "Small";
 gnm.extraHP = 0;
@@ -13,7 +13,7 @@ gnm.proficiencies = {};
 gnm.proficiencies.weapons = [];
 gnm.proficiencies.armor = [];
 gnm.proficiencies.other = [];
-gnm.types = ["Forest Gnome","Rock Gnome"];
+gnm.types = ["Forest Gnome","Rock Gnome","Deep Gnome"];
 
 gnm.generateRace = function(person) {
 	race = gnm.types[randInt(0, gnm.types.length)];
@@ -42,10 +42,13 @@ gnm.addStatMods = function(race) {
 	else if (race == "Rock Gnome") {
 		gnm.statMods[2] += 1;
 	}
+	else if (race == "Deep Gnome") {
+		gnm.statMods[1] += 1;
+	}
 }
 
 gnm.addFeatures = function(race, level) {
-	gnm.features.push("Lucky","Brave","Halfling Nimbleness");
+	gnm.features.push("Darkvision","Gnome Cunning");
 
 	if (race == "Forest Gnome") {
 		gnm.features.push("Natural Illusionist","Speak with Small Beasts");
@@ -53,6 +56,10 @@ gnm.addFeatures = function(race, level) {
 	else if (race == "Rock Gnome") {
 		gnm.features.push("Artificer's Lore", "Tinker");
 		gnm.proficiencies.other = ["Tinker's tools"];
+	}
+	else if (race == "Deep Gnome") {
+		gnm.features.push("Stone Camouflage","Extra Language","Svirfneblin Magic");
+		gnm.languages.push("Undercommon");
 	}
 }
 

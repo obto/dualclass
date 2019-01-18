@@ -1,4 +1,4 @@
-hlf = {};
+var hlf = {};
 hlf.rName = "Halfling";
 hlf.rSize = "Small";
 hlf.extraHP = 0;
