@@ -28,7 +28,7 @@ person.buildPerson = function() {
 	// myRace = elf;
 	
 	var myClass = world.classes[randInt(0, world.classes.length)];
-	myClass = wrl;
+	// myClass = wrl;
 	bgs.chooseBg(person);
 	bgs.printBg();
 	
