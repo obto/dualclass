@@ -26,12 +26,6 @@ hlf.generateRace = function(person) {
 hlf.printRace = function() {
 	$(".rBasics p").text(hlf.rName);
 	$("div.rFeat p").text(hlf.features.join(", "));
-	// $("div.rSkills p").text(hlf.skills + "");
-	// $("div.rSpells p").text(elf.spells + "");
-	// $("div.rProfs p").text(
-	// 	hlf.proficiencies.weapons.toString()+" "+
-	// 	hlf.proficiencies.armor.toString()+" "+
-	// 	hlf.proficiencies.other.toString());
 }
 
 hlf.addStatMods = function(race) {

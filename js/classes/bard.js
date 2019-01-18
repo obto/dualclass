@@ -58,6 +58,14 @@ bard.printClass = function() {
 	$("div.slots").html(printSpellSlots(bard.magic.slots));
 }
 
+bard.getAC = function() {
+	return 0;
+}
+
+bard.getSpellDC = function(mods, prof) {
+	return 8 + mods[5] + prof;
+}
+
 // -------------- FEATURES ----------
 bard.addFeatures = function(level) {
 	var inspiration = bard.bardicInspiration(level);

@@ -15,6 +15,13 @@ rngr.subclass = "";
 rngr.speed = 0;
 rngr.extraLangs = 0;
 
+rngr.magic.list = [];
+rngr.magic.list[1] = ["Absorb Elements","Beast Bond","Alarm","Animal Friendship","Cure Wounds","Detect Magic","Detect Poison and Disease","Ensnaring Strike","Fog Cloud","Goodberry","Hail of Thorns","Hunter's Mark","Jump","Longstrider","Speak with Animals"];
+rngr.magic.list[2] = ["Animal Messenger","Barkskin","Beast Sense","Cordon of Arrows","Darkvision","Find Traps","Lesser Restoration","Locate Animals or Plants","Locate Object","Pass without Trace","Protection from Poison","Silence","Spike Growth"];
+rngr.magic.list[3] = ["Flame Arrows","Conjure Animals","Conjure Barrage","Daylight","Lightning Arrow","Nondetection","Plant Growth","Protection from Energy","Speak with Plants","Water Breathing","Water Walk","Wind Wall"];
+rngr.magic.list[4] = ["Conjure Woodland Beings","Freedom of Movement","Grasping Vine","Guardian of Nature","Locate Creature","Stoneskin"];
+rngr.magic.list[5] = ["Commune with Nature","Conjure Volley","Steel Wind Strike","Swift Quiver","Tree Stride","Wrath of Nature"];
+
 rngr.generateClass = function(level, person) {
 	rngr.level = level;
 	rngr.addFeatures(level);
@@ -27,15 +34,6 @@ rngr.generateClass = function(level, person) {
 }
 
 rngr.printClass = function() {
-	// console.log("Level " + rngr.level + " Ranger in the " + rngr.subclass);
-	// console.log("Features:");
-	// console.log(rngr.features);
-	// console.log("Skills:");
-	// console.log(rngr.skills);
-	// // console.log("Spells:");
-	// // console.log(rngr.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(rngr.proficiencies);
 	$(".basics p").text("Level " + rngr.level + " Ranger (" + rngr.subclass + ")");
 	$("div.feat p").text(rngr.features.join(", "));
 	$("div.skills p").html(makeSkillText(rngr.skills));
@@ -152,13 +150,6 @@ rngr.addSkills = function(level, knownSkills) {
 	rngr.skills = mySkills;
 	return mySkills;
 }
-
-rngr.magic.list = [];
-rngr.magic.list[1] = ["Absorb Elements","Beast Bond","Alarm","Animal Friendship","Cure Wounds","Detect Magic","Detect Poison and Disease","Ensnaring Strike","Fog Cloud","Goodberry","Hail of Thorns","Hunter's Mark","Jump","Longstrider","Speak with Animals"];
-rngr.magic.list[2] = ["Animal Messenger","Barkskin","Beast Sense","Cordon of Arrows","Darkvision","Find Traps","Lesser Restoration","Locate Animals or Plants","Locate Object","Pass without Trace","Protection from Poison","Silence","Spike Growth"];
-rngr.magic.list[3] = ["Flame Arrows","Conjure Animals","Conjure Barrage","Daylight","Lightning Arrow","Nondetection","Plant Growth","Protection from Energy","Speak with Plants","Water Breathing","Water Walk","Wind Wall"];
-rngr.magic.list[4] = ["Conjure Woodland Beings","Freedom of Movement","Grasping Vine","Guardian of Nature","Locate Creature","Stoneskin"];
-rngr.magic.list[5] = ["Commune with Nature","Conjure Volley","Steel Wind Strike","Swift Quiver","Tree Stride","Wrath of Nature"];
 
 rngr.addSpells = function(level, knownSpells) {
 	rngr.magic.slots = rngr.getSpellSlots(level);

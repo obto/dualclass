@@ -12,6 +12,8 @@ bbn.saves = ["Strength", "Constitution"];
 bbn.stipulations = ["no heavy armor"];
 bbn.subclass = "";
 bbn.speedMod = 0;
+bbn.advantage = [];
+bbn.resistance = [];
 
 // -------------- FEATURES ----------
 
@@ -27,21 +29,15 @@ bbn.generateClass = function(level, person) {
 }
 
 bbn.printClass = function() {
-	// console.log("Welcome to bbn! Let's be random.");
-	// console.log("Level " + bbn.level + " Barbarian in the " + bbn.subclass);
-	// console.log("Features:");
-	// console.log(bbn.features);
-	// console.log("Skills:");
-	// console.log(bbn.skills);
-	// // console.log("Spells:");
-	// // console.log(bbn.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(bbn.proficiencies);
 	$(".basics p").text("Level " + bbn.level + " Barbarian (" + bbn.subclass + ")");
 	$("div.feat p").text(bbn.features.join(", "));
 	$("div.skills p").html(makeSkillText(bbn.skills));
 	$("div.profs p").html(makeProfText(bbn.proficiencies));
 	// $("div.spells p").text(bbn.magic.spells + "");
+}
+
+bbn.getAC = function(mods) {
+	return 10 + mods[1] + mods[2];
 }
 
 bbn.addFeatures = function(level) {	
@@ -56,8 +52,10 @@ bbn.addFeatures = function(level) {
 		bbn.features.push("Extra Attack", "Fast Movement");
 		bbn.speedMod += 10;
 	}
-	if (level >= 7)
+	if (level >= 7) {
 		bbn.features.push("Feral Instinct");
+		bbn.advantage.push("Initiative");
+	}
 	if (level >= 9)
 		bbn.features.push("Brutal Critical");
 	if (level >= 11) 
@@ -133,6 +131,25 @@ bbn.chooseSubclass = function(level) {
 
 		bbn.totem = path;
 		bbn.subclass = "Path of the Totem Warrior - " + bbn.totem;
+	}
+	if (x == "Storm Herald") {
+		var types = ["Desert","Sea","Storm"];
+		var t = types[randInt(0, 3)];
+		bbn.subclass = "Path of the Storm Herald - "+t;
+		bbn.subclassType = t;
+
+		if (level >= 6) {
+			switch(t) {
+				case "Desert":
+					bbn.resistance.push("fire damage");
+					break;
+				case "Sea":
+					bbn.resistance.push("lightning damage");
+					break;
+				case "Tundra":
+					bbn.resistance.push("cold damage");
+			}
+		}
 	}
 }
 

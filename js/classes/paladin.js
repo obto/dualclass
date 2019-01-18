@@ -13,6 +13,13 @@ pal.proficiencies.other = [];
 pal.saves = ["Charisma", "Wisdom"];
 pal.subclass = "";
 
+pal.magic.list = [];
+pal.magic.list[1] = ["Bless","Command","Compelled Duel","Cure Wounds","Detect Evil and Good","Detect Magic","Detect Poison and Disease","Divine Favor","Heroism","Protection from Evil and Good","Purify Food and Drink","Searing Smite","Shield of Faith","Thunderous Smite","Wrathful Smite"];
+pal.magic.list[2] = ["Aid","Branding Smite","Find Steed","Lesser Restoration","Locate Object","Magic Weapon","Protection from Poison","Zone of Truth"];
+pal.magic.list[3] = ["Aura of Vitality","Blinding Smite","Create Food and Water","Crusader's Mantle","Daylight","Dispel Magic","Elemental Weapon"];
+pal.magic.list[4] = ["Aura of Life","Aura of Purity","Banishment","Banishment","Death Ward","Dimension Door","Freedom of Movement","Guardian of Faith","Ice Storm","Locate Creature","Staggering Smite","Stoneskin"];
+pal.magic.list[5] = ["Banishing Smite","Circle of Power","Commune","Commune with Nature","Destructive Smite/Wave?","Dispel Evil and Good","Flame Strike","Geas","Hold Monster","Raise Dead","Scrying","Tree Stride"];
+
 pal.generateClass = function(level, person) {
 	pal.level = level;
 	pal.addFeatures(level);
@@ -160,11 +167,6 @@ pal.getNumSpellsKnown = function(level) {
 	console.log(sp+"/"+sp1+"/"+sp2+"/"+sp3);
 	//alert(sp+"/"+sp1+"/"+sp2+"/"+sp3);
 }
-
-pal.magic.list = [];
-pal.magic.list[1] = ["Bless","Command","Compelled Duel","Cure Wounds","Detect Evil and Good","Detect Magic","Detect Poison and Disease","Divine Favor","Heroism","Protection from Evil and Good","Purify Food and Drink","Searing Smite","Shield of Faith","Thunderous Smite","Wrathful Smite"];
-pal.magic.list[2] = ["Aid","Branding Smite","Find Steed","Lesser Restoration","Locate Object","Magic Weapon","Protection from Poison","Zone of Truth"];
-pal.magic.list[3] = ["Aura of Vitality","Blinding Smite","Create Food and Water","Crusader's Mantle","Daylight","Dispel Magic","Elemental Weapon"];
 
 pal.getSpells = function(level, slots, knownSpells) {
 	var oaths = [];

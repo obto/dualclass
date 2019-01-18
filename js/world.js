@@ -1,6 +1,6 @@
 var world = {};
 world.races = [elf, gnm, hlf, drf];
-world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wiz];
+world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wrl, wiz];
 world.casters = [bard, clr, drd, pal, rngr, sor, wiz];
 world.stats = ["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"];
 
@@ -165,7 +165,7 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 	var levFrom, levTo, spellOut, spellIn, removeIndex;
 
 	while (!areSpellsDiff) {
-		console.log("Starting the spell diff loop");
+		// console.log("Starting the spell diff loop");
 		levFrom = randInt(1, slots.length);
 		levTo = randInt(1, slots.length);
 
@@ -185,10 +185,8 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 		if (spellOut != spellIn)
 			areSpellsDiff = true;
 	}
-	console.log("killing "+spellOut+" at "+levFrom+" for "+spellIn+" at "+levTo);
-	// console.log(mySpells[levFrom]);
-	// console.log(mySpells[levFrom].includes(spellOut));
-	console.log("we should be removing "+spellOut+" at: "+removeIndex+" from level "+levFrom);
+	// console.log("killing "+spellOut+" at "+levFrom+" for "+spellIn+" at "+levTo);
+	// console.log("we should be removing "+spellOut+" at: "+removeIndex+" from level "+levFrom);
 	mySpells[levFrom].splice(removeIndex, 1);
 	mySpells[levTo] = mySpells[levTo].concat(spellIn);
 	// console.log(mySpells.join(", "));
@@ -200,7 +198,7 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 	var currentTotal = 0;
 
 	// mySpells[1] = skillChunk(guy.magic.list[1].slice(0), 2, []);
-	console.log(mySpells.join(", "));
+	// console.log(mySpells.join(", "));
 	// currentTotal = 2;
 
 	for (var i = base; i <= level; i++) {
@@ -209,8 +207,7 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 		// console.log("Slots: ");
 		
 		var difference = shouldBeTotal - currentTotal;
-		// console.log("We should have "+shouldBeTotal+" spells, have "+currentTotal+"spells");
-		// console.log("Level "+i+": We know "+currentTotal+" spells, and need to know "+shouldBeTotal);
+		// console.log("Level "+i+": We should have "+shouldBeTotal+" spells, have "+currentTotal+"spells");
 		var beforeSpells = mySpells.slice(0);
 
 
@@ -225,7 +222,7 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 			var toCheck = mySpells[x].slice(0).concat(knownSpells[x].slice(0));
 
 			var spell = skillChunk(guy.magic.list[x].slice(0), difference, toCheck);
-			console.log("adding "+spell);
+			// console.log("adding "+spell);
 			mySpells[x] = mySpells[x].concat(spell);
 			// console.log(mySpells);
 			currentTotal += difference;

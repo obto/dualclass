@@ -15,6 +15,18 @@ clr.proficiencies.other = [];
 clr.saves = ["Wisdom", "Charisma"];
 clr.langMod = 0;
 
+clr.magic.list = [];
+clr.magic.list[0] = ["Guidance","Light","Mending","Resistance","Sacred Flame","Spare the Dying","Thaumaturgy"];
+clr.magic.list[1] = ["Bane","Bless","Command","Create or Destroy Water","Cure Wounds","Detect Evil and Good","Detect Magic","Detect Poison and Disease","Guiding Bolt","Healing Word","Inflict Wounds","Protection from Evil and Good","Purify Food and Drink","Sanctuary","Shield of Faith"];
+clr.magic.list[2] = ["Aid","Augury","Blindness/Deafness","Calm Emotions","Continual Flame","Enhance Ability","Find Traps","Gentle Repose","Hold Person","Lesser Restoration","Locate Object","Prayer of Healing","Protection from Poison","Silence","Spiritual Weapon","Warding Bond","Zone of Truth"];
+clr.magic.list[3] = ["Animate Dead","Beacon of Hope","Bestow Curse","Clairvoyance","Create Food and Water","Daylight","Dispel Magic","Feign Death","Glyph of Warding","Magic Circle","Mass Healing Word","Meld into Stone","Protection from Energy","Remove Curse","Revivify","Sending","Speak with Dead","Spirit Guardians","Tongues","Water Walk"];
+clr.magic.list[4] = ["Banishment","Control Water","Death Ward","Divination","Freedom of Movement","Guardian of Faith","Locate Creature","Stone Shape"];
+clr.magic.list[5] = ["Commune","Contagion","Dispel Evil and Good","Flame Strike","Geas","Greater Restoration","Hallow","Insect Plague","Legend Lore","Mass Cure Wounds","Planar Binding","Raise Dead","Scrying"];
+clr.magic.list[6] = ["Blade Barrier","Create Undead","Find the Path","Forbiddance","Harm","Heal","Heroes' Feast","Planar Ally","True Seeing","Word of Recall"];
+clr.magic.list[7] = ["Conjure Celestial","Divine Word","Etherealness","Fire Storm","Plane Shift","Regenerate","Resurrection","Symbol"];
+clr.magic.list[8] = ["Antimagic Field","Control Weather","Earthquake","Holy Aura"];
+clr.magic.list[9] = ["Astral Projection","Gate","Mass Heal","True Resurrection"];
+
 clr.generateClass = function(level, person) {
 	clr.level = level;
 	clr.addFeatures(level);
@@ -223,14 +235,6 @@ clr.getNumSpellsKnown = function(level) {
 		cant = 5;
 	return cant;
 }
-
-clr.magic.list = [];
-clr.magic.list[0] = ["Guidance","Light","Mending","Resistance","Sacred Flame","Spare the Dying","Thaumaturgy"];
-clr.magic.list[1] = ["Bane","Bless","Command","Create or Destroy Water","Cure Wounds","Detect Evil and Good","Detect Magic","Detect Poison and Disease","Guiding Bolt","Healing Word","Inflict Wounds","Protection from Evil and Good","Purify Food and Drink","Sanctuary","Shield of Faith"];
-clr.magic.list[2] = ["Aid","Augury","Blindness/Deafness","Calm Emotions","Continual Flame","Enhance Ability","Find Traps","Gentle Repose","Hold Person","Lesser Restoration","Locate Object","Prayer of Healing","Protection from Poison","Silence","Spiritual Weapon","Warding Bond","Zone of Truth"];
-clr.magic.list[3] = ["Animate Dead","Beacon of Hope","Bestow Curse","Clairvoyance","Create Food and Water","Daylight","Dispel Magic","Feign Death","Glyph of Warding","Magic Circle","Mass Healing Word","Meld into Stone","Protection from Energy","Remove Curse","Revivify","Sending","Speak with Dead","Spirit Guardians","Tongues","Water Walk"];
-clr.magic.list[4] = ["Banishment","Control Water","Death Ward","Divination","Freedom of Movement","Guardian of Faith","Locate Creature","Stone Shape"];
-clr.magic.list[5] = ["Commune","Contagion","Dispel Evil and Good","Flame Strike","Geas","Greater Restoration","Hallow","Insect Plague","Legend Lore","Mass Cure Wounds","Planar Binding","Raise Dead","Scrying"];
 
 clr.getSpells = function(cantripsKnown, slots, knownSpells) {
 	var newSpells = [];

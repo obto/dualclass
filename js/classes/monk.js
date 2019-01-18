@@ -14,7 +14,12 @@ mnk.subclass = "";
 mnk.speed = 0;
 mnk.languages = [];
 mnk.immunity = [];
-mnk.resistance = [];
+// mnk.resistance = [];
+mnk.feats = [];
+mnk.feats.act = [];
+mnk.feats.bonus = [];
+mnk.feats.react = [];
+mnk.feats.pass = [];
 
 mnk.generateClass = function(level, person) {
 	mnk.level = level;
@@ -25,20 +30,15 @@ mnk.generateClass = function(level, person) {
 }
 
 mnk.printClass = function() {
-	// console.log("Level " + mnk.level + " Monk in the " + mnk.subclass);
-	// console.log("Features:");
-	// console.log(mnk.features);
-	// console.log("Skills:");
-	// console.log(mnk.skills);
-	// // console.log("Spells:");
-	// // console.log(mnk.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(mnk.proficiencies);
 	$(".basics p").text("Level " + mnk.level + " Monk (" + mnk.subclass + ")");
 	$("div.feat p").text(mnk.features.join(", "));
 	$("div.skills p").html(makeSkillText(mnk.skills));
 	$("div.profs p").html(makeProfText(mnk.proficiencies));
 	// $("div.spells p").text(mnk.magic.spells + "");
+}
+
+mnk.getAC = function(mods) {
+	return 10 + mods[1] + mods[4];
 }
 
 mnk.addFeatures = function(level) {

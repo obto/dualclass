@@ -21,14 +21,14 @@ person.proficiencies.armor = [];
 person.proficiencies.other = [];
 
 person.buildPerson = function() {
-	var classLevel = randInt(1, 16);
+	var classLevel = randInt(7, 17);
 	// var classLevel = 8;
 	person.level = classLevel;
 	var myRace = world.races[randInt(0, world.races.length)];
 	// myRace = elf;
 	
 	var myClass = world.classes[randInt(0, world.classes.length)];
-	// myClass = rog;
+	myClass = wrl;
 	bgs.chooseBg(person);
 	bgs.printBg();
 	
@@ -53,7 +53,7 @@ person.buildPerson = function() {
 
 person.printPerson = function() {
 	$(".person .stats p").html(makeStatText(person.stats, person.modifiers));
-	$(".person .skills p").html(makeSkillText(person.skills) + "<br />Expertise: "+makeSkillText(person.expertise));
+	$(".person .skills p").html(makeSkillText(person.skills) + "<br />Expertise: "+makeSkillText(person.expertise)+ "<br />Languages: "+person.languages.join(", "));
 	$(".person .profs p").html(makeProfText(person.proficiencies));
 	$(".person .spells p").html(makeSpellText(person.spells));
 	

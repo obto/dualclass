@@ -39,17 +39,6 @@ sor.generateClass = function(level, person) {
 }
 
 sor.printClass = function() {
-	// console.log("Level " + sor.level + " Sorceror in the " + sor.subclass);
-	// console.log("Features:");
-	// console.log(sor.features);
-	// console.log("Skills:");
-	// console.log(sor.skills);
-	// // console.log("Expertise:");
-	// // console.log(sor.expertise);
-	// // console.log("Spells:");
-	// // console.log(sor.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(sor.proficiencies);
 	$(".basics p").text("Level " + sor.level + " Sorceror (" + sor.subclass + ")");
 	$("div.feat p").text(sor.features.join(", "));
 	$("div.skills p").html(makeSkillText(sor.skills));

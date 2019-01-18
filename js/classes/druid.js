@@ -15,9 +15,6 @@ drd.proficiencies.other = ["Herbalism kit"];
 drd.saves = ["Wisdom", "Intelligence"];
 drd.languages = ["Druidic"];
 
-
-
-
 drd.magic.list = [];
 drd.magic.list[0] = ["Create Bonfire","Control Flames","Druidcraft","Frostbite","Guidance","Gust","Magic Stone","Mending","Mold earth","Poison Spray","Produce Flame","Resistance","Shillelagh","Shape Water","Thorn Whip","Thunderclap"];
 drd.magic.list[1] = ["Absorb Elements","Beast Bond","Ice Knife","Earth Tremor","Animal Friendship","Charm Person","Create or Destroy Water","Cure Wounds","Detect Magic","Detect Poison and Disease","Entangle","Faerie Fire","Fog Cloud","Goodberry","Healing Word","Jump","Longstrider","Purify Food and Drink","Speak with Animals","Thunderwave"];
@@ -25,6 +22,11 @@ drd.magic.list[2] = ["Dust Devil","Earthbind","Skywrite","Warding Wind","Animal 
 drd.magic.list[3] = ["Erupting Earth","Flame Arrows","Tidal Wave","Wall of Water","Call Lightning","Conjure Animals","Daylight","Dispel Magic","Feign Death","Meld into Stone","Plant Growth","Protection from Energy","Sleet Storm","Speak with Plants","Water Breathing","Water Walk","Wind Wall"];
 drd.magic.list[4] = ["Elemental Bane","Watery Sphere","Blight","Confusion","Conjure Minor Elementals","Conjure Woodland Beings","Control Water","Dominate Beast","Freedom of Movement","Giant Insect","Grasping Vine","Hallucinatory Terrain","Ice Storm","Locate Creature","Polymorph","Stone Shape","Stoneskin","Wall of Fire"];
 drd.magic.list[5] = ["Control Winds","Maelstrom","Transmute Rock","Antilife Shell","Awaken","Commune with Nature","Conjure Elemental","Contagion","Geas","Greater Restoration","Insect Plague","Mass Cure Wounds","Planar Binding","Reincarnate","Scrying","Tree Stride","Wall of Stone"];
+drd.magic.list[6] = ["Conjure Fey","Find the Path","Heal","Heroes' Feast","Move Earth","Sunbeam","Transport via Plants","Wall of Thorns","Wind Walk"];
+drd.magic.list[7] = ["Fire Storm","Mirage Arcane","Plane Shift","Regenerate","Reverse Gravity"];
+drd.magic.list[8] = ["Animal Shapes","Antipathy/Sympathy","Control Weather","Earthquake","Feeblemind","Sunburst","Tsunami"];
+drd.magic.list[9] = ["Foresight","Shapechange","Storm of Vengeance","True Resurrection"];
+
 
 drd.generateClass = function(level, person) {
 	drd.level = level;
@@ -177,56 +179,6 @@ drd.getSpellSlots = function(level) {
 	return slots;
 }
 
-/*
-
-	sp = level + mod[4];		
-	sp3=0;
-	sp4=0;
-	sp5=0;
-	if (level <3) {
-		sp1 = sp;
-		sp2 =0;
-	} else if (level <5) {
-		x= 	Math.floor(sp * .7);
-		sp1 = x;
-		sp2 = (sp -x);
-	} else if (level < 7) {
-		x = Math.ceil(sp * .35);
-		y = Math.floor(sp * .35);
-
-		sp1 = x;
-		z = sp-x-y;
-		sp2 = y;
-		sp3 = z;
-
-	} else if (level < 9) {
-		x = Math.floor(sp * .28);
-		y = Math.floor(sp * .28);
-		z = Math.floor(sp * .28);
-
-		sum = sp - x-y-z;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = x;
-
-	} else if (level > 8) {
-		x = Math.floor(sp * .21);
-		y = Math.ceil(sp * .18);
-		z = Math.ceil(sp * .18);
-		xx = Math.floor(sp * .21);
-
-		sum = sp - x-y-z-xx;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = xx;
-		sp5 = x;
-
-
-	}
-	console.log("Spells known:  "+sp1 +"/ " + sp2+"/ " + sp3 +"/ " + sp4+"/ " + sp5+" / Total = "+sp);
-*/
 drd.getNumSpellsKnown = function(level) {
 	//cantrips
 	var x = 2;
@@ -247,7 +199,7 @@ drd.getSpells = function(level, numCants, knownSpells) {
 	newSpells[0] = [];
 
 	if (drd.subclass == "Spores")
-		newSpells = [["Chill Touch"],["Blindness/Deafness","Gentle Repose"],["Animate Dead","Gaseous Form"],["Bligh","Confusion"],["Cloudkill","Contagion"]];
+		newSpells = [["Chill Touch"],["Blindness/Deafness","Gentle Repose"],["Animate Dead","Gaseous Form"],["Blight","Confusion"],["Cloudkill","Contagion"]];
 
 	var cantos = skillChunk(drd.magic.list[0], numCants, newSpells.slice(0));
 	newSpells[0] = newSpells[0].concat(cantos);
@@ -271,142 +223,3 @@ drd.getSpells = function(level, numCants, knownSpells) {
 	// allSpells[0] = newSpells;
 	return newSpells;
 }
-/*
-
-
-	while (x > 0) {
-		tempAr = drCantrip;
-		if (Math.random() < 0.66)
-			tempAr=["Guidance","Poison Spray","Resistance","Shillelagh","Thorn Whip"];
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((myCantrips.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-			// add cantrip
-			myCantrips.push(temp);							
-			x--;
-			} 
-		}		
-	//put in alphabetical order
-	myCantrips.sort();
-	
-	tempSpells=[];
-	
-//1st level
-	x=sp1;
-	while (x > 0) {
-		tempAr = dr1;
-		if (Math.random() < 0.66)
-			tempAr=["Charm Person","Cure Wounds","Cure Wounds","Cure Wounds","Entangle","Fog Cloud","Healing Word","Healing Word","Thunderwave","Thunderwave"];
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (ciSpells.indexOf(temp) == -1)) {
-			tempSpells.push(temp);				
-			x--;
-			} 
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-//2nd level
-	tempSpells=[];
-	x=sp2;
-		
-	while (x > 0) {
-		tempAr = dr2;
-		if (Math.random() < 0.66) {
-			tempAr=["Barkskin","Barkskin","Barkskin","Enhance Ability","Flame Blade", "Flaming Sphere", "Heat Metal","Heat Metal","Hold Person","Lesser Restoration","Moonbeam", "Pass without Trace", "Spike Growth"];
-		}
-
-		//add circle spells twice to make them more likely
-		// if (ciSpells.length > 0) {
-
-		// 	tempAr.unshift(ciSpells[0]);
-		// 	tempAr.unshift(ciSpells[1]);
-		// 	tempAr.unshift(ciSpells[0]);
-		// 	tempAr.unshift(ciSpells[1]);
-
-		// }
-
-		
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-		
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (ciSpells.indexOf(temp) == -1)) {
-			tempSpells.push(temp);				
-			x--;
-		} 
-	}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-//3rd level
-	tempSpells=[];
-	x=sp3;
-	while (x > 0) {
-		tempAr = dr3;
-		if (Math.random() < 0.66)
-			tempAr= ["Call Lightning","Conjure Animals","Dispel Magic","Meld into Stone","Protection from Energy","Sleet Storm","Speak with Plants","Wind Wall"];
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (ciSpells.indexOf(temp) == -1)) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-
-//4th level
-	tempSpells=[];
-	x=sp4;
-	while (x > 0) {
-		tempAr = dr4;
-		if (Math.random() < 0.5)
-			tempAr= ["Blight","Confusion","Conjure Minor Elementals","Conjure Woodland Beings","Control Water","Dominate Beast","Giant Insect","Grasping Vine","Ice Storm","Locate Creature","Polymorph","Stone Shape","Stoneskin","Wall of Fire"];
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (ciSpells.indexOf(temp) == -1)) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-
-//5th level
-	tempSpells=[];
-	x=sp5;
-	while (x > 0) {
-		tempAr = dr5;
-		if (Math.random() < 0.5)
-			tempAr= ["Antilife Shell","Commune with Nature","Conjure Elemental","Contagion","Geas","Greater Restoration","Insect Plague","Mass Cure Wounds","Mass Cure Wounds","Planar Binding","Reincarnate","Tree Stride","Wall of Stone"];
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (ciSpells.indexOf(temp) == -1)) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-}
-*/

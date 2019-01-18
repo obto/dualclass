@@ -24,21 +24,9 @@ wiz.generateClass = function(level, person) {
 	person.skills = person.skills.concat(newSkills);
 
 	newSpells = wiz.addSpells(level, person.spells.slice(0));
-	// person.spells = person.spells.concat(newSpells);
 }
 
 wiz.printClass = function() {
-	// console.log("Level " + wiz.level + " Wizard in the " + wiz.subclass);
-	// console.log("Features:");
-	// console.log(wiz.features);
-	// console.log("Skills:");
-	// console.log(wiz.skills);
-	// // console.log("Expertise:");
-	// // console.log(wiz.expertise);
-	// // console.log("Spells:");
-	// // console.log(wiz.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(wiz.proficiencies);
 	$(".basics p").text("Level " + wiz.level + " Wizard (" + wiz.subclass + ")");
 	$("div.feat p").text(wiz.features.join(", "));
 	$("div.skills p").html(makeSkillText(wiz.skills));
@@ -177,16 +165,9 @@ wiz.getSpellSlots = function(level) {
 }
 
 wiz.getNumSpellsKnown = function(level) {
-	var sp = level * 2;
-	// console.log("so you know "+sp+" spells!");
-	// if (level >= 11)
-	// 	sp = 12;
-	// if (level >= 13)
-	// 	sp = 13;
-	// if (level >= 15)
-	// 	sp = 14;
-	// if (level >= 17)
-	// 	sp = 15;
+	var sp = 6;
+	if (level > 1)
+		sp += ((level-1) * 2);
 
 	return sp;
 }
