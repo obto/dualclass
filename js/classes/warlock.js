@@ -76,8 +76,15 @@ wrl.addFeatures = function(level) {
 		if (wrl.subclass == "Seeker")
 			pacts.push("Pact of the Star Chain");
 		var p = pacts[randInt(0,pacts.length)];
-		wrl.features.push("Pact Boon - "+p);
 		wrl.pact = p;
+
+		if (p == "Pact of the Chain") {
+			var f = ["bat","cat","crab","toad","hawk","lizard","octopus","owl","poisonous snake","fish","rat","raven","sea horse","spider","weasel","imp","pseudodragon","quasit","sprite"];
+			wrl.familiar = f[randInt(0, f.length)];
+			wrl.features.push("Pact Boon - "+p+" ("+wrl.familiar+")");
+		}
+		else
+			wrl.features.push("Pact Boon - "+p);
 	}
 
 	if (level >= 11) {
