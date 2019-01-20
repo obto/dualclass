@@ -36,6 +36,8 @@ elf.generateRace = function(person) {
 	elf.addFeatures(race);
 	statMods = elf.addStatMods(race);
 	elf.skills = [11];
+	elf.advantage = ["saves/charm"];
+	elf.immunity = ["magical sleep"];
 
 	profs = elf.addProficiencies(race);
 	spells = elf.addSpells(race, person.level, person.spells.slice(0));
@@ -177,6 +179,8 @@ helf.generateRace = function(person) {
 	helf.languages = ["Common","Elvish"];
 	helf.extraLangs = 1;
 	helf.skills = skillChunk(world.skills, 2, person.skills.slice(0));
+	helf.resistance = ["saves/charm"];
+	helf.immunity = ["magical sleep"];
 }
 
 helf.rollStats = function(mods) {

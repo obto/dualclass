@@ -59,6 +59,7 @@ gnm.addStatMods = function(race) {
 
 gnm.addFeatures = function(race, level) {
 	gnm.features.push("Darkvision","Gnome Cunning");
+	gnm.advantage = ["Int,Wis,Cha saves/magic"]
 
 	if (race == "Forest Gnome") {
 		gnm.features.push("Natural Illusionist","Speak with Small Beasts");

@@ -8,6 +8,10 @@ function raceReset(me) {
 	me.proficiencies = [];
 	me.resistance = [];
 	me.extraLangs = 0;
+	me.swimSpeed = 0;
+	me.climbSpeed = 0;
+	me.advantage = [];
+	me.immunity = [];
 }
 
 var frbl = {};
@@ -22,6 +26,7 @@ frbl.generateRace = function(person) {
 	frbl.spells = [];
 	frbl.spells[1] = ["Detect Magic","Disguise Self"];
 	frbl.castAbility = 4;
+	frbl.advantage = ["Charisma/beasts,plants"];
 }
 
 var bugb = {};
@@ -133,7 +138,8 @@ kenk.generateRace = function(person) {
 	kenk.features = ["Expert Forgery","Kenku Training","Mimicry"];
 	kenk.statMods = [0,2,0,0,1,0];
 	kenk.languages = ["Common*", "Auran*"];
-	kenk.skills = skillChunk([0,4,15,16], 2, []);
+	kenk.skills = skillChunk([0,4,15,16], 2, person.skills.slice(0));
+	kenk.advantage = ["produce forgeries/duplicates"];
 }
 
 var kobl = {};
@@ -157,10 +163,10 @@ lzrd.generateRace = function(person) {
 	lzrd.features = ["Bite","Cunning Artisan","Hold Breath","Hunter's Lore","Natural Armor","Hungry Jaws"];
 	lzrd.statMods = [0,0,2,0,1,0];
 	lzrd.languages = ["Common", "Draconic"];
-	lzrd.skills = skillChunk([1,10,11,16,17], 2, []);
+	lzrd.skills = skillChunk([1,10,11,16,17], 2, person.skills.slice(0));
 }
-lzrd.getAC = function() {
-	return 13 + person.modifiers[1];
+lzrd.getAC = function(shield) {
+	return 13 + person.modifiers[1] + shield;
 }
 
 var orc = {};
@@ -222,7 +228,7 @@ ynti.generateRace = function(person) {
 	ynti.spells[1] = ["Animal Friendship (snakes)"];
 	if (person.level >= 3)
 		ynti.spells[2] = ["Suggestion"];
-	// ynti.resistance = ["magic"];
+	ynti.advantage = ["saves/spells"];
 	ynti.immunity = ["poison"];
 }
 

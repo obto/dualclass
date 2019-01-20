@@ -19,6 +19,9 @@ person.proficiencies = {};
 person.proficiencies.weapons = [];
 person.proficiencies.armor = [];
 person.proficiencies.other = [];
+person.immunity = [];
+person.resistance = [];
+person.advantage = [];
 
 person.restart = function() {
 	person.bg = "";
@@ -41,6 +44,9 @@ person.restart = function() {
 	person.proficiencies.weapons = [];
 	person.proficiencies.armor = [];
 	person.proficiencies.other = [];
+	person.immunity = [];
+	person.resistance = [];
+	person.advantage = [];
 }
 
 person.buildPerson = function(lev, r, cl) {
@@ -100,6 +106,7 @@ person.printPerson = function() {
 			str += "<br />Expertise: "+makeSkillText(person.expertise);
 		}
 		str += "<br />Languages: "+person.languages.join(", ");
+		str += printAdvantages(person.immunity, person.advantage, person.resistance);
 		return str;
 	});
 	$(".person .profs p").html(makeProfText(person.proficiencies));
@@ -147,6 +154,15 @@ person.roundUp = function(r) {
 	}
 	if ("expertise" in recent) {
 		person.expertise = person.expertise.concat(recent.expertise.slice(0));
+	}
+	if ("immunity" in recent) {
+		person.immunity = person.immunity.concat(recent.immunity.slice(0));
+	} 
+	if ("advantage" in recent) {
+		person.advantage = person.advantage.concat(recent.advantage.slice(0));
+	}
+	if ("resistance" in recent) {
+		person.resistance = person.resistance.concat(recent.resistance.slice(0));
 	}
 }
 

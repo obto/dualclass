@@ -1,7 +1,8 @@
 var world = {};
 world.races = [aasm, drgb, drf, elf, gnm, helf, hlf, horc, humn, tief];
 world.monsters = [frbl, bugb, gnsi, gobl, hobl, glth, kenk, kobl, lzrd, orc, tbxi, trit, ynti];
-world.races = world.races.slice(0).concat(world.monsters.slice(0));
+world.ravnica = [centa, loxo, mino, hybr, veda];
+world.races = world.races.slice(0).concat(world.monsters.slice(0).concat(world.ravnica.slice(0)));
 
 world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wrl, wiz];
 world.casters = [bard, clr, drd, pal, rngr, sor, wiz];
@@ -18,6 +19,8 @@ world.weapons.martial = ["Battleaxe","Flail","Glaive","Greataxe","Greatsword","H
 world.instruments = ["Lute", "Flute","Harp", "Fiddle","Pipes", "Drums", "Bagpipes","Dulcimer","Lyre","Horn","Guitar","Pan flute","Shawm","Viol"];
 world.games = ["Dice games", "Dragonchess","Playing cards","Three-Dragon Ante"];
 world.artisan = ["Alchemist","Armorer","Brewer","Calligrapher","Carpenter","Cartographer","Cobbler","Cook","Glassblower","Jeweler","Leatherworker","Mason","Painter","Potter","Shipwright","Smith","Tinker","Wagon-maker","Weaver","Woodcarver"];
+world.kits = ["Disguise kit","Forgery kit","Herbalism kit","Navigator's tools", "Poisoner's kit","Thieves' tools","Vehicles (land)","Vehicles (water)"];
+world.tools = world.instruments.slice(0).concat(world.games.slice(0).concat(world.artisan.concat(world.kits.slice(0))));
 
 world.rollStats = function(rollCount, mods) {
 	stats = [0,0,0,0,0,0];
@@ -489,6 +492,18 @@ function printSpellSlots(slots) {
 	}
 	str += mySlots.join(", ");
 	str += "</span>";
+	return str;
+}
+
+function printAdvantages(im, adv, res) {
+	var str = "";
+	if (typeof im != 'undefined' && im.length > 0)
+		str += "<br />Immunity: " + im.join(", ");
+	if (typeof adv != 'undefined' && adv.length > 0)
+		str += "<br />Advantage: " + adv.join(", ");
+	if (typeof res != 'undefined' && res.length > 0)
+		str += "<br />Resistance: " + res.join(", ");
+
 	return str;
 }
 

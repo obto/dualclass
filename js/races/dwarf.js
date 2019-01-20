@@ -55,6 +55,8 @@ drf.addStatMods = function(race) {
 drf.addFeatures = function(race, level) {
 	drf.features.push("Darkvision","Dwarven Resilience","Dwarven Combat Training","Tool Proficiency","Stonecunning");
 	drf.proficiencies.weapons = ["Battleaxe","Handaxe","Light hammer","Warhammer"];
+	drf.resistance = ["poison"];
+	drf.advantage = ["saves/poison"];
 
 	tools = ["Smith's tools", "Brewer's supplies", "Mason's tools"];
 	drf.proficiencies.other.push(tools[randInt(0, tools.length)]);

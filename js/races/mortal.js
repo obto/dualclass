@@ -48,6 +48,7 @@ drgb.generateRace = function(person) {
 	var t = types[randInt(0, types.length)];
 
 	var elem = drgb.breathType(t);
+	drgb.resistance = [elem];
 	var dmg = "2d6";
 	if (person.level >= 6)
 		dmg = "3d6";
