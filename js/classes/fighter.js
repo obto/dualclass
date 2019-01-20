@@ -56,10 +56,11 @@ fght.addFeatures = function(level) {
 	fght.features.push("Fighting Style - "+styles[randInt(0, styles.length)]);
 	fght.features.push("Second Wind");
 
-	if (level >= 2)
+	if (level >= 2) {
 		var x = 1;
 		if (level >= 17) x = 2;
 		fght.features.push("Action Surge ("+x+"/day)");
+	}
 
 	if (level >= 3) 
 		fght.chooseSubclass(level);

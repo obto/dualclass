@@ -45,24 +45,22 @@ person.restart = function() {
 
 person.buildPerson = function(lev, r, cl) {
 	person.restart();
-	// var classLevel = randInt(7, 17);
+
 	var classLevel = lev;
 	person.level = classLevel;
-	var myRace = r;
-	console.log(r);
-	r.reset();
-	
-	var myClass = cl;
-	cl.reset()
 
 	var myBg = bgs.chooseBg(person);
 	person.roundUp(myBg);
 	interface.printRace(myBg, ".bg", "Background");
 	
+	var myRace = r;
+	r.reset();
 	myRace.generateRace(person);
 	person.roundUp(myRace);
 	interface.printRace(myRace, ".race", "Race");
 
+	var myClass = cl;
+	cl.reset()
 	myClass.generateClass(classLevel, person);
 	interface.printRace(myClass, ".class", "Class");
 	person.roundUp(myClass);

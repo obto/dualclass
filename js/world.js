@@ -11,7 +11,7 @@ world.languages = {};
 world.languages.standard = ["Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc"];
 world.languages.exotic = ["Abyssal","Celestial","Draconic","Deep Speech","Infernal","Primordial","Sylvan","Undercommon","Druidic"];
 world.skills = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
-world.skillText = ["Acrobatics","Animal Handling","Arcana","Athletics","Deception","History","Insight","Intimidation","Investigation","Medicine","Nature","Perception","Perform","Persuasion","Religion","Sleight of Hand","Stealth","Survival"];
+world.skillText = ["Acrobatics","Animal Handling","Arcana","Athletics","Deception","History","Insight","Intimidation","Investigation","Medicine","Nature","Perception","Performance","Persuasion","Religion","Sleight of Hand","Stealth","Survival"];
 world.weapons = [];
 world.weapons.martial = ["Battleaxe","Flail","Glaive","Greataxe","Greatsword","Halberd","Lance","Longsword","Maul","Morningstar","Pike","Rapier","Scimitar","Shortsword","Trident","War Pick","Warhammer","Blowgun","Hand crossbow","Heavy crossbow","Net"];
 
