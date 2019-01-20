@@ -14,7 +14,7 @@ interface.pickClass = function() {
 interface.pickLevel = function() {
 	$("select.levelSelector").html(function() {
 		var fullStr = "<option value='random'>(randomize)</option>";
-		for (var i = 0; i < 20; i++) {
+		for (var i = 1; i <= 20; i++) {
 			fullStr += "<option value='"+i+"'>"+i+"</option>";
 		}
 
@@ -163,6 +163,6 @@ $(document).ready(function() {
 	interface.pickLevel();
 	var r = world.races[randInt(0, world.races.length)];
 	var cl = world.classes[randInt(0, world.classes.length)];
-	var lev = randInt(1, 21);
+	var lev = 1;
 	person.buildPerson(lev, r, cl);
 });

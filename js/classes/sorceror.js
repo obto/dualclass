@@ -6,7 +6,7 @@ sor.magic = [];
 sor.features = [];
 sor.skills = [];
 sor.expertise = [];
-sor.proficiencies = {};
+sor.proficiencies = [];
 sor.proficiencies.weapons = ["Dagger","Darts","Sling","Quarterstaff","Light crossbow"];
 sor.proficiencies.armor = [];
 sor.proficiencies.other = [];
@@ -92,13 +92,13 @@ sor.addFeatures = function(level) {
 }
 
 sor.chooseSubclass = function(level) {
-	var orig = ["Divine Soul","Draconic Blood","Giant Soul","Phoenix Sorcery","Shadow Magic","Stone Sorcery","Storm Sorcery","Wild Magic"];
+	var orig = ["Divine Soul","Draconic Bloodline","Giant Soul","Phoenix Sorcery","Shadow Magic","Stone Sorcery","Storm Sorcery","Wild Magic"];
 	var c = orig[randInt(0,orig.length)];
 	sor.subclass = c;
 	sor.features.push("Sorcerous Origin - "+c);
 
 	orig["Divine Soul"] = [["Divine Magic","Favored by the Gods"],"Empowered Healing","Otherwordly Wings","Unearthly Recovery"];
-	orig["Draconic Blood"] = [["Dragon Ancestor","Draconic Resilience"],"Elemental Affinity","Dragon Wings","Draconic Presence"];
+	orig["Draconic Bloodline"] = [["Dragon Ancestor","Draconic Resilience"],"Elemental Affinity","Dragon Wings","Draconic Presence"];
 	orig["Giant Soul"] = [["Jotun Resilience","Mark of the Ordning"],"Soul of Lost Ostoria","Rage of Fallen Ostoria","Blessing of the All Father"];
 	orig["Phoenix Sorcery"] = [["Ignite","Mantle of Flame"],"Phoenix Spark","Nourishing Fire","Form of the Phoenix"];
 	orig["Shadow Magic"] = [["Eyes of the Dark","Strength of the Grave"],"Hound of Ill Omen","Shadow Walk","Umbral Form"];
@@ -156,8 +156,8 @@ sor.subclassTypeGen = function(c, types) {
 	var t = types[randInt(0,types.length)];
 
 	sor.subclassType = t;
-	f = sor.features.indexOf("Sorcerous Origin - "+c);
-	sor.features[f] = "Sorcerous Origin - "+c+" ("+f+")";
+	var f = sor.features.indexOf("Sorcerous Origin - "+c);
+	sor.features[f] = "Sorcerous Origin - "+c+" ("+t+")";
 
 	return t;
 }

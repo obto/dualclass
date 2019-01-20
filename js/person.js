@@ -60,13 +60,21 @@ person.buildPerson = function(lev, r, cl) {
 	interface.printRace(myRace, ".race", "Race");
 
 	var myClass = cl;
-	cl.reset()
+	cl.reset();
 	myClass.generateClass(classLevel, person);
 	interface.printRace(myClass, ".class", "Class");
 	person.roundUp(myClass);
 	console.log("------------------------------");
 
-	person.buildStats(myRace, myClass, classLevel);
+	var myClass2 = world.classes[randInt(0, world.classes.length)];
+	while (myClass2.name == myClass.name)
+		var myClass2 = world.classes[randInt(0, world.classes.length)];
+	myClass2.reset();
+	myClass2.generateClass(classLevel, person);
+	interface.printRace(myClass2, ".class2", "Class 2");
+	person.roundUp(myClass2);
+
+	person.buildStats(myRace, myClass, myClass2, classLevel);
 
 	// person.languages = person.languages.concat(myRace.languages
 	// console.log("we've got "+person.extraLangs+" langs to add");
@@ -136,7 +144,7 @@ person.roundUp = function(r) {
 	}
 }
 
-person.buildStats = function(race, cl, level) {
+person.buildStats = function(race, cl, cl2, level) {
 	// ability scores
 	// var statMods = [];
 	var stats = world.rollStats(5, race.statMods);
@@ -155,6 +163,8 @@ person.buildStats = function(race, cl, level) {
 		person.hp += race["extraHP"];
 	if ("extraHP" in cl)
 		person.hp += cl["extraHP"];
+	if ("extraHP" in cl2)
+		person.hp += cl2["extraHP"];
 
 	// proficiency bonus
 	if (level >= 5)

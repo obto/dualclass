@@ -140,9 +140,9 @@ world.combineProficiencies = function(list1, list2) {
 		list1.other = [];
 	var exp = [];
 
-	exp.weapons = concatBlock(list1.weapons.slice(0), list2.weapons.slice(0));
-	exp.armor = concatBlock(list1.armor.slice(0), list2.armor.slice(0));
-	exp.other = concatBlock(list1.other.slice(0), list2.other.slice(0));
+	exp.weapons = Array.from(new Set(concatBlock(list1.weapons.slice(0), list2.weapons.slice(0))));
+	exp.armor = Array.from(new Set(concatBlock(list1.armor.slice(0), list2.armor.slice(0))));
+	exp.other = Array.from(new Set(concatBlock(list1.other.slice(0), list2.other.slice(0))));
 	
 	return exp;
 }
@@ -308,12 +308,6 @@ function pickUnique(chooseFrom, checkWith) {
 
 function skillChunk(skillList, limit, knownSkills) {
 	var newSkills = [];
-	// console.log(knownSkills);
-
-	// newSkills.length = 0;
-	// console.log("IN SKILLCHUNK");
-	// console.log(skillList);
-	// console.log(knownSkills);
 	if (typeof knownSkills == undefined)
 		knownSkills = [];
 

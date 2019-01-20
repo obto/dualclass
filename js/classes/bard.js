@@ -8,7 +8,7 @@ bard.magic.spells = [];
 bard.features = [];
 bard.skills = [];
 bard.expertise = [];
-bard.proficiencies = {};
+bard.proficiencies = [];
 bard.proficiencies.weapons = ["Simple", "Crossbow", "Longsword", "Rapier", "Shortsword"];
 bard.proficiencies.armor = ["Light"];
 bard.proficiencies.other = [];
@@ -45,7 +45,7 @@ bard.reset = function() {
 
 bard.generateClass = function(level, person) {
 	bard.level = level;
-	bard.addFeatures(level);
+	bard.addFeatures(level, person.proficiencies.other.slice(0));
 
 	newSkills = bard.addSkills(level, person.skills.slice(0));
 	// person.skills = person.skills.concat(newSkills);
@@ -73,15 +73,13 @@ bard.getSpellDC = function(mods, prof) {
 }
 
 // -------------- FEATURES ----------
-bard.addFeatures = function(level) {
+bard.addFeatures = function(level, knownProfs) {
 	console.log("Now we're adding features!");
 	var inspiration = bard.bardicInspiration(level);
 	bard.features.push("Spellcasting", inspiration);
 
-	for (i = 0; i < 3; i++) {
-		var inst = world.instruments[randInt(0, world.instruments.length)];
-		bard.proficiencies.other.push(inst);	
-	}
+	var inst = skillChunk(world.instruments, 3, knownProfs);
+	bard.proficiencies.other = inst;
 
 	if (level >= 2) {
 		var restdie = "";

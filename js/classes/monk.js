@@ -5,7 +5,7 @@ mnk.hDie = 8;
 mnk.features = [];
 mnk.skills = [];
 mnk.ki = 0;
-mnk.proficiencies = {};
+mnk.proficiencies = [];
 mnk.proficiencies.weapons = ["Simple", "Shortsword"];
 mnk.proficiencies.armor = [];
 mnk.proficiencies.other = [];
@@ -34,7 +34,7 @@ mnk.reset = function() {
 
 mnk.generateClass = function(level, person) {
 	mnk.level = level;
-	mnk.addFeatures(level);
+	mnk.addFeatures(level, person.proficiencies.other.slice(0));
 
 	newSkills = mnk.addSkills(level, person.skills.slice(0));
 	// person.skills = person.skills.concat(newSkills);
@@ -54,14 +54,14 @@ mnk.getAC = function(mods) {
 	return 10 + mods[1] + mods[4];
 }
 
-mnk.addFeatures = function(level) {
+mnk.addFeatures = function(level, knownProfs) {
 	if (Math.random() > 0.5) {
-		var inst = world.instruments[randInt(0, world.instruments.length)];
-		mnk.proficiencies.other.push(inst);
+		var inst = skillChunk(world.instruments, 1, knownProfs);
+		mnk.proficiencies.other = inst;
 	}
 	else {
-		var art = world.artisan[randInt(0, world.artisan.length)];
-		mnk.proficiencies.other.push(art + "'s tools");
+		var art = skillChunk(world.artisan, 1, knownProfs);
+		mnk.proficiencies.other = [art[0] + "'s tools"];
 	}
 
 	die = 4;
