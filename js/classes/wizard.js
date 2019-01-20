@@ -122,7 +122,7 @@ wiz.getSpells = function(level, knownSpells) {
 	if (level >= 2 && wiz.subclass !== "War Magic") {
 		// console.log("You're a "+wiz.subclass);
 		// console.log(wiz.magic[wiz.subclass]);
-		wiz.magic.list = world.combineSpellLists(wiz.magic.list.slice(0), wiz.magic[wiz.subclass].slice(0));
+		// wiz.magic.list = world.combineSpellLists(wiz.magic.list.slice(0), wiz.magic[wiz.subclass].slice(0));
 	}
 	if (wiz.subclass == "Illusion" && level >= 2) {
 		if (!knownSpells[0].includes("Minor Illusion")) {
@@ -139,17 +139,22 @@ wiz.getSpells = function(level, knownSpells) {
 		origSpells[4] = ["Polymorph"];
 	}
 
-	knownSpells = world.combineSpellLists(knownSpells.slice(0), origSpells.slice(0));
-	var spells = pickAllSpells(1, level, wiz, knownSpells, false);
-
+	var knownSpellsForTotal = world.combineSpellLists(knownSpells.slice(0), origSpells.slice(0));
+	var spellsTotal = pickAllSpells(1, level, wiz, knownSpellsForTotal, false);
+	spellsTotal = world.combineSpellLists(spellsTotal.slice(0), origSpells.slice(0));
+	
 	var cants = wiz.getNumCantripsKnown(level);
-	spells[0] = skillChunk(wiz.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
-	// console.log("new cantrips: "+spells[0].join(", "));
-	spells = world.combineSpellLists(spells.slice(0), origSpells.slice(0));
-	// console.log(spells);
+	spellsTotal[0] = skillChunk(wiz.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
+
+	wiz.magic.list = spellsTotal.slice(0);
+	console.log("Here's your full list of spells");
+	console.log(wiz.magic.list);
+	var spellsToday = pickSpellsAgnostic(level, wiz, knownSpells.slice(0));
+	spellsToday[0] = spellsTotal[0];
+	console.log("We've exited pickSpellsAgnostic");
 
 	wiz.magic.list = beforeList.slice(0);
-	return spells;
+	return spellsToday;
 }
 
 wiz.getSpellSlots = function(level) {
@@ -191,6 +196,10 @@ wiz.getNumSpellsKnown = function(level) {
 		sp += ((level-1) * 2);
 
 	return sp;
+}
+
+wiz.getNumSpellsToday = function(level) {
+	return Math.max(parseInt(level) + person.modifiers[3], 1);
 }
 
 wiz.getNumCantripsKnown = function(level) {

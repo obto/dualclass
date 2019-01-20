@@ -59,22 +59,28 @@ person.buildPerson = function(lev, r, cl) {
 	person.roundUp(myRace);
 	interface.printRace(myRace, ".race", "Race");
 
+	person.buildStats(myRace, classLevel);
+
 	var myClass = cl;
 	cl.reset();
 	myClass.generateClass(classLevel, person);
 	interface.printRace(myClass, ".class", "Class");
 	person.roundUp(myClass);
-	console.log("------------------------------");
+	console.log("class 1 complete------------------------------");
 
 	var myClass2 = world.classes[randInt(0, world.classes.length)];
 	while (myClass2.name == myClass.name)
 		var myClass2 = world.classes[randInt(0, world.classes.length)];
 	myClass2.reset();
+	console.log("class2 reset");
 	myClass2.generateClass(classLevel, person);
+	console.log("class2 generated");
 	interface.printRace(myClass2, ".class2", "Class 2");
+	console.log("class2 printed");
 	person.roundUp(myClass2);
+	console.log("class 2 complete------------------------------");
 
-	person.buildStats(myRace, myClass, myClass2, classLevel);
+	person.getHP(myRace, myClass, myClass2, classLevel);
 
 	// person.languages = person.languages.concat(myRace.languages
 	// console.log("we've got "+person.extraLangs+" langs to add");
@@ -144,7 +150,7 @@ person.roundUp = function(r) {
 	}
 }
 
-person.buildStats = function(race, cl, cl2, level) {
+person.buildStats = function(race, level) {
 	// ability scores
 	// var statMods = [];
 	var stats = world.rollStats(5, race.statMods);
@@ -157,15 +163,6 @@ person.buildStats = function(race, cl, cl2, level) {
 	}
 	person.modifiers = mods;
 
-	// HP
-	person.hp = world.rollHealth(cl.hDie, level, mods[2]);
-	if ("extraHP" in race)
-		person.hp += race["extraHP"];
-	if ("extraHP" in cl)
-		person.hp += cl["extraHP"];
-	if ("extraHP" in cl2)
-		person.hp += cl2["extraHP"];
-
 	// proficiency bonus
 	if (level >= 5)
 		person.profBonus = 3;
@@ -175,6 +172,18 @@ person.buildStats = function(race, cl, cl2, level) {
 		person.profBonus = 5;
 	if (level >= 17)
 		person.profBonus = 6;
+}
+
+person.getHP = function(race, cl, cl2, level) {
+	var mod = person.modifiers[2];
+	person.hp = world.rollHealth(cl.hDie, level, mod);
+	person.hp += world.rollHealth(cl2.hDie, level, mod);
+	if ("extraHP" in race)
+		person.hp += race["extraHP"];
+	if ("extraHP" in cl)
+		person.hp += cl["extraHP"];
+	if ("extraHP" in cl2)
+		person.hp += cl2["extraHP"];
 }
 
 person.abilityScoreIncrease = function(level, stats) {

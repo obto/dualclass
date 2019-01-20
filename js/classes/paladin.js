@@ -27,7 +27,6 @@ pal.reset = function() {
 	pal.skills = [];
 	pal.magic.slots = [];
 	pal.magic.spells = [];
-	pal.magic.oathspells = [];
 	pal.proficiencies = {};
 	pal.proficiencies.weapons = ["Simple", "Martial"];
 	pal.proficiencies.armor = ["Light","Medium","Heavy","Shields"];
@@ -117,8 +116,7 @@ pal.addSkills = function(level, knownSkills) {
 pal.addSpells = function(level, knownSpells) {
 	pal.magic.slots = pal.getSpellSlots(level);
 	// var numCants = drd.getNumSpellsKnown(level);
-	var spells = pal.getSpells(level, pal.magic.slots, knownSpells.slice(0));
-	pal.magic.oathspells = spells;
+	var spells = pal.getSpells(level, knownSpells.slice(0));
 	pal.magic.spells = spells;
 
 	return spells;
@@ -154,27 +152,11 @@ pal.getSpellSlots = function(level) {
 	return slots;
 }
 
-pal.getNumSpellsKnown = function(level) {
-	var sp = mod[5] + Math.floor(level / 2);
-
-	if (sp <1)
-		sp=1;
-	if (level <5) {
-		sp1=sp;
-		sp2=0;
-	} else if (level < 9) {
-		sp1=Math.ceil(sp / 2);
-		sp2=sp-sp1;
-	} else {
-		sp1=Math.ceil(sp * .35);
-		sp2=Math.floor(sp * .35);
-		sp3 = sp-sp1-sp2;
-	}
-	console.log(sp+"/"+sp1+"/"+sp2+"/"+sp3);
-	//alert(sp+"/"+sp1+"/"+sp2+"/"+sp3);
+pal.getNumSpellsToday = function(level) {
+	return Math.max(parseInt(level) + person.modifiers[5], 1);
 }
 
-pal.getSpells = function(level, slots, knownSpells) {
+pal.getSpells = function(level, knownSpells) {
 	var oaths = [];
 	oaths["Ancients"] = [[],["Ensnaring Strike","Speak with Animals"],["Moonbeam","Misty Step"],["Plant Growth","Protection from Energy"],["Ice Storm","Stoneskin"],["Commune with Nature","Tree Stride"]];
 	oaths["Conquest"] = [[],["Armor of Agathys","Command"],["Hold Person","Spiritual Weapon"],["Bestow Curse","Fear"],["Dominate Beast","Stoneskin"],["Cloudkill","Dominate Person"]];
@@ -182,18 +164,16 @@ pal.getSpells = function(level, slots, knownSpells) {
 	oaths["Redemption"] = [[],["Sanctuary","Sleep"],["Calm Emotions","Hold Person"],["Counterspell","Hypnotic Pattern"],["Otiluke's Resilient Sphere","Stoneskin"],["Hold Monster","Wall of Force"]];
 	oaths["Vengeance"] = [[],["Bane","Hunter's Mark"],["Hold Person","Misty Step"],["Haste","Protection from Energy"],["Banishment","Dimension Door"],["Hold Monster","Scrying"]];
 	
-	var oSpell = [];
+	// var oSpell = [];
 	var x = pal.subclass;
+	var beforeList = pal.magic.list.slice(0);
 
-	// console.log("OATH SPELLS");
-	// console.log(ox]);
-	// console.log(oaths[x]);
-	for (var i = 1; i < slots.length; i++) {
-		if (slots[i])
-			oSpell[i] = oaths[x][i];
+	if (x != "") {	
+		pal.magic.list = world.combineSpellLists(pal.magic.list.slice(0), oaths[x].slice(0));
 	}
-
-	// pal.magic.oathspells = oSpell;
-	return oSpell;
+	// var spells = pickAllSpells(2, level, pal, knownSpells.slice(0), false);
+	var spells = pickSpellsAgnostic(level, pal, knownSpells.slice(0));
+	pal.magic.list = beforeList.slice(0);
+	return spells;
 }
 

@@ -172,7 +172,6 @@ bard.bardicInspiration = function(level) {
 // -------------- SKILLS ------------
 
 bard.addSkills = function(level, knownSkills) {
-	console.log("adding skills!");
 	var k = knownSkills.valueOf();
 	var skillCap = 3;
 	var newSkills = [];
@@ -180,11 +179,9 @@ bard.addSkills = function(level, knownSkills) {
 
 	newSkills = skillChunk(skills, skillCap, knownSkills.slice(0));
 	bard.skills = newSkills;
-	console.log("added base skills");
 	console.log(bard.skills.toString());
 	
 	if (bard.subclass == "College of Lore") {
-		console.log("Adding lore skills");
 		var loreskills = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 		var toCheck = newSkills.slice(0).concat(knownSkills.slice(0));
 		newSkills = skillChunk(loreskills, skillCap, toCheck);
@@ -194,14 +191,11 @@ bard.addSkills = function(level, knownSkills) {
 
 	// pick expertises
 	if (level >= 3) {
-		console.log("adding expertise");
 		var allSkills = bard.skills.slice(0).concat(knownSkills.slice(0));
 		bard.addExpertise(level, allSkills.slice(0));
-		console.log("done with expertise");
 	}
 
 	// console.log("HOW ABOUT NOW");
-	console.log("done with skills!");
 	return bard.skills.slice(0);
 }
 

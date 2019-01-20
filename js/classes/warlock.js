@@ -405,7 +405,7 @@ wrl.tomeSpells = function(level, knownSpells) {
 		// var slots = bard.getSpellSlots(level);
 		var cl = [bard,drd,clr,wiz,wrl,sor];
 		var randCl = cl[randInt(0, cl.length)];
-		console.log("Taking from "+randCl.class);
+		// console.log("Taking from "+randCl.class);
 
 		if (typeof knownSpells == 'undefined')
 			knownSpells = [];
@@ -414,7 +414,7 @@ wrl.tomeSpells = function(level, knownSpells) {
 
 		// var toCheck = world.combineSpellLists(knownSpells[0].slice(0), bard.magic.spells[spLev].slice(0));
 		var spell = skillChunk(randCl.magic.list[0], 1, knownSpells[0]);
-		console.log("It's "+spell+"!");
+		// console.log("It's "+spell+"!");
 		secrets = secrets.slice(0).concat(spell);
 		total++;
 	}

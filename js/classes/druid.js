@@ -137,8 +137,8 @@ drd.addSkills = function(level, knownSkills) {
 
 drd.addSpells = function(level, knownSpells) {
 	drd.magic.slots = drd.getSpellSlots(level);
-	var numCants = drd.getNumSpellsKnown(level);
-	var spells = drd.getSpells(level, numCants, knownSpells.slice(0));
+	// var numCants = drd.getNumSpellsKnown(level);
+	var spells = drd.getSpells(level, knownSpells.slice(0));
 	// console.log("Trying spells still");
 	// console.log(spells);
 	drd.magic.spells = spells;
@@ -147,47 +147,45 @@ drd.addSpells = function(level, knownSpells) {
 
 drd.getSpellSlots = function(level) {
 	var slots = [];
-	slots[1] = 2;
-	// ss2=0;
-	if (level >= 2)
-		slots[1]++;
-	if (level >= 3) {
-		slots[1]++;
-		slots[2] = 2;
-	}
-	if (level >= 4)
-		slots[2]++;
-	if (level >= 5) 
-		slots[3] = 2;
-	if (level >= 6)
-		slots[3]++;
+
+	slots[1] = Math.min(level+1, 4);
+	if (level >= 3)
+		slots[2] = Math.min(level-1, 3);
+	if (level >= 5)
+		slots[3] = Math.min(level-3, 3);
 	if (level >= 7)
-		slots[4] = 1;
-	if (level >= 8)
-		slots[4]++;
+		slots[4] = Math.min(level-6, 3);
 	if (level >= 9) {
-		slots[4]++;
-		slots[5] = 1;
+		slots[5] = Math.min(level-8, 2);
+		if (level >= 18)
+			slots[5] = 3;
 	}
-	if (level >= 10)
-		slots[5]++;
-	if (level >= 11)
+	if (level >= 11) {
 		slots[6] = 1;
-	if (level >= 13)
+		if (level >= 19)
+			slots[6] = 2;
+	}
+	if (level >= 13) {
 		slots[7] = 1;
+		if (level >= 20)
+			slots[7] = 2;
+	}
 	if (level >= 15)
 		slots[8] = 1;
 	if (level >= 17)
 		slots[9] = 1;
-	if (level >= 19)
-		slots[6]++;
-	if (level >= 20)
-		slots[7]++;
 
 	return slots;
 }
 
-drd.getNumSpellsKnown = function(level) {
+drd.getNumSpellsToday = function(level) {
+	var test = parseInt(level) + parseInt(person.modifiers[4]);
+	var x = Math.max(test, 1);
+	// console.log("how is this number "+x+"??????");
+	return x;
+}
+
+drd.getNumCantripsKnown = function(level) {
 	//cantrips
 	var x = 2;
 	if (level >= 4)
@@ -202,15 +200,19 @@ drd.getNumSpellsKnown = function(level) {
 	return x;
 }
 
-drd.getSpells = function(level, numCants, knownSpells) {
+drd.getSpells = function(level, knownSpells) {
 	var newSpells = [];
 	newSpells[0] = [];
+	var beforeList = drd.magic.list.slice(0);
 
-	if (drd.subclass == "Spores")
+	if (drd.subclass == "Spores") {
 		newSpells = [["Chill Touch"],["Blindness/Deafness","Gentle Repose"],["Animate Dead","Gaseous Form"],["Blight","Confusion"],["Cloudkill","Contagion"]];
+		drd.magic.list = world.combineSpellLists(drd.magic.list.slice(0), newSpells);
+	}
 
+	var numCants = drd.getNumCantripsKnown(level);
 	var cantos = skillChunk(drd.magic.list[0], numCants, newSpells.slice(0));
-	newSpells[0] = newSpells[0].concat(cantos);
+	// newSpells[0] = newSpells[0].concat(cantos);
 
 	if (drd.subclass == "Land") {
 		var c = drd.subcircle;
@@ -224,10 +226,18 @@ drd.getSpells = function(level, numCants, knownSpells) {
 		lands["Swamp"] = [[],["Darkness","Melf's Acid Arrow"],["Water Walk","Stinking Cloud"],["Freedom of Movement","Locate Creature"],["Insect Plague","Scrying"]];
 		lands["Underdark"] = [[],["Spider Climb","Web"],["Gaseous Form","Stinking Cloud"],["Greater Invisibility","Stone Shape"],["Cloudkill","Insect Plague"]];
 
-		newSpells = [cantos, lands[c][1], lands[c][2], lands[c][3], lands[c][4]];
+		drd.magic.list = world.combineSpellLists(drd.magic.list.slice(0), lands[c]);
+		// newSpells = [cantos, lands[c][1], lands[c][2], lands[c][3], lands[c][4]];
 	}
+
+	// var beforeList = drd.magic.list.slice(0);
+	// clr.magic.list = world.combineSpellLists(clr.magic.list.slice(0), domSpells[clr.subclass].slice(0));
+	// var spells = pickAllSpells(1, level, drd, knownSpells.slice(0), false);
+	var spells = pickSpellsAgnostic(level, drd, knownSpells.slice(0));
+	spells[0] = cantos;
+	drd.magic.list = beforeList.slice(0);
 
 	// var allSpells = drd.magic.list;
 	// allSpells[0] = newSpells;
-	return newSpells;
+	return spells;
 }

@@ -223,21 +223,27 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 
 
 		if (difference > 0) { // if we need to learn something new
-			var x = randInt(1, tempSlots.length);
-			// console.log("let's add to: "+x);
-			if (typeof mySpells[x] == 'undefined')
-				mySpells[x] = [];
-			if (typeof knownSpells[x] == 'undefined')
-				knownSpells[x] = [];
+			console.log("The difference is "+difference);
+			for (var j = 0; j < difference; j++) {
+				console.log("loopin' spells??");
+				var x = randInt(1, tempSlots.length);
+				// console.log("let's add to: "+x);
+				if (typeof mySpells[x] == 'undefined')
+					mySpells[x] = [];
+				if (typeof knownSpells[x] == 'undefined')
+					knownSpells[x] = [];
 
-			var toCheck = mySpells[x].slice(0).concat(knownSpells[x].slice(0));
+				var toCheck = mySpells[x].slice(0).concat(knownSpells[x].slice(0));
 
-			var spell = skillChunk(guy.magic.list[x].slice(0), difference, toCheck);
-			// console.log("adding "+spell);
-			mySpells[x] = mySpells[x].concat(spell);
-			// console.log(mySpells);
-			currentTotal += difference;
-			// console.log(mySpells.join(", "));
+				var spell = skillChunk(guy.magic.list[x].slice(0), 1, toCheck);
+				// console.log("adding "+spell);
+				mySpells[x] = mySpells[x].concat(spell);
+				// console.log(mySpells);
+				currentTotal++;
+				console.log(mySpells.join(", "));
+			}
+			console.log(mySpells);
+			console.log(currentTotal);
 		}
 
 		// possibly switch spells out every level
@@ -250,6 +256,98 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 	}
 
 	return mySpells;
+}
+
+function pickSpellsAgnostic(level, guy, knownSpells) {
+	var mySpells = [];
+	var slots = guy.getSpellSlots(level);
+	var shouldBeTotal = guy.getNumSpellsToday(level);
+	console.log(guy);
+	console.log("this class should know " + shouldBeTotal + " spells!");
+	for (var i = 1; i <= shouldBeTotal; i++) {
+		console.log("This is "+i+" of "+shouldBeTotal);
+		// var tempSlots = guy.getSpellSlots(i);
+		// var shouldBeTotal = guy.getNumSpellsKnown(i);
+		// console.log("Slots: ");
+		
+		// var difference = shouldBeTotal - currentTotal;
+		// console.log("Level "+i+": We should have "+shouldBeTotal+" spells, have "+currentTotal+"spells");
+		var beforeSpells = mySpells.slice(0);
+
+		var x = randInt(1, slots.length);
+		if (typeof mySpells[x] == 'undefined')
+				mySpells[x] = [];
+		if (typeof knownSpells[x] == 'undefined')
+			knownSpells[x] = [];
+
+		var spell = [];
+
+		while (!agnosticChecker(guy, mySpells.slice(0), knownSpells.slice(0), x)) {
+			if (typeof mySpells[x] == 'undefined')
+				mySpells[x] = [];
+			if (typeof knownSpells[x] == 'undefined')
+				knownSpells[x] = [];
+			x = randInt(1, slots.length);
+			console.log("could it be "+x+"??");
+		}
+		// console.log("let's add to: "+x);
+		if (typeof mySpells[x] == 'undefined')
+				mySpells[x] = [];
+		if (typeof knownSpells[x] == 'undefined')
+			knownSpells[x] = [];
+
+		var toCheck = mySpells[x].slice(0).concat(knownSpells[x].slice(0));
+		// console.log(toCheck);
+
+		var spell = skillChunk(guy.magic.list[x].slice(0), 1, toCheck);
+		console.log("just got "+spell[0]+" from skillChunk");
+		mySpells[x] = mySpells[x].concat(spell);
+		// console.log(mySpells);
+		// currentTotal += difference;
+			// console.log(mySpells.join(", "));
+		console.log("we're adding "+spell);
+		console.log(mySpells[x]);
+	}
+	return mySpells;
+}
+
+function agnosticChecker(guy, spells, knownSpells, x) {
+	if (typeof spells == 'undefined')
+		spells = [];
+	if (typeof spells[x] == 'undefined')
+		spells[x] = [];
+	if (typeof knownSpells[x] == 'undefined')
+		knownSpells[x] = [];
+
+	var toReturn = false;
+	if (x in guy.magic.list) { 
+		// console.log("spell level "+x+" exists in list");
+		if (typeof guy.magic.list[x] != 'undefined') {
+			// console.log("spell list isn't busted");
+			if (guy.magic.list[x].length >= 0) {
+				console.log("length of this list is bigger than 0");
+				console.log("here's available spells at that level: ");
+				console.log(guy.magic.list[x]);
+				var toCheck = spells[x].concat(knownSpells[x]);
+				console.log("here's the class spells we know at that level: ");
+				console.log(spells[x]);
+				console.log("here's all the spells we know at that level");
+				console.log(toCheck[x]);
+				console.log("and here's all the spells we know?");
+				console.log(knownSpells);
+				if (guy.magic.list[x].length != spells[x].length) {	
+					console.log("we haven't reached the max number of spells possible");
+					return true;
+				}
+			}
+		}
+	}
+	else {
+		return false;
+	}
+
+	console.log("one of those things was false");
+	return toReturn;
 }
 
 // ------- UTILITY ------------------

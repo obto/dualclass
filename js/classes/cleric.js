@@ -203,44 +203,45 @@ clr.addSkills = function(level, knownSkills) {
 
 clr.addSpells = function(level, personSpells) {
 	clr.magic.slots = clr.getSpellSlots(level);
-	var cantripsKnown = clr.getNumSpellsKnown(level);
-	clr.magic.spells = clr.getSpells(cantripsKnown, clr.magic.slots, personSpells);
+	// var cantripsKnown = clr.getNumSpellsKnown(level);
+	clr.magic.spells = clr.getSpells(level, personSpells.slice(0));
 	return clr.magic.spells;
 }
 
 clr.getSpellSlots = function(level) {
-	var slots = [10];
-	slots[1] = 2;
-	if (level >= 2)
-		slots[1] = 3;
-	if (level >= 3) {
-		slots[1] = 4;
-		slots[2] = 2;
-	}
-	if (level >= 4)
-		slots[2] = 3;
-	if (level >= 5) {
-		slots[3] = 2;
-	}
-	if (level >= 6)
-		slots[3] = 3;
+	var slots = [];
+
+	slots[1] = Math.min(level+1, 4);
+	if (level >= 3)
+		slots[2] = Math.min(level-1, 3);
+	if (level >= 5)
+		slots[3] = Math.min(level-3, 3);
 	if (level >= 7)
-		slots[4] = 1;
-	if (level >= 8)
-		slots[4] = 2;
+		slots[4] = Math.min(level-6, 3);
 	if (level >= 9) {
-		slots[4] = 3;
-		slots[5] = 1;
+		slots[5] = Math.min(level-8, 2);
+		if (level >= 18)
+			slots[5] = 3;
 	}
-	if (level >= 10)
-		slots[5] = 2;
-	if (level >= 11)
+	if (level >= 11) {
 		slots[6] = 1;
+		if (level >= 19)
+			slots[6] = 2;
+	}
+	if (level >= 13) {
+		slots[7] = 1;
+		if (level >= 20)
+			slots[7] = 2;
+	}
+	if (level >= 15)
+		slots[8] = 1;
+	if (level >= 17)
+		slots[9] = 1;
 
 	return slots;
 }
 
-clr.getNumSpellsKnown = function(level) {
+clr.getNumCantripsKnown = function(level) {
 	var cant = 3;
 	if (level >= 4)
 		cant = 4;
@@ -249,9 +250,12 @@ clr.getNumSpellsKnown = function(level) {
 	return cant;
 }
 
-clr.getSpells = function(cantripsKnown, slots, knownSpells) {
+clr.getNumSpellsToday = function(level) {
+	return Math.max(parseInt(level) + person.modifiers[4], 1);
+}
+
+clr.getSpells = function(level, knownSpells) {
 	var newSpells = [];
-	var noKnownSpells = false;
 	if (typeof knownSpells == 'undefined') // if we know nothing
 		noKnownSpells = true;
 
@@ -262,10 +266,11 @@ clr.getSpells = function(cantripsKnown, slots, knownSpells) {
 		newSpells = ["Light"];
 	}
 	
+	var cantripsKnown = clr.getNumCantripsKnown(level);
 	var cantos = skillChunk(clr.magic.list[0], cantripsKnown, newSpells.slice(0));
 	newSpells = newSpells.concat(cantos);
 
-	var domSpells = {};
+	var domSpells = [];
 	domSpells["Forge"] = [[],["Searing Smite", "Identify"], ["Heat Metal", "Magic Weapon"], ["Elemental Weapon", "Protection from Energy"], ["Fabricate", "Wall of Fire"], ["Animate Objects", "Creation"]];
 	domSpells["Knowledge"] = [[],["Command", "Identify"], ["Augury", "Suggestion"], ["Nondetection", "Speak with Dead"],["Arcane Eye", "Confusion"],["Legend Lore", "Scrying"]];
 	domSpells["Life"] = [[],["Bless", "Cure Wounds"],["Lesser Restoration","Spiritual Weapon"],["Beacon of Hope", "Revivify"],["Death Ward", "Guardian of Faith"],["Mass Cure Wounds", "Raise Dead"]];
@@ -276,12 +281,18 @@ clr.getSpells = function(cantripsKnown, slots, knownSpells) {
 	domSpells["Trickery"] = [[],["Charm Person", "Disguise Self"],["Mirror Image","Pass without Trace"],["Blink","Dispel Magic"],["Dimension Door","Polymorph"],["Dominate Person","Modify Memory"]];
 	domSpells["War"] = [[],["Divine Favor","Shield of Faith"],["Magic Weapon","Spiritual Weapon"],["Crusader's Mantle","Spirit Guardians"],["Freedom of Movement","Stoneskin"],["Flame Strike","Hold Monster"]];
 
-	// clr.magic.spells = clr.magic.list;
-	clr.magic.spells[0] = newSpells;
-	clr.magic.domainspells = clr.myDomSpells(domSpells[clr.subclass], slots);
-	var allSpells = world.combineSpellLists(clr.magic.spells.slice(0), clr.magic.domainspells.slice(0));
+	var beforeList = clr.magic.list.slice(0);
+	clr.magic.list = world.combineSpellLists(clr.magic.list.slice(0), domSpells[clr.subclass].slice(0));
+	// var spells = pickAllSpells(1, level, clr, knownSpells.slice(0), false);
+	var spells = pickSpellsAgnostic(level, clr, knownSpells.slice(0));
 
-	return allSpells;
+	// clr.magic.spells = clr.magic.list;
+	spells[0] = newSpells;
+	clr.magic.list = beforeList.slice(0);
+	// clr.magic.domainspells = clr.myDomSpells(domSpells[clr.subclass], slots);
+	// var allSpells = world.combineSpellLists(clr.magic.spells.slice(0), clr.magic.domainspells.slice(0));
+
+	return spells;
 }
 
 clr.myDomSpells = function(spells, slots) {
