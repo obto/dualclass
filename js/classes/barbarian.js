@@ -1,5 +1,6 @@
 bbn = {};
 bbn.class = "Barbarian";
+bbn.short = "bbn";
 bbn.level = 1;
 bbn.hDie = 12;
 bbn.features = [];
@@ -9,11 +10,27 @@ bbn.proficiencies.weapons = ["Simple", "Martial"];
 bbn.proficiencies.armor = ["Light", "Medium", "Shields"];
 bbn.proficiencies.other = [];
 bbn.saves = ["Strength", "Constitution"];
-bbn.stipulations = ["no heavy armor"];
+// bbn.stipulations = ["no heavy armor"];
 bbn.subclass = "";
 bbn.speedMod = 0;
 bbn.advantage = [];
 bbn.resistance = [];
+
+
+bbn.reset = function() {
+	bbn.name = "";
+	bbn.level = 1;
+	bbn.features = [];
+	bbn.skills = [];
+	bbn.proficiencies = {};
+	bbn.proficiencies.weapons = ["Simple", "Martial"];
+	bbn.proficiencies.armor = ["Light", "Medium", "Shields"];
+	bbn.proficiencies.other = [];
+	bbn.saves = ["Strength", "Constitution"];
+	bbn.subclass = "";
+	bbn.subclassType = "";
+	bbn.speedMod = 0;
+}
 
 // -------------- FEATURES ----------
 
@@ -22,8 +39,9 @@ bbn.generateClass = function(level, person) {
 	bbn.addFeatures(level);
 
 	newSkills = bbn.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
+	bbn.name = "Level " + bbn.level + " Barbarian (" + bbn.subclass + ")";
 	// newSpells = addSpells(level, person.spells);
 	// person.spells.push(newSpells);
 }
@@ -91,8 +109,7 @@ bbn.rages = function(level) {
 }
 
 bbn.chooseSubclass = function(level) {
-	var paths = {};
-	paths = ["Ancestral Guardian","Berzerker","Storm Herald","Totem Warrior","Zealot"];
+	var paths = ["Ancestral Guardian","Berzerker","Storm Herald","Totem Warrior","Zealot"];
 	var x = paths[randInt(0, paths.length)];
 	bbn.subclass = x;
 
@@ -120,7 +137,7 @@ bbn.chooseSubclass = function(level) {
 
 	if (x == "Totem Warrior") {
 		x = randInt(0, 3);
-		path = "";
+		var path = "";
 		
 		if (x == 0)
 			path = "Bear";
@@ -129,8 +146,8 @@ bbn.chooseSubclass = function(level) {
 		if (x == 2)
 			path = "Wolf";
 
-		bbn.totem = path;
-		bbn.subclass = "Path of the Totem Warrior - " + bbn.totem;
+		bbn.subclassType = path;
+		bbn.subclass = "Path of the Totem Warrior - " + bbn.subclassType;
 	}
 	if (x == "Storm Herald") {
 		var types = ["Desert","Sea","Storm"];

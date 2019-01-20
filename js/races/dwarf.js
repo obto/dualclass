@@ -1,30 +1,41 @@
 drf = {};
-drf.rName = "Dwarf";
+drf.name = "Dwarf";
 drf.rSize = "Medium";
 drf.extraHP = 0;
 drf.speed = 25;
 drf.features = [];
+drf.skills = [];
 drf.statMods = [0,0,0,0,0,0];
 drf.languages = ["Common", "Dwarvish"];
-drf.skills = [];
-drf.spells = [];
-drf.castAbility = 0;
 drf.proficiencies = {};
 drf.proficiencies.weapons = [];
 drf.proficiencies.armor = [];
 drf.proficiencies.other = [];
 drf.types = ["Hill Dwarf","Mountain Dwarf"];
 
+drf.reset = function() {
+	drf.name = "Dwarf";
+	drf.features = [];
+	drf.statMods = [0,0,0,0,0,0];
+	drf.languages = ["Common", "Dwarvish"];
+	drf.proficiencies = {};
+	drf.proficiencies.weapons = [];
+	drf.proficiencies.armor = [];
+	drf.proficiencies.other = [];
+	drf.skills = [];
+	drf.spells = [];
+}
+
 drf.generateRace = function(person) {
 	race = drf.types[randInt(0, drf.types.length)];
-	drf.rName = race;
+	drf.name = race;
 
 	drf.addStatMods(race);
 	drf.addFeatures(race, person.level);
 }
 
 drf.printRace = function() {
-	$(".rBasics p").text(drf.rName);
+	$(".rBasics h2").text("Race: "+drf.name);
 	$("div.rFeat p").text(drf.features.join(", "));
 	// $("div.rSkills p").text(drf.skills + "");
 	// $("div.rSpells p").text(elf.spells + "");

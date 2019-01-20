@@ -14,19 +14,32 @@ mnk.subclass = "";
 mnk.speed = 0;
 mnk.languages = [];
 mnk.immunity = [];
-// mnk.resistance = [];
-mnk.feats = [];
-mnk.feats.act = [];
-mnk.feats.bonus = [];
-mnk.feats.react = [];
-mnk.feats.pass = [];
+
+mnk.reset = function() {
+	mnk.name = "";
+	mnk.level = 1;
+	mnk.features = [];
+	mnk.skills = [];
+	mnk.ki = 0;
+	mnk.proficiencies = {};
+	mnk.proficiencies.weapons = ["Simple", "Shortsword"];
+	mnk.proficiencies.armor = [];
+	mnk.proficiencies.other = [];
+	mnk.saves = ["Strength", "Dexterity"];
+	mnk.subclass = "";
+	mnk.speed = 0;
+	mnk.languages = [];
+	mnk.immunity = [];
+}
 
 mnk.generateClass = function(level, person) {
 	mnk.level = level;
 	mnk.addFeatures(level);
 
 	newSkills = mnk.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
+
+	mnk.name = "Level " + mnk.level + " Monk (" + mnk.subclass + ")";
 }
 
 mnk.printClass = function() {
@@ -43,11 +56,11 @@ mnk.getAC = function(mods) {
 
 mnk.addFeatures = function(level) {
 	if (Math.random() > 0.5) {
-		inst = world.instruments[randInt(0, world.instruments.length)];
+		var inst = world.instruments[randInt(0, world.instruments.length)];
 		mnk.proficiencies.other.push(inst);
 	}
 	else {
-		art = world.artisan[randInt(0, world.artisan.length)];
+		var art = world.artisan[randInt(0, world.artisan.length)];
 		mnk.proficiencies.other.push(art + "'s tools");
 	}
 
@@ -113,9 +126,8 @@ mnk.addFeatures = function(level) {
 }
 
 mnk.chooseSubclass = function(level) {
-	archs = {};
-	archs = ["Shadow","Four Elements","Open Hand","Sun Soul"];
-	x = archs[randInt(0, archs.length)];
+	var archs = ["Shadow","Four Elements","Open Hand","Sun Soul"];
+	var x = archs[randInt(0, archs.length)];
 	mnk.subclass = "Way of the " + x;
 	mnk.features.push("Monastic Tradition - "+mnk.subclass);
 	
@@ -134,7 +146,7 @@ mnk.chooseSubclass = function(level) {
 
 	if (x == "Four Elements") {
 		mnk.features.push("Elemental Attunement");
-		fe = [];
+		var fe = [];
 		fe[0] = ["Fangs of the Fire Snake","Fist of Four Thunders","Fist of Unbroken Air","Rush of the Gale Spirits","Shape the Flowing River","Sweeping Cinder Strike","Water Whip"];
 		fe[1] = ["Clench of the North Wind","Gong of the Summit"];
 		fe[2] = ["Flames of the Phoenix","Mist Stance","Ride the Wind"];

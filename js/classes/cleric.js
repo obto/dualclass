@@ -27,14 +27,34 @@ clr.magic.list[7] = ["Conjure Celestial","Divine Word","Etherealness","Fire Stor
 clr.magic.list[8] = ["Antimagic Field","Control Weather","Earthquake","Holy Aura"];
 clr.magic.list[9] = ["Astral Projection","Gate","Mass Heal","True Resurrection"];
 
+clr.reset = function() {
+	clr.name = "";
+	clr.subclass = "";
+	clr.level = 1;
+	clr.magic.spells = [];
+	clr.magic.slots = [];
+	clr.magic.domainspells = [];
+	clr.features = [];
+	clr.skills = [];
+	clr.expertise = [];
+	clr.proficiencies = {};
+	clr.proficiencies.weapons = ["Simple"];
+	clr.proficiencies.armor = ["Light", "Medium", "Shields"];
+	clr.proficiencies.other = [];
+	clr.saves = ["Wisdom", "Charisma"];
+	clr.langMod = 0;
+}
+
 clr.generateClass = function(level, person) {
 	clr.level = level;
 	clr.addFeatures(level);
 
 	var newSkills = clr.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	var newSpells = clr.addSpells(level, person.spells.slice(0));
+
+	clr.name = "Level " + clr.level + " Cleric (" + clr.subclass + " Domain)";
 	// person.spells.push(newSpells);
 }
 
@@ -107,7 +127,7 @@ clr.chooseDomain = function(level) {
 	var keys = Object.keys(domains);
 	clr.subclass = keys[randInt(0, keys.length)];
 	// clr.subclass = "Knowledge";
-	path = clr.subclass;
+	var path = clr.subclass;
 
 	switch (clr.subclass) {
 		case "Forge":
@@ -118,27 +138,20 @@ clr.chooseDomain = function(level) {
 			// also gets extra skill junk
 			clr.langMod += 2;
 			break;
-		case "Life":
-			clr.features.push("Bonus Proficiency");
-			clr.proficiencies.armor.push("Heavy");
-			break;
 		case "Light":
 			clr.features.push("Bonus Cantrip"); // gets light
 			break;
 		case "Nature":
 			// gets a druid cantrip and Animal Handling/Nature/Survival
 			break;
+		case "Life":
 		case "Order": //also Intimidation or Persuasion
 			clr.features.push("Bonus Proficiency");
 			clr.proficiencies.armor.push("Heavy");
 			break;
-		case "Tempest":
-			clr.features.push("Bonus Proficiencies");
-			clr.proficiencies.weapons.push("Martial");
-			clr.proficiencies.armor.push("Heavy");
-			break;
 		case "Trickery":
 			break;
+		case "Tempest":
 		case "War":
 			clr.features.push("Bonus Proficiencies");
 			clr.proficiencies.weapons.push("Martial");
@@ -163,7 +176,7 @@ clr.chooseDomain = function(level) {
 // -------------- SKILLS ------------
 
 clr.addSkills = function(level, knownSkills) {
-	domainSkills = [];
+	var domainSkills = [];
 	if (typeof knownSkills == undefined)
 		knownSkills = [];
 
@@ -179,9 +192,9 @@ clr.addSkills = function(level, knownSkills) {
 	}
 
 	// clr.skills.push(domainSkills);
-	toCheck = domainSkills.concat(knownSkills);
+	var toCheck = domainSkills.concat(knownSkills);
 
-	newSkills = skillChunk([5,6,9,13,14], 2, toCheck).concat(domainSkills);
+	var newSkills = skillChunk([5,6,9,13,14], 2, toCheck).concat(domainSkills);
 	clr.skills = newSkills;
 	return newSkills.slice(0);
 }
@@ -238,7 +251,7 @@ clr.getNumSpellsKnown = function(level) {
 
 clr.getSpells = function(cantripsKnown, slots, knownSpells) {
 	var newSpells = [];
-	noKnownSpells = false;
+	var noKnownSpells = false;
 	if (typeof knownSpells == 'undefined') // if we know nothing
 		noKnownSpells = true;
 
@@ -267,10 +280,6 @@ clr.getSpells = function(cantripsKnown, slots, knownSpells) {
 	clr.magic.spells[0] = newSpells;
 	clr.magic.domainspells = clr.myDomSpells(domSpells[clr.subclass], slots);
 	var allSpells = world.combineSpellLists(clr.magic.spells.slice(0), clr.magic.domainspells.slice(0));
-	
-	console.log("NEW SPELLS?");
-	console.log(clr.magic.spells);
-	console.log(allSpells);
 
 	return allSpells;
 }
@@ -285,61 +294,3 @@ clr.myDomSpells = function(spells, slots) {
 
 	return mySpells;
 }
-
-// old number of spells known dump:
-	/*
-	sp = level + mod[4];	
-	sp1=0;
-	sp2=0;
-	sp3=0;
-	sp4=0;
-	sp5=0;
-	if (level <3) {
-		sp1 = sp;
-		sp2 =0;
-	} else if (level <5) {
-		x= 	Math.floor(sp * .7);
-		sp1 = x;
-		sp2 = (sp -x);
-	} else if (level < 7) {
-		x = Math.ceil(sp * .35);
-		y = Math.floor(sp * .35);
-
-		sp1 = x;
-		z = sp-x-y;
-		sp2 = y;
-		sp3 = z;
-
-	} else if (level < 9) {
-		x = Math.floor(sp * .28);
-		y = Math.floor(sp * .28);
-		z = Math.floor(sp * .28);
-
-		sum = sp - x-y-z;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = x;
-
-	} else if (level > 8) {
-		x = Math.floor(sp * .21);
-		y = Math.ceil(sp * .18);
-		z = Math.ceil(sp * .18);
-		xx = Math.floor(sp * .21);
-
-		sum = sp - x-y-z-xx;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = xx;
-		sp5 = x;
-
-
-	}
-	console.log("Spells known:  "+sp1 +"/ " + sp2+"/ " + sp3 +"/ " + sp4+"/ " + sp5+" / Total = "+sp);
-	
-	if ((sp1+sp2+sp3+sp4+sp5) != sp)
-		console.log("not the right number of spells known");
-*/
-
-

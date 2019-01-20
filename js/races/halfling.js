@@ -1,5 +1,5 @@
 var hlf = {};
-hlf.rName = "Halfling";
+hlf.name = "Halfling";
 hlf.rSize = "Small";
 hlf.extraHP = 0;
 hlf.speed = 25;
@@ -15,16 +15,25 @@ hlf.proficiencies.armor = [];
 hlf.proficiencies.other = [];
 hlf.types = ["Ghostwise Halfling","Lightfoot Halfling","Stout Halfling"];
 
+hlf.reset = function() {
+	hlf.name = "Halfling";
+	hlf.extraHP = 0;
+	hlf.features = [];
+	hlf.statMods = [0,0,0,0,0,0];
+	// hlf.skills = [];
+	// hlf.spells = [];
+}
+
 hlf.generateRace = function(person) {
-	race = hlf.types[randInt(0, hlf.types.length)];
-	hlf.rName = race;
+	var race = hlf.types[randInt(0, hlf.types.length)];
+	hlf.name = race;
 
 	hlf.addStatMods(race);
 	hlf.addFeatures(race, person.level);
 }
 
 hlf.printRace = function() {
-	$(".rBasics p").text(hlf.rName);
+	$(".rBasics p").text(hlf.name);
 	$("div.rFeat p").text(hlf.features.join(", "));
 }
 

@@ -20,31 +20,59 @@ person.proficiencies.weapons = [];
 person.proficiencies.armor = [];
 person.proficiencies.other = [];
 
-person.buildPerson = function() {
-	var classLevel = randInt(7, 17);
-	// var classLevel = 8;
+person.restart = function() {
+	person.bg = "";
+	person.level = 1;
+	person.race = "";
+	person.stats = [];
+	person.modifiers = [];
+	person.hp = 0;
+	person.profBonus = 2;
+	person.initiative = 0;
+	person.saves = [];
+	person.languages = [];
+	person.extraLangs = 0;
+	person.classes = [];
+	person.spells = [];
+	person.skills = [];
+	person.expertise = [];
+	person.speed = 0;
+	person.proficiencies = {};
+	person.proficiencies.weapons = [];
+	person.proficiencies.armor = [];
+	person.proficiencies.other = [];
+}
+
+person.buildPerson = function(lev, r, cl) {
+	person.restart();
+	// var classLevel = randInt(7, 17);
+	var classLevel = lev;
 	person.level = classLevel;
-	var myRace = world.races[randInt(0, world.races.length)];
-	// myRace = elf;
+	var myRace = r;
+	console.log(r);
+	r.reset();
 	
-	var myClass = world.classes[randInt(0, world.classes.length)];
-	// myClass = wrl;
-	bgs.chooseBg(person);
-	bgs.printBg();
+	var myClass = cl;
+	cl.reset()
+
+	var myBg = bgs.chooseBg(person);
+	person.roundUp(myBg);
+	interface.printRace(myBg, ".bg", "Background");
 	
 	myRace.generateRace(person);
 	person.roundUp(myRace);
-	myRace.printRace();
+	interface.printRace(myRace, ".race", "Race");
 
 	myClass.generateClass(classLevel, person);
-	myClass.printClass();
+	interface.printRace(myClass, ".class", "Class");
 	person.roundUp(myClass);
+	console.log("------------------------------");
 
 	person.buildStats(myRace, myClass, classLevel);
 
 	// person.languages = person.languages.concat(myRace.languages
 	// console.log("we've got "+person.extraLangs+" langs to add");
-	newLangs = world.pickLanguages(person.languages.slice(0), [], person.extraLangs);
+	var newLangs = world.pickLanguages(person.languages.slice(0), [], person.extraLangs);
 	person.languages = person.languages.concat(newLangs);
 
 	$.uniqueSort(person.skills);
@@ -53,9 +81,23 @@ person.buildPerson = function() {
 
 person.printPerson = function() {
 	$(".person .stats p").html(makeStatText(person.stats, person.modifiers));
-	$(".person .skills p").html(makeSkillText(person.skills) + "<br />Expertise: "+makeSkillText(person.expertise)+ "<br />Languages: "+person.languages.join(", "));
+	$(".person .skills p").html(function() {
+		var str = "";
+		str += makeSkillText(person.skills);
+		if ("expertise" in person && person.expertise.length > 0) {
+			str += "<br />Expertise: "+makeSkillText(person.expertise);
+		}
+		str += "<br />Languages: "+person.languages.join(", ");
+		return str;
+	});
 	$(".person .profs p").html(makeProfText(person.proficiencies));
-	$(".person .spells p").html(makeSpellText(person.spells));
+	if (person.spells.length > 0) {
+		$(".person .spells").show();
+		$(".person .spells p").html(makeSpellText(person.spells));
+	}
+	else {
+		$(".person .spells").hide();
+	}
 	
 	// $("div.rSpells p").text(elf.spells + "");
 	// $("div.rProfs p").text(person.proficiencies.weapons.toString() + person.proficiencies.armor.toString());
@@ -63,24 +105,23 @@ person.printPerson = function() {
 
 person.roundUp = function(r) {
 	var recent = $.extend({}, r);
-	person.proficiencies = world.combineProficiencies(recent.proficiencies, person.proficiencies);
-
-	// if (recent.includes("extraLang")) {
-	// 	person.languages.push(recent.extraLang);
-	// }
-	console.log("Here's what 'recent' looks like:");
+	console.log(recent.name);
 	console.log(recent);
+	if ("proficiencies" in recent) {
+		// console.log(recent.proficiencies);
+		person.proficiencies = world.combineProficiencies(recent.proficiencies, person.proficiencies);
+	}
 	
+	if ("skills" in recent) {
+		person.skills = person.skills.slice(0).concat(recent.skills.slice(0));
+	}
+
 	if ("spells" in recent) {
 		person.spells = recent.spells;
 		// person.spells = world.combineSpellLists(person.spells.slice(0), recent.spells.slice(0));
 	}
 	else if ("magic" in recent && "spells" in recent.magic) {
-		// console.log("Inside RoundUP");
-		// console.log("Checking magic.spells: ");
-		// console.log(recent.magic.spells);
 		person.spells = world.combineSpellLists(person.spells.slice(0), recent.magic.spells.slice(0));
-		// console.log(person.spells);
 	}
 
 	if ("speed" in recent) {
@@ -165,7 +206,7 @@ person.abilityScoreIncrease = function(level, stats) {
 
 
 
-person.buildPerson();
+// person.buildPerson();
 
 
 

@@ -10,31 +10,37 @@ fght.proficiencies.armor = ["Light", "Medium", "Heavy", "Shields"];
 fght.proficiencies.other = [];
 fght.saves = ["Strength", "Constitution"];
 fght.subclass = "";
-fght.speedMod = 0;
 fght.magic = [];
+
+fght.reset = function() {
+	fght.name = "";
+	fght.level = 1;
+	fght.features = [];
+	fght.skills = [];
+	fght.proficiencies = {};
+	fght.proficiencies.weapons = ["Simple", "Martial"];
+	fght.proficiencies.armor = ["Light", "Medium", "Heavy", "Shields"];
+	fght.proficiencies.other = [];
+	fght.saves = ["Strength", "Constitution"];
+	fght.subclass = "";
+	fght.magic = [];
+	fght.slots = [];
+}
 
 fght.generateClass = function(level, person) {
 	fght.level = level;
 	fght.addFeatures(level);
 
 	var newSkills = fght.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	if (fght.subclass == "Eldritch Knight")
 		var newSpells = fght.addSpells(level, person.spells.slice(0));
-	// person.spells.push(newSpells);
+
+	fght.name = "Level " + fght.level + " Fighter (" + fght.subclass + ")";
 }
 
 fght.printClass = function() {
-	// console.log("Level " + fght.level + " Fighter in the " + fght.subclass);
-	// console.log("Features:");
-	// console.log(fght.features);
-	// console.log("Skills:");
-	// console.log(fght.skills);
-	// // console.log("Spells:");
-	// // console.log(fght.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(fght.proficiencies);
 	$(".basics p").text("Level " + fght.level + " Fighter (" + fght.subclass + ")");
 	$("div.feat p").text(fght.features.join(", "));
 	$("div.skills p").html(makeSkillText(fght.skills));
@@ -43,17 +49,15 @@ fght.printClass = function() {
 		$(".class .spells p").html(makeSpellText(fght.magic.spells));
 		$("div.slots").html(printSpellSlots(fght.magic.slots));
 	}
-	// $("div.spells p").text(fght.magic.spells + "");
-	// $("div.slots").html(printSpellSlots(bard.magic.slots));
 }
 
 fght.addFeatures = function(level) {	
-	styles = ["Archery", "Defense", "Dueling", "Great Weapon Fighting", "Protection", "Two-Weapon Fighting"];
+	var styles = ["Archery", "Defense", "Dueling", "Great Weapon Fighting", "Protection", "Two-Weapon Fighting"];
 	fght.features.push("Fighting Style - "+styles[randInt(0, styles.length)]);
 	fght.features.push("Second Wind");
 
 	if (level >= 2)
-		x = 1;
+		var x = 1;
 		if (level >= 17) x = 2;
 		fght.features.push("Action Surge ("+x+"/day)");
 
@@ -61,13 +65,13 @@ fght.addFeatures = function(level) {
 		fght.chooseSubclass(level);
 	
 	if (level >= 5) {
-		x = 1;
+		var x = 1;
 		if (level >= 11) x = 2;
 		if (level >= 20) x = 3;
 		fght.features.push("Extra Attack ("+x+" extra)");
 	}
 	if (level >= 9) {
-		x = 1;
+		var x = 1;
 		if (level >= 13) x = 2;
 		if (level >= 17) x = 3;
 		fght.features.push("Indomitable ("+x+"/day)");
@@ -75,14 +79,11 @@ fght.addFeatures = function(level) {
 }
 
 fght.chooseSubclass = function(level) {
-	//archer, batle master, cavalier, champion, eldtright
-	archs = {};
-	archs = ["Arcane Archer","Battle Master","Cavalier","Champion","Eldritch Knight"];
-	x = archs[randInt(0, archs.length)];
+	var archs = ["Arcane Archer","Battle Master","Cavalier","Champion","Eldritch Knight"];
+	var x = archs[randInt(0, archs.length)];
 	// x = "Eldritch Knight";
 	fght.subclass = x;
 
-//3, 7, 10, 15, 18
 	archs["Arcane Archer"] = [["Arcane Archer Lore", "Arcane Shot"], ["Magic Arrow", "Curving Shot"], "", "Ever-Ready Shot", ""];
 	archs["Battle Master"] = [["Combat Superiority", "Student of War"], "Know Your Enemy", "Improved Combat Superiority", "Relentless", ""];
 	archs["Cavalier"] = [["Bonus Proficiencies", "Born to the Saddle", "Unwavering Mark"], "Warding Maneuver", "Hold the Line", "Ferocious Charger", "Vigilant Defender"];
@@ -118,40 +119,40 @@ fght.chooseSubclass = function(level) {
 		fght.features.push(style[5]);
 
 	if (x == "Arcane Archer") {
-		y = 2;
+		var y = 2;
 		if (level >= 7) y = 3;
 		if (level >= 10) y = 4;
 		if (level >= 15) y = 5;
 		if (level >= 18) y = 6;
 
-		shots = ["Banishing","Beguiling","Bursting","Enfeebling","Grasping","Piercing","Seeking","Shadow"];
-		s = skillChunk(shots, y, []);
+		var shots = ["Banishing","Beguiling","Bursting","Enfeebling","Grasping","Piercing","Seeking","Shadow"];
+		var s = skillChunk(shots, y, []);
 
-		f = fght.features.indexOf("Arcane Shot");
+		var f = fght.features.indexOf("Arcane Shot");
 		fght.features[f] = "Arcane Shot ("+s.toString()+")";
-		fght.subclass.shots = s;
+		fght.shots = s;
 	}
 	else if (x == "Battle Master") {
-		y = 4;
-		z = 8;
+		var y = 4;
+		var z = 8;
 		if (level >= 7) y = 5;
 		if (level >= 10) z = 8;
 		if (level >= 15) y = 6;
 		if (level >= 18) z = 10
-		numdie = "(d"+z+", " +y+ " dice/day)";
+		var numdie = "(d"+z+", " +y+ " dice/day)";
 
-		maneuvs = ["Commander's", "Disarming", "Distracting", "Evasive", "Feinting", "Goading", "Lunging", "Maneuvering", "Menacing", "Parry", "Precision", "Pushing", "Rally", "Riposte", "Sweeping", "Trip"];
-		m = skillChunk(maneuvs, y, []);
+		var maneuvs = ["Commander's", "Disarming", "Distracting", "Evasive", "Feinting", "Goading", "Lunging", "Maneuvering", "Menacing", "Parry", "Precision", "Pushing", "Rally", "Riposte", "Sweeping", "Trip"];
+		var m = skillChunk(maneuvs, y, []);
 
-		f = fght.features.indexOf("Combat Superiority");
-		fght.features[f] = "Combat Superiority " + numdie + " - " + m.toString();
+		var f = fght.features.indexOf("Combat Superiority");
+		fght.features[f] = "Combat Superiority " + numdie + " - " + m.join(", ");
 	}
 
 }
 
 
 fght.addSkills = function(level, knownSkills) {
-	pathSkills = [];
+	var pathSkills = [];
 	if (fght.subclass == "Arcane Archer") {
 		pathSkills = skillChunk([2, 10], 1, knownSkills);
 	}
@@ -159,8 +160,8 @@ fght.addSkills = function(level, knownSkills) {
 		pathSkills = skillChunk([1, 5, 6, 12, 13], 1, knownSkills);
 	}
 
-	toCheck = pathSkills.concat(knownSkills);
-	mySkills = skillChunk([0,1,3,5,6,7,11,17], 2, toCheck);
+	var toCheck = pathSkills.concat(knownSkills);
+	var mySkills = skillChunk([0,1,3,5,6,7,11,17], 2, toCheck);
 	fght.skills = mySkills.concat(pathSkills);
 	return mySkills;
 }

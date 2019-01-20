@@ -92,426 +92,27 @@ float: right;
 	margin-left: .5em;
   }
 
+ h4 {
+ 	margin-bottom: .5em;
+ }
+ div p, div ul {
+ 	margin-top: 0em;
+ }
+
 </style>
 </head> 
 <body>
-<!-- <div class="top">
-	<button id="reset" onclick="reset()">Reset</button> 
 
-	<select id="selLevel">
-	<option value="1">1st level</option>
-	<option value="2">2nd level</option>
-	<option value="3">3rd level</option>
-	<option value="4">4th level</option>
-	<option value="5">5th level</option>
-	<option value="6">6th level</option>
-	<option value="7">7th level</option>
-	<option value="8">8th level</option>
-	<option value="9">9th level</option>
-	<option value="10">10th level</option>
-	<option value="21">Level 1-4</option>
-	<option value="22">Level 5-10</option>
-	<option value="23">Level 8-12<option>
-	<option value="24">Level 12-16</option>
-	<option value="25">Level 17-20</option> 
-	<option value="11">11th level</option>
-	<option value="12">12th level</option>
-	<option value="13">13th level</option>
-	<option value="14">14th level</option>
-	<option value="15">15th level</option>
-	<option value="16">16th level</option>
-	<option value="17">17th level</option>
-	<option value="18">18th level</option>
-	<option value="19">19th level</option>
-	<option value="20">20th level</option>
-
-
-	<option value="0">Level 1-10</option>
-
-	</select> 
-
-	<select id="selGender"><option value="0">Any Gender</option>
-	<option value="1">Male</option>
-	<option value="2">Female</option>
-	</select>
-
-	<select id="selRace"><option value="0">Any Race</option>
-	<option value="21">Aarakocra</option>	
-	<option value="1">Dragonborn</option>
-	<option value="11">Dwarf (Hill)</option>
-	<option value="12">Dwarf (Mountain)</option>
-	<option value="6">Elf (Drow)</option>
-	<option value="14">Elf (High)</option>
-	<option value="15">Elf (Wood)</option>
-	<option value="23">Genasi (Air)</option>
-	<option value="24">Genasi (Earth)</option>
-	<option value="25">Genasi (Fire)</option>
-	<option value="26">Genasi (Water)</option>
-	<option value="2">Gnome (Forest)</option>
-	<option value="7">Gnome (Rock)</option>
-	<option value="22">Gnome (Svirfneblin)</option>
-	<option value="27">Goliath</option>
-	<option value="3">Half-Elf</option>
-	<option value="4">Half-Orc</option>
-	<option value="17">Halfling (Lightfoot)</option>
-	<option value="16">Halfling (Stout)</option>
-	<option value="13">Human</option>
-	<option value="5">Tiefling</option>
-	</select>
-
-	 
-	<select id="selClass" onchange="selectClass()"><option value="0">Any Class</option>
-	<option value="1">Barbarian</option>
-	<option value="2">Bard</option>
-	<option value="3">Cleric</option>
-	<option value="4">Druid</option>
-	<option value="5">Fighter (Eldritch Knight)</option>
-	<option value="6">Fighter (High Dexterity)</option>
-	<option value="7">Fighter (High Strength)</option>
-	<option value="8">Monk</option>
-	<option value="9">Paladin</option>
-	<option value="10">Ranger</option>
-	<option value="11">Rogue (Thief or Assassin)</option>
-	<option value="12">Rogue (Arcane Trickster)</option>
-	<option value="13">Sorcerer</option>
-	<option value="14">Warlock</option>
-	<option value="15">Wizard</option>
-	</select>
-
-	<span id="clericOptions" class="classOptions">
-		<select id="selCleric"><option value="-1">Any Cleric Domain</option>
-		<option value="0">Knowledge</option>
-		<option value="1">Life</option>
-		<option value="2">Light</option>
-		<option value="3">Nature</option>
-		<option value="4">Tempest</option>
-		<option value="5">Trickery</option>
-		<option value="6">War</option>
-		<option value="7">Death</option>
-		</select>
-	</span>
-
-	<span id="wizardOptions" class="classOptions">
-		<select id="selWizard"><option value="-1">Any Wizard School</option>
-		<option value="0">Abjuration</option>
-		<option value="1">Conjuration</option>
-		<option value="2">Divination</option>
-		<option value="3">Enchantment</option>
-		<option value="4">Evocation</option>
-		<option value="5">Illusion</option>
-		<option value="6">Necromancy</option>
-		<option value="7">Transmutation</option>
-		</select>
-	</span>
-
-
-	<span id="druidOptions" class="classOptions">
-		<select id="selDruid"><option value="-1">Any Druid Circle</option>
-		<option value="0">Circle of the Moon</option>
-		<option value="1">Circle of Land - Arctic</option>
-		<option value="2">Circle of Land - Coast</option>
-		<option value="3">Circle of Land - Desert</option>
-		<option value="4">Circle of Land - Forest</option>
-		<option value="5">Circle of Land - Grassland</option>
-		<option value="6">Circle of Land - Mountain</option>
-		<option value="7">Circle of Land - Swamp</option>
-		<option value="8">Circle of Land - Underdark</option>
-		</select>
-	</span>
-
-	<span id="barbarianOptions" class="classOptions">
-		<select id="selBarbarian"><option value="-1">Any Barbarian Path</option>
-		<option value="0">Path of the Berserker</option>
-		<option value="1">Path of the Totem Warrior (any)</option>
-		<option value="2">Path of the Totem Warrior (Bear)</option>
-		<option value="3">Path of the Totem Warrior (Eagle)</option>
-		<option value="4">Path of the Totem Warrior (Wolf)</option>
-		</select>
-	</span>
-	<span id="bardOptions" class="classOptions">
-		<select id="selBard"><option value="-1">Any Bard College</option>
-		<option value="0">College of Lore</option>
-		<option value="1">College of Valor</option>
-		</select>
-	</span>
-
-	<span id="fighterOptions" class="classOptions">
-		<select id="selFighter"><option value="-1">Any Fighter Archetype</option>
-		<option value="0">Champion</option>
-		<option value="1">Battle Master</option>
-		</select>
-	</span>
-	<span id="monkOptions" class="classOptions">
-		<select id="selMonk"><option value="-1">Any Monastic Tradition</option>
-		<option value="0">Way of the Open Hand</option>
-		<option value="1">Way of Shadow</option>
-		<option value="2">Way of the Four Elements</option>
-		</select>
-	</span>
-	<span id="paladinOptions" class="classOptions">
-		<select id="selPaladin"><option value="-1">Any Sacred Oath</option>
-		<option value="0">Oath of Devotion</option>
-		<option value="1">Oath of the Ancients</option>
-		<option value="2">Oath of Vengeance</option>
-		
-		</select>
-	</span>
-	<span id="rangerOptions" class="classOptions">
-		<select id="selRanger"><option value="-1">Any Ranger Archetype</option>
-		<option value="0">Hunter</option>
-		<option value="1">Beast Master</option>
-		</select>
-	</span>
-	<span id="rogueOptions" class="classOptions">
-		<select id="selRogue"><option value="-1">Any Rogue Archetype</option>
-		<option value="0">Thief</option>
-		<option value="1">Assassin</option>
-		</select>
-	</span>
-	<span id="sorcererOptions" class="classOptions">
-		<select id="selSorcerer"><option value="-1">Any Sorcerous Origin</option>
-		<option value="0">Draconic Bloodline</option>
-		<option value="1">Wild Magic</option>
-		</select>
-	</span>
-	<span id="warlockOptions" class="classOptions">
-		<select id="selWarlock"><option value="-1">Any Patron</option>
-		<option value="0">The Archfey</option>
-		<option value="1">The Fiend</option>
-		<option value="2">The Great Old One</option>
-		</select>
-
-		<select id="selWarlockPact"><option value="-1">Any Pact Boon</option>
-		<option value="0">Pact of the Chain</option>
-		<option value="1">Pact of the Blade</option>
-		<option value="2">Pact of the Tome</option>
-		
-		</select>
-	</span>
-
-
-
-
-
-
-
-
-	
-	<select id="selBg"><option value="0">Any Background</option>
-	<option value="1">Acolyte</option>
-	<option value="2">Charlatan</option>
-	<option value="3">Criminal</option>
-	<option value="4">Entertainer</option>
-	<option value="7">Folk Hero</option>
-	<option value="5">Guild Artisan</option>
-	<option value="6">Hermit</option>
-	<option value="8">Noble</option>
-	<option value="9">Outlander</option>
-	<option value="10">Sage</option>
-	<option value="11">Sailor</option>
-	<option value="12">Soldier</option>
-	<option value="13">Urchin</option>
-	</select>
-
-
-
-
-
-	<button id="go" onclick="checkRun()">Generate Character</button>
-	
-	
-	
-	<a href="info.html" class="info" target="_new">Info</a>
-</div> -->
-<!-- <div>
-<span style="font: 10pt helvetica;">
-
-	<select id="genMethod" onClick="switchBuy()">
-	<option value="0" selected="selected">Roll abilities</option>
-	<option value="1">Buy abilities (random)</option>
-	<option value="2">Buy abilities (manual)</option>
-	<option value="3">Buy abilities (detailed)</option>
-	</select>
-
-	<select id="selAbil">
-	<option value="0" selected="selected">Reroll if the total is under 65</option>
-	<option value="35">35</option>
-	<option value="40">40</option>
-	<option value="45">45</option>
-	<option value="50">50</option>
-	<option value="55">55</option>
-	<option value="60">60</option>
-	<option value="70">70</option>
-	<option value="75">75</option>
-	<option value="80">80</option>
-	<option value="85">85</option>
-	<option value="90">90</option>
-	<option value="95">95</option>
-	</select>
-
-</span>
-
-<span id="ro" class="rawAbils"></span> 
-
-<span id="buyDropdowns" class="buyDropdowns">
-	<span class="rawAbils">Abilities:</span> &nbsp; 
-
-
-	<span class="detailed">STR</span>
-
-	<select id="a1" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-	 &nbsp;  
-	 <span class="detailed">DEX</span>
-	<select id="a2" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-	 &nbsp;  
-	 <span class="detailed">CON</span>
-	<select id="a3" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-	 &nbsp;  
-	 <span class="detailed">INT</span>
-	<select id="a4" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-	 &nbsp;  
-	 <span class="detailed">WIS</span>
-	<select id="a5" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-	 &nbsp;  
-	 <span class="detailed">CHA</span>
-	<select id="a6" onchange="addAbils(false)">
-	<option value="8" selected="selected">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	</select>
-
-
-	<span id="points" style="font: 10pt helvetica;"></span>
-	<button id="resetabil" onclick="resetAbil()">Reset Abilities</button> 
-</span>
-	
-	<span class="alText"><input type="checkbox" id="al" onclick="aLeague()">Adventurer's League</span>
-	
-
-</div> -->
-
-<hr>
 <div class="complete">
+	<form class="genStuff">
+		<select class="levelSelector"></select>
+		<select class="raceSelector"></select>
+		<select class="classSelector"></select>
+		<input type="submit" value="Go!" />
+	</form>
 	<div class="main-area">
-		<div class="side-area">
-			<span id="bg"></span><br>
-		</div>
-		<div class = "race">
-			<div class="rBasics">
-				<h2>Race</h2>
-				<p></p>
-			</div>
-			<div class="rFeat">
-				<h3>Features</h3>
-				<p></p>
-			</div>
-			<div class="rSkills">
-				<h3>Skills</h3>
-				<p></p>
-			</div>
-			<div class="rProfs">
-				<h3>Proficiencies</h3>
-				<p></p>
-			</div>
-			<div class="rSpells">
-				<h3>Spells</h3>
-				<p></p>
-			</div>
-		</div>
-
-		<hr />
-
-		<div class="bg">
-			<h2>Background</h2>
-			<p></p>
-		</div>
-
-		<hr />
-		<div class="class">
-			<div class="basics">
-				<h2>Class</h2>
-				<p></p>
-			</div>
-			<div class="feat">
-				<h3>Features</h3>
-				<p></p>
-			</div>
-			<div class="skills">
-				<h3>Skills</h3>
-				<p></p>
-			</div>
-			<div class="profs">
-				<h3>Proficiencies</h3>
-				<p></p>
-			</div>
-			<div class="spells">
-				<h3>Spells</h3>
-				<p></p>
-				<div class="slots"></div>
-				<div class="spellnotes"></div>
-			</div>
-		</div>
-
-		<hr />
-
 		<div class="person">
 			<h1>Person Name</h1>
-			<p>Note that this view does not give you an accurate breakdown of spells/day; please view individual class(es) for that information.</p>
 			<div class="stats">
 				<h3>Stats</h3>
 				<p></p>
@@ -529,16 +130,66 @@ float: right;
 				<p></p>
 			</div>
 		</div>
-		<!-- <div style="weapons">
-			<b>Melee weapons:</b>
-			<br>
-			<span id="wp"></span>
+		<hr />
+		<div class="race">
+			<div class="basics">
+				<h3>Race</h3>
+			</div>
+			<div class="feats">
+				<h4>Features</h4>
+				<p></p>
+			</div>
+			<div class="skills">
+				<h4>Skills</h4>
+				<p></p>
+			</div>
+			<div class="profs">
+				<h4>Proficiencies</h4>
+				<p></p>
+			</div>
+			<div class="magic">
+				<h4>Spells</h4>
+				<p class="spells"></p>
+				<p class="slots"></p>
+				<p class="spellnotes"></p>
+			</div>
 		</div>
-		<b>Proficient skills:</b>  <span id="sk"></span><br>
-		<span id="ab"></span><br>
 
-		<b>Equipment:</b>  <span id="eq"></span>
-		<div class="spells" id="spellspot"><span id="sp"></span></div> -->
+				<hr />
+		<div class="bg">
+			<div class="basics"><h3>Background</h3></div>
+			<div class="feats"><p></p></div>
+			<div class="skills"><p></p></div>
+			<div class="profs"><p></p></div>
+		</div>
+
+		<hr />
+		<div class="class">
+			<div class="basics">
+				<h3>Class</h3>
+				<p></p>
+			</div>
+			<div class="feats">
+				<h4>Features</h4>
+				<p></p>
+			</div>
+			<div class="skills">
+				<h4>Skills</h4>
+				<p></p>
+			</div>
+			<div class="profs">
+				<h4>Proficiencies</h4>
+				<p></p>
+			</div>
+			<div class="magic">
+				<h4>Spells</h4>
+				<p class="spells"></p>
+				<p class="slots"></p>
+				<div class="spellnotes"></div>
+			</div>
+		</div>
+
+		<hr />
 	</div>
 </div>
 
@@ -560,10 +211,13 @@ float: right;
 <script src="js/races/elf.js"></script>
 <script src="js/races/gnome.js"></script>
 <script src="js/races/halfling.js"></script>
+<script src="js/races/monster.js"></script>
+<script src="js/races/mortal.js"></script>
 
 <script src="js/world.js"></script>
 <script src="js/backgrounds.js"></script>
 <script src="js/person.js"></script>
+<script src="js/interface.js"></script>
 </body>
 </html>
 

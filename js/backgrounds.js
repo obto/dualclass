@@ -1,5 +1,5 @@
 bgs = {};
-bgs.bName = "";
+bgs.name = "";
 bgs.features = [];
 bgs.skills = [];
 bgs.extraLang = 0;
@@ -7,25 +7,37 @@ bgs.proficiencies = [];
 bgs.proficiencies.other = [];
 bgs.specialty = "";
 
-bgs.chooseBg = function(person) {
-	list = ["Acolyte","Charlatan","Criminal","Entertainer","Folk Hero","Guild Artisan","Hermit","Noble","Outlander","Sage","Sailor","Soldier","Urchin"];
-	bg = list[randInt(0, list.length)];
-	bgs.bName = bg;
+bgs.reset = function() {
+	bgs.name = "";
+	bgs.features = [];
+	bgs.skills = [];
+	bgs.extraLang = 0;
+	bgs.proficiencies = [];
+	bgs.proficiencies.weapons = [];
+	bgs.proficiencies.armor = [];
+	bgs.proficiencies.other = [];
+	bgs.specialty = "";
+}
 
+bgs.chooseBg = function(person) {
+	bgs.reset();
+
+	var list = ["Acolyte","Charlatan","Criminal","Entertainer","Folk Hero","Guild Artisan","Hermit","Noble","Outlander","Sage","Sailor","Soldier","Urchin"];
+	var bg = list[randInt(0, list.length)];
+	
+	bgs.name = bg;
 	bgs.addFeatures(bg);
 
-	// console.log("BG SKILLS");
-	person.skills = person.skills.concat(bgs.skills.slice(0));
-	// console.log(bgs.skills);
-	// console.log(person.skills);
+	// person.skills = person.skills.concat(bgs.skills.slice(0));
 
-	person.proficiencies.other = bgs.proficiencies.other.slice(0);
-	person.extraLangs += bgs.extraLang;
+	// person.proficiencies.other = bgs.proficiencies.other.slice(0);
+	// person.extraLangs += bgs.extraLang;
 
-	if (bgs.specialty)
-		person.bg = bgs.bName + " - " + bgs.specialty;
-	else
-		person.bg = bgs.bName;
+	if (bgs.specialty) {
+		bgs.name = bgs.name + " - " + bgs.specialty;
+	}
+
+	return bgs;
 }
 
 bgs.printBg = function() {

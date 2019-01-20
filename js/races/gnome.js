@@ -1,5 +1,5 @@
 var gnm = {};
-gnm.rName = "Gnome";
+gnm.name = "Gnome";
 gnm.rSize = "Small";
 gnm.extraHP = 0;
 gnm.speed = 25;
@@ -15,19 +15,29 @@ gnm.proficiencies.armor = [];
 gnm.proficiencies.other = [];
 gnm.types = ["Forest Gnome","Rock Gnome","Deep Gnome"];
 
+gnm.reset = function() {
+	gnm.name = "Gnome";
+	gnm.extraHP = 0;
+	gnm.features = [];
+	gnm.statMods = [0,0,0,0,0,0];
+	gnm.spells = [];
+	gnm.proficiencies = {};
+	gnm.proficiencies.weapons = [];
+	gnm.proficiencies.armor = [];
+	gnm.proficiencies.other = [];
+}
+
 gnm.generateRace = function(person) {
 	race = gnm.types[randInt(0, gnm.types.length)];
-	gnm.rName = race;
+	gnm.name = race;
 
 	gnm.addStatMods(race);
 	gnm.addFeatures(race, person.level);
-	spells = gnm.addSpells(race, person.spells);
-
-	// person.spells = person.spells.concat(spells);
+	gnm.spells = gnm.addSpells(race, person.spells);
 }
 
 gnm.printRace = function() {
-	$(".rBasics p").text(gnm.rName);
+	$(".rBasics p").text(gnm.name);
 	$("div.rFeat p").text(gnm.features.join(", "));
 	// $("div.rSkills p").text(gnm.skills + "");
 	$("div.rSpells p").html(makeSpellText(gnm.spells));
@@ -69,7 +79,6 @@ gnm.addSpells = function(race, knownSpells) {
 		spells[0] = ["Minor Illusion"];
 	}
 
-	gnm.spells = spells;
 	return spells;
 }
 

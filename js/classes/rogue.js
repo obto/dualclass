@@ -3,7 +3,6 @@ rog.class = "Rogue";
 rog.level = 1;
 rog.hDie = 8;
 rog.features = [];
-rog.enemy = "";
 rog.skills = [];
 rog.proficiencies = {};
 rog.proficiencies.weapons = ["Simple","Crossbow","Longsword","Rapier","Shortsword"];
@@ -16,27 +15,37 @@ rog.extraLangs = 0;
 rog.expertise = [];
 rog.magic = [];
 
+rog.reset = function() {
+	rog.name = "";
+	rog.level = 1;
+	rog.features = [];
+	rog.skills = [];
+	rog.proficiencies = {};
+	rog.proficiencies.weapons = ["Simple","Crossbow","Longsword","Rapier","Shortsword"];
+	rog.proficiencies.armor = ["Light"];
+	rog.proficiencies.other = ["Thieves' tools"];
+	rog.saves = ["Intelligence", "Dexterity"];
+	rog.subclass = "";
+	rog.speed = 0;
+	rog.extraLangs = 0;
+	rog.expertise = [];
+	rog.magic = [];
+}
+
 rog.generateClass = function(level, person) {
 	rog.level = level;
 	rog.addFeatures(level);
 
 	var newSkills = rog.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	if (rog.subclass == "Arcane Trickster")
 		var newSpells = rog.addSpells(level, person.spells.slice(0));
+
+	rog.name = "Level " + rog.level + " Rogue (" + rog.subclass + ")";
 }
 
 rog.printClass = function() {
-	// console.log("Level " + rog.level + " Rogue in the " + rog.subclass);
-	// console.log("Features:");
-	// console.log(rog.features);
-	// console.log("Skills:");
-	// console.log(rog.skills);
-	// // console.log("Spells:");
-	// // console.log(rog.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(rog.proficiencies);
 	$(".basics p").text("Level " + rog.level + " Rogue (" + rog.subclass + ")");
 	$("div.feat p").text(rog.features.join(", "));
 	$("div.skills p").html(makeSkillText(rog.skills));
@@ -145,8 +154,8 @@ rog.addExpInner = function(level, skills, thief, known) {
 }
 
 rog.addSkills = function(level, knownSkills) {
-	console.log("Gonna start rogue skills");
-	console.log(knownSkills);
+	// console.log("Gonna start rogue skills");
+	// console.log(knownSkills);
 
 	var mySkills = skillChunk([0,3,4,6,7,8,11,12,13,15,16], 4, knownSkills);
 	rog.addExpertise(level, mySkills.concat(knownSkills.slice(0)));

@@ -27,15 +27,36 @@ sor.magic.list[7] = ["Crown of Stars","Delayed Blast Fireball","Etherealness","F
 sor.magic.list[8] = ["Abi-Dalzim's Horrid Writing","Dominate Monster","Earthquake","Incendiary Cloud","Power Word Stun","Sunburst"];
 sor.magic.list[9] = ["Gate","Mass Polymorph","Meteor Swarm","Power Word Kill","Psychic Scream","Time Stop","Wish"];
 
+sor.reset = function() {
+	sor.name = "";
+	sor.level = 1;
+	sor.magic.spells = [];
+	sor.magic.slots = [];
+	sor.features = [];
+	sor.skills = [];
+	sor.expertise = [];
+	sor.proficiencies = {};
+	sor.proficiencies.weapons = ["Dagger","Darts","Sling","Quarterstaff","Light crossbow"];
+	sor.proficiencies.armor = [];
+	sor.proficiencies.other = [];
+	sor.saves = ["Constitution", "Charisma"];
+	sor.statMods = [0,0,0,0,0,0];
+	sor.subclass = "";
+	sor.subclassType = "";
+	sor.languages = [];
+	sor.extraHP = 0;
+}
+
 sor.generateClass = function(level, person) {
 	sor.level = level;
 	sor.addFeatures(level);
 
 	newSkills = sor.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	newSpells = sor.addSpells(level, person.spells.slice(0));
 	// person.spells = person.spells.concat(newSpells);
+	sor.name = "Level " + sor.level + " Sorceror (" + sor.subclass + ")";
 }
 
 sor.printClass = function() {
@@ -64,7 +85,7 @@ sor.addFeatures = function(level) {
 
 		var metas = ["Careful","Distant","Empowered","Extended","Heightened","Quickened","Subtle","Twinned"];
 		var m = skillChunk(metas, x, []);
-		sor.features.push("Metamagic - "+m.toString());
+		sor.features.push("Metamagic - "+m.join(", "));
 	}
 	if (level >= 20)
 		sor.features.push("Sorcerous Restoration");
@@ -198,7 +219,7 @@ sor.getSpells = function(level, knownSpells) {
 	var cants = sor.getNumCantripsKnown(level);
 	spells[0] = skillChunk(sor.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
 	spells[0] = spells[0].slice(0).concat(origSpells[0].slice(0));	
-	console.log(spells);
+	// console.log(spells);
 
 	return spells;
 }
@@ -260,267 +281,3 @@ sor.getNumCantripsKnown = function(level) {
 
 	return cants;
 }
-
-/*
-	case 13:
-		classtxt = "Sorcerer (";
-		ab1=5;
-		spellAbility = 5;
-		ab2=2;
-		bg=6;
-		hd=6;
-		st=[5,2];
-		abOutput += "Spellcasting";
-		soOrigin=Math.floor(Math.random() * 2);
-
-		if (forceSorc > -1) {
-			soOrigin=forceSorc;
-		} 
-		
-		switch (soOrigin) {
-			case 0:
-				classtxt += "Draconic Bloodline)";
-				// don't erase our ancestry if we already determined it
-				if (racetxt != "Dragonborn") {
-					tempAr = dragon();
-					dragType = tempAr[0];
-					elemType = tempAr[1];
-					abOutput += ", Draconic Ancestry (" + dragType + ", " + elemType + " damage)";
-				}
-				abOutput += ", Draconic Resilience";
-				languageOutput += ", Draconic";
-				if (level > 5) {
-					abOutput += ", Elemental Affinity";
-				}
-				break;
-			case 1:
-				classtxt += "Wild Magic)";
-				abOutput += ", Wild Magic Surge, Tides of Chaos";				
-				if (level > 5) {
-					abOutput += ", Bend Luck";
-				}
-				break;
-		}
-		if (level >1)
-			abOutput += ", Font of Magic";
-		if (level >2) {
-			abOutput += ", Metamagic ";
-			pickMeta();
-			}
-		if (level >1)
-			abOutput += ", " + level + " sorcery points";				
-		break;
-
-
-		if (cl==13) {
-	ss1=level +1;
-	ss2=0;
-	if (level>2)
-		ss2=2;
-	if (level>3) {
-		ss1=4;
-		ss2=3;
-	}
-	if (level==5) 
-		ss3 = 2;
-	if (level > 5)
-		ss3=3;
-	if (level > 6)
-		ss4=(level - 6);
-	if (level > 8) {
-		ss4=3;
-		ss5=level-8;
-	}
-
-
-
-	sp = level + 1;		
-
-
-	sp3=0;
-	sp4=0;
-	sp5=0;
-	if (level <3) {
-		sp1 = sp;
-		sp2 =0;
-	} else if (level <5) {
-		x= 	Math.floor(sp * .7);
-		sp1 = x;
-		sp2 = (sp -x);
-	} else if (level < 7) {
-		x = Math.ceil(sp * .35);
-		y = Math.floor(sp * .35);
-
-		sp1 = x;
-		z = sp-x-y;
-		sp2 = y;
-		sp3 = z;
-
-	} else if (level < 9) {
-		x = Math.floor(sp * .28);
-		y = Math.floor(sp * .28);
-		z = Math.floor(sp * .28);
-
-		sum = sp - x-y-z;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = x;
-
-	} else if (level > 8) {
-		x = Math.floor(sp * .21);
-		y = Math.ceil(sp * .18);
-		z = Math.ceil(sp * .18);
-		xx = Math.floor(sp * .21);
-
-		sum = sp - x-y-z-xx;
-		sp1 = sum;
-		sp2 = y;
-		sp3 = z;
-		sp4 = xx;
-		sp5 = x;
-
-
-	}
-	console.log("Spells known:  "+sp1 +"/ " + sp2+"/ " + sp3 +"/ " + sp4+"/ " + sp5+" / Total = "+sp);
-
-
-
-
-	//cantrips
-	x=4;
-	if (level >3)
-		x=5;
-	if (level >9)
-		x=6;
-
-	while (x > 0) {
-		tempAr = soCantrip;
-		if (Math.random() < 0.66)
-			tempAr=["Acid Splash","Blade Ward","Chill Touch","Fire Bolt","Minor Illusion","Poison Spray","Ray of Frost","Shocking Grasp","True Strike"];
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((myCantrips.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-			// add cantrip
-			myCantrips.push(temp);							
-			x--;
-			} 
-		}		
-	//put in alphabetical order
-	myCantrips.sort();
-	
-	tempSpells=[];
-
-
-//level 1
-	x=sp1;
-	tempSpells=[];
-	while (x > 0) {
-		tempAr = so1;
-		if (Math.random() < 0.66)
-			tempAr=["Burning Hands","Charm Person","Chromatic Orb","Color Spray","False Life","Mage Armor","Magic Missile","Ray of Sickness","Shield","Sleep","Thunderwave","Witch Bolt"];
-
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) > -1) {
-			} 
-		else {
-	// add it
-			tempSpells.push(temp);				
-			x--;
-			}
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-//2nd level
-	tempSpells=[];
-	x=sp2;
-	
-	while (x > 0) {
-		tempAr = so2;
-		if (Math.random() < 0.66)
-			tempAr=["Blindness/Deafness","Blur","Cloud of Daggers","Crown of Madness","Enhance Ability","Enlarge/Reduce","Hold Person","Invisibility","Mirror Image","Phantasmal Force","Scorching Ray","Shatter","Suggestion","Web"];
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) > -1) {
-			} 
-		else {
-	// add it
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-//3rd level
-	tempSpells=[];
-	x=sp3;
-	while (x > 0) {
-		tempAr = so3;
-		if (Math.random() < 0.5)
-			tempAr=["Blink","Counterspell","Dispel Magic","Fear","Fireball","Fireball","Fly","Gaseous Form","Haste","Hypnotic Pattern","Lightning Bolt","Lightning Bolt","Lightning Bolt","Major Image","Protection from Energy","Slow","Stinking Cloud"];
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-//4th level
-	tempSpells=[];
-	x=sp4;
-	while (x > 0) {
-		tempAr = so4;
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-//5th level
-	tempSpells=[];
-	x=sp5;
-	while (x > 0) {
-		tempAr = so5;
-		
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-}
-*/

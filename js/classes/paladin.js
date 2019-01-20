@@ -20,29 +20,35 @@ pal.magic.list[3] = ["Aura of Vitality","Blinding Smite","Create Food and Water"
 pal.magic.list[4] = ["Aura of Life","Aura of Purity","Banishment","Banishment","Death Ward","Dimension Door","Freedom of Movement","Guardian of Faith","Ice Storm","Locate Creature","Staggering Smite","Stoneskin"];
 pal.magic.list[5] = ["Banishing Smite","Circle of Power","Commune","Commune with Nature","Destructive Smite/Wave?","Dispel Evil and Good","Flame Strike","Geas","Hold Monster","Raise Dead","Scrying","Tree Stride"];
 
+pal.reset = function() {
+	pal.level = 1;
+	pal.features = [];
+	pal.auraLength = 10;
+	pal.skills = [];
+	pal.magic.slots = [];
+	pal.magic.spells = [];
+	pal.magic.oathspells = [];
+	pal.proficiencies = {};
+	pal.proficiencies.weapons = ["Simple", "Martial"];
+	pal.proficiencies.armor = ["Light","Medium","Heavy","Shields"];
+	pal.proficiencies.other = [];
+	pal.saves = ["Charisma", "Wisdom"];
+	pal.subclass = "";
+}
+
 pal.generateClass = function(level, person) {
 	pal.level = level;
 	pal.addFeatures(level);
 
 	newSkills = pal.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	if (level >= 2)
 		newSpells = pal.addSpells(level, person.spells.slice(0));
-	// person.spells.push(newSpells);
+	
+	pal.name = "Level " + pal.level + " Paladin (Oath of " + pal.subclass+")";
 }
 pal.printClass = function(){
-	// console.log("Level " + pal.level + " Paladin in the " + pal.subclass + " Domain");
-	// console.log("Features:");
-	// console.log(pal.features);
-	// console.log("Skills:");
-	// console.log(pal.skills);
-	// console.log("Expertise:");
-	// console.log(pal.expertise);
-	// console.log("Spells:");
-	// console.log(pal.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(pal.proficiencies);
 	$(".basics p").text("Level " + pal.level + " Paladin (" + pal.subclass + " Domain)");
 	$("div.feat p").text(pal.features.join(", "));
 	$("div.skills p").html(makeSkillText(pal.skills));
@@ -56,8 +62,8 @@ pal.addFeatures = function(level) {
 	pal.features.push("Divine Sense", "Lay on Hands (" +(level * 5)+ " hp)");	
 	
 	if (level >= 2) {
-		styles = ["Defense","Dueling","Great Weapon Fighting","Protection"];
-		s = styles[randInt(0,styles.length)];
+		var styles = ["Defense","Dueling","Great Weapon Fighting","Protection"];
+		var s = styles[randInt(0,styles.length)];
 		pal.features.push("Fighting Style - "+s, "Spellcasting", "Divine Smite");
 	}
 	if (level >= 3) {
@@ -82,9 +88,8 @@ pal.addFeatures = function(level) {
 }
 
 pal.chooseSubclass = function(level) {
-	archs = {};
-	archs = ["Ancients","Conquest","Devotion","Redemption","Vengeance"];
-	x = archs[randInt(0, archs.length)];
+	var archs = ["Ancients","Conquest","Devotion","Redemption","Vengeance"];
+	var x = archs[randInt(0, archs.length)];
 	pal.subclass = x;
 	pal.features.push("Sacred Oath - "+pal.subclass);
 	
@@ -104,7 +109,7 @@ pal.chooseSubclass = function(level) {
 }
 
 pal.addSkills = function(level, knownSkills) {
-	mySkills = skillChunk([0,6,7,9,13,14], 2, knownSkills);
+	var mySkills = skillChunk([0,6,7,9,13,14], 2, knownSkills);
 	pal.skills = mySkills;
 	return mySkills;
 }
@@ -150,7 +155,8 @@ pal.getSpellSlots = function(level) {
 }
 
 pal.getNumSpellsKnown = function(level) {
-	sp = mod[5] + Math.floor(level / 2);
+	var sp = mod[5] + Math.floor(level / 2);
+
 	if (sp <1)
 		sp=1;
 	if (level <5) {
@@ -179,9 +185,9 @@ pal.getSpells = function(level, slots, knownSpells) {
 	var oSpell = [];
 	var x = pal.subclass;
 
-	console.log("OATH SPELLS");
+	// console.log("OATH SPELLS");
 	// console.log(ox]);
-	console.log(oaths[x]);
+	// console.log(oaths[x]);
 	for (var i = 1; i < slots.length; i++) {
 		if (slots[i])
 			oSpell[i] = oaths[x][i];
@@ -189,68 +195,5 @@ pal.getSpells = function(level, slots, knownSpells) {
 
 	// pal.magic.oathspells = oSpell;
 	return oSpell;
-
-/*
-	//1st level spells
-	tempSpells = [];
-	x=sp1;
-	while (x > 0) {
-		tempAr = pa1;
-		if (Math.random() < 0.66) {
-			tempAr= ["Command","Cure Wounds","Cure Wounds","Heroism","Searing Smite","Shield of Faith","Thunderous Smite","Thunderous Smite","Wrathful Smite"];
-			}
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (oaSpells.indexOf(temp) == -1)) {
-	// add it
-			tempSpells.push(temp);				
-			x--;
-			}
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-	tempSpells = [];
-//2nd level
-	x=sp2;
-	while (x > 0) {
-		tempAr = pa2;
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (oaSpells.indexOf(temp) == -1)) {
-		// add it
-			tempSpells.push(temp);				
-			x--;
-			}
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-//3rd level
-	tempSpells = [];
-	x=sp3;
-	while (x > 0) {
-		tempAr = pa3;
-		if (Math.random() < 0.66) {
-			tempAr= ["Aura of Vitality","Aura of Vitality","Blinding Smite","Blinding Smite","Crusader's Mantle","Dispel Magic","Elemental Weapon"];
-			}
-
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-// check if we already know spell
-		if ((tempSpells.indexOf(temp) == -1) && (oaSpells.indexOf(temp) == -1)) {
-		// add it
-			tempSpells.push(temp);				
-			x--;
-			}
-		}	
-	tempSpells.sort();
-	mySpells = mySpells.concat(tempSpells);
-
-	
-	*/
 }
 

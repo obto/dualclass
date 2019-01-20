@@ -1,5 +1,8 @@
 var world = {};
-world.races = [elf, gnm, hlf, drf];
+world.races = [aasm, drgb, drf, elf, gnm, helf, hlf, horc, humn, tief];
+world.monsters = [frbl, bugb, gnsi, gobl, hobl, glth, kenk, kobl, lzrd, orc, tbxi, trit, ynti];
+world.races = world.races.slice(0).concat(world.monsters.slice(0));
+
 world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wrl, wiz];
 world.casters = [bard, clr, drd, pal, rngr, sor, wiz];
 world.stats = ["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"];
@@ -9,6 +12,8 @@ world.languages.standard = ["Common","Dwarvish","Elvish","Giant","Gnomish","Gobl
 world.languages.exotic = ["Abyssal","Celestial","Draconic","Deep Speech","Infernal","Primordial","Sylvan","Undercommon","Druidic"];
 world.skills = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 world.skillText = ["Acrobatics","Animal Handling","Arcana","Athletics","Deception","History","Insight","Intimidation","Investigation","Medicine","Nature","Perception","Perform","Persuasion","Religion","Sleight of Hand","Stealth","Survival"];
+world.weapons = [];
+world.weapons.martial = ["Battleaxe","Flail","Glaive","Greataxe","Greatsword","Halberd","Lance","Longsword","Maul","Morningstar","Pike","Rapier","Scimitar","Shortsword","Trident","War Pick","Warhammer","Blowgun","Hand crossbow","Heavy crossbow","Net"];
 
 world.instruments = ["Lute", "Flute","Harp", "Fiddle","Pipes", "Drums", "Bagpipes","Dulcimer","Lyre","Horn","Guitar","Pan flute","Shawm","Viol"];
 world.games = ["Dice games", "Dragonchess","Playing cards","Three-Dragon Ante"];
@@ -127,6 +132,12 @@ world.pickLanguages = function(knownLangs, availLangs, numToLearn) {
 }
 
 world.combineProficiencies = function(list1, list2) {
+	if (typeof list1.weapons == 'undefined')
+		list1.weapons = [];
+	if (typeof list1.armor == 'undefined')
+		list1.armor = [];
+	if (typeof list1.other == 'undefined')
+		list1.other = [];
 	var exp = [];
 
 	exp.weapons = concatBlock(list1.weapons.slice(0), list2.weapons.slice(0));
@@ -351,11 +362,11 @@ function makeSkillText(skills) {
 
 function makeProfText(p) {
 	var str = "<ul>";
-	if (p.weapons)
+	if (p.weapons && p.weapons.length > 0)
 		str += "<li>Weapons: "+p.weapons.join(", ") + "</li>";
-	if (p.armor)
+	if (p.armor && p.armor.length > 0)
 		str += "<li>Armor: "+p.armor.join(", ") + "</li>";
-	if (p.other)
+	if (p.other && p.other.length > 0)
 		str += "<li>Other: "+p.other.join(", ") + "</li>";
 
 	str += "</ul>";
@@ -379,8 +390,8 @@ function makeSpellText(spells) {
 function printSpellSlots(slots) {
 	var str = "<span>Slots: ";
 	var mySlots = [];
-	console.log("My slots are: ");
-	console.log(slots);
+	// console.log("My slots are: ");
+	// console.log(slots);
 	for (var i = 1; i < slots.length; i++) {
 		mySlots[i] = slots[i] + " of " + intervalHelper(i) + " level";
 	}

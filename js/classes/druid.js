@@ -1,5 +1,4 @@
 drd = {};
-drd = {};
 drd.class = "Druid";
 drd.subclass = "";
 drd.level = 1;
@@ -27,30 +26,38 @@ drd.magic.list[7] = ["Fire Storm","Mirage Arcane","Plane Shift","Regenerate","Re
 drd.magic.list[8] = ["Animal Shapes","Antipathy/Sympathy","Control Weather","Earthquake","Feeblemind","Sunburst","Tsunami"];
 drd.magic.list[9] = ["Foresight","Shapechange","Storm of Vengeance","True Resurrection"];
 
+drd.reset = function() {
+	drd.name = "";
+	drd.subclassName = "";
+	drd.level = 1;
+	drd.magic.spells = [];
+	drd.magic.slots = [];
+	drd.features = [];
+	drd.skills = [];
+	drd.expertise = [];
+	drd.proficiencies = {};
+	drd.proficiencies.weapons = ["Club", "Dagger", "Darts", "Javelin", "Mace", "Quarterstaff", "Scimitar", "Sickle", "Sling", "Spear"];
+	drd.proficiencies.armor = ["Light", "Medium", "Shields"];
+	drd.proficiencies.other = ["Herbalism kit"];
+	drd.saves = ["Wisdom", "Intelligence"];
+	drd.languages = ["Druidic"];
+	drd.subclass = "";
+	drd.subcircle = "";
+}
 
 drd.generateClass = function(level, person) {
 	drd.level = level;
 	drd.addFeatures(level);
 
 	var newSkills = drd.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	var newSpells = drd.addSpells(level, person.spells.slice(0));
+	drd.name = "Level " + drd.level + " Druid (" + drd.subclassName + ")";
 	// person.spells.push(newSpells);
 }
 
 drd.printClass = function() {
-	// console.log("Level " + drd.level + " Cleric in the " + drd.subclass + " Domain");
-	// console.log("Features:");
-	// console.log(drd.features);
-	// console.log("Skills:");
-	// console.log(drd.skills);
-	// console.log("Expertise:");
-	// console.log(drd.expertise);
-	// console.log("Spells:");
-	// console.log(drd.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(drd.proficiencies);
 	$(".basics p").text("Level " + drd.level + " Druid (" + drd.subclass + ")");
 	$("div.feat p").text(drd.features.join(", "));
 	$("div.skills p").html(makeSkillText(drd.skills));
@@ -105,6 +112,7 @@ drd.chooseSubclass = function(level) {
 	}
 
 	drd.features.push("Druidic Circle - "+toPrint);
+	drd.subclassName = toPrint;
 
 	for (var i = 0; i < orig[c][0].length; i++) {
 		drd.features.push(orig[c][0][i]);

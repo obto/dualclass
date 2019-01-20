@@ -30,6 +30,29 @@ wrl.magic.list[7] = ["Etherealness","Finger of Death","Forcecage","Plane Shift"]
 wrl.magic.list[8] = ["Demiplane","Dominate Monster","Feeblemind","Glibness","Power Word Stun"];
 wrl.magic.list[9] = ["Astral Projection","Foresight","Imprisonment","Power Word Kill","True Polymorph"];
 
+wrl.reset = function() {
+	wrl.name = "";
+	wrl.level = 1;
+	wrl.magic.spells = [];
+	wrl.magic.arcanum = [];
+	wrl.magic.slots = [];
+	wrl.features = [];
+	wrl.skills = [];
+	wrl.invocations = [];
+	wrl.pact = "";
+	wrl.familiar = "";
+	wrl.proficiencies = {};
+	wrl.proficiencies.weapons = ["Simple"];
+	wrl.proficiencies.armor = ["Light"];
+	wrl.proficiencies.other = [];
+	wrl.saves = ["Wisdom", "Charisma"];
+	wrl.statMods = [0,0,0,0,0,0];
+	wrl.subclass = "";
+	wrl.extraHP = 0;
+	wrl.hasHex = false;
+	wrl.hasEldritch = false;
+}
+
 wrl.generateClass = function(level, person) {
 	wrl.level = level;
 	wrl.addFeatures(level);
@@ -38,21 +61,12 @@ wrl.generateClass = function(level, person) {
 	// person.spells = person.spells.concat(newSpells);
 
 	var newSkills = wrl.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
+
+	wrl.name = "Level " + wrl.level + " Warlock (" + wrl.subclass + ")";
 }
 
 wrl.printClass = function() {
-	// console.log("Level " + wrl.level + " Warlock in the " + wrl.subclass);
-	// console.log("Features:");
-	// console.log(wrl.features);
-	// console.log("Skills:");
-	// console.log(wrl.skills);
-	// // console.log("Expertise:");
-	// // console.log(wrl.expertise);
-	// // console.log("Spells:");
-	// // console.log(wrl.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(wrl.proficiencies);
 	$(".basics p").text("Level " + wrl.level + " Warlock (" + wrl.subclass + ")");
 	$("div.feat p").text(wrl.features.join(", "));
 	$("div.skills p").html(makeSkillText(wrl.skills));
@@ -491,290 +505,4 @@ wrl.getNumCantripsKnown = function(level) {
 
 	return cant;
 }
-
-//WARLOCKS
-/*
-
-	//cantrips
-	x=2;
-	if (level >3)
-		x=3;
-	if (level >9)
-		x=4;
-
-	if (eblast==true) {
-		myCantrips.push("Eldritch Blast")
-		x--;
-	}
-
-	while (x > 0) {
-		tempAr = waCantrip;
-
-		if (Math.random() < 0.66)
-			tempAr= ["Blade Ward","Chill Touch","Eldritch Blast","Eldritch Blast","Minor Illusion","Poison Spray","True Strike"];
-
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if ((myCantrips.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-			// add cantrip
-			myCantrips.push(temp);							
-			x--;
-			} 
-
-		}		
-	//put in alphabetical order
-	myCantrips.wrlt();
-
-
-	//tome spells
-	if (tome == true) {
-		z=3;
-		while (z> 0) {
-			y=Math.floor(Math.random() * 5);
-			if (y==0) {
-				
-				temp = baCantrip[Math.floor(Math.random() * baCantrip.length)];
-			// check if we already know spell
-					if ((myCantrips.indexOf(temp) == -1) && (waTome.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-				// add cantrip
-						waTome.push(temp);				
-						z--;
-						}
-			}
-			if (y==1) {
-			
-				temp = clCantrip[Math.floor(Math.random() * clCantrip.length)];
-				// check if we already know spell
-						if ((myCantrips.indexOf(temp) == -1) && (waTome.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-					// add cantrip
-							waTome.push(temp);				
-							z--;
-							}
-					
-					
-			}
-				if (y==2) {
-					temp = drCantrip[Math.floor(Math.random() * drCantrip.length)];
-				// check if we already know spell
-						if ((myCantrips.indexOf(temp) == -1) && (waTome.indexOf(temp) == -1)  && (raceSpells.indexOf(temp) == -1)) {
-					// add cantrip
-							waTome.push(temp);				
-							z--;
-							}
-					
-					
-				}
-				if (y==3) {
-					temp = soCantrip[Math.floor(Math.random() * soCantrip.length)];
-				// check if we already know spell
-						if ((myCantrips.indexOf(temp) == -1) && (waTome.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-					// add cantrip
-							waTome.push(temp);				
-							z--;
-							}
-					
-				}
-				if (y==4) {
-					temp = wiCantrip[Math.floor(Math.random() * wiCantrip.length)];
-				// check if we already know spell
-						if ((myCantrips.indexOf(temp) == -1) && (waTome.indexOf(temp) == -1) && (raceSpells.indexOf(temp) == -1)) {
-					// add cantrip
-							waTome.push(temp);				
-							z--;
-							}
-					
-					
-				}
-		}
-		waTome.wrlt();
-		
-		// if you have invocation for pact of tome
-		if (abOutput.indexOf("Ancient Secrets") > -1) {
-
-			xx=2;
-			while (xx>0) {
-				temp = tomeRituals[Math.floor(Math.random() * tomeRituals.length)];
-				if ((mySpells.indexOf(temp) == -1) && (waTomeRituals.indexOf(temp) == -1)) {
-			// add ritual
-					waTomeRituals.push(temp);				
-					xx--;
-				}
-			}
-
-			xx=0;	
-			if (upgradeUncommon() == true) {
-				xx += Math.floor((Math.random() * 2) +1);
-			}
-			if (upgradeRare() == true) {
-				xx += Math.floor((Math.random() * 2) +1);
-			}
-			console.log("Tome has " + (2+xx) + " rituals");
-
-			if (level > 3) {
-				tomeRituals.push("Magic Mouth");
-				tomeRituals.push("Magic Mouth");
-				tomeRituals.push("Silence");
-				tomeRituals.push("Augury");
-				tomeRituals.push("Beast Sense");
-				tomeRituals.push("Gentle Repose");
-				tomeRituals.push("Locate Animals or Plants");
-				tomeRituals.push("Animal Messenger");
-				tomeRituals.push("Animal Messenger");
-			}
-			if (level > 5) {
-				tomeRituals.push("Meld into Stone");
-				tomeRituals.push("Feign Death");
-				tomeRituals.push("Meld into Stone");
-				tomeRituals.push("Leomund’s Tiny Hut");
-				tomeRituals.push("Leomund’s Tiny Hut");
-				tomeRituals.push("Water Breathing");
-				tomeRituals.push("Phantom Steed");
-				tomeRituals.push("Water Walk");
-				tomeRituals.push("Water Breathing");
-				tomeRituals.push("Phantom Steed");
-				tomeRituals.push("Water Walk");
-
-			}
-			if (level > 7) {
-				tomeRituals.push("Divination");
-				
-			}
-			if (level > 9) {
-				tomeRituals.push("Contact Other Plane");
-				tomeRituals.push("Commune");
-				tomeRituals.push("Contact Other Plane");
-				tomeRituals.push("Commune with Nature");
-				tomeRituals.push("Rary's Telepathic Bond");
-			}
-
-			while (xx>0) {
-				temp = tomeRituals[Math.floor(Math.random() * tomeRituals.length)];
-				if ((mySpells.indexOf(temp) == -1) && (waTomeRituals.indexOf(temp) == -1)) {
-			// add ritual
-					waTomeRituals.push(temp);				
-					xx--;
-				}
-			}
-		}
-		waTomeRituals.wrlt();
-		
-	}
-	
-
-	//1st
-	tempSpells=[];
-	x=sp1;
-	while (x > 0) {
-		tempAr = wa1;
-		if (Math.random() < 0.66)
-			tempAr=["Armor of Agathys","Arms of Hadar","Charm Person","Hellish Rebuke","Hex","Witch Bolt"];
-
-		tempAr = tempAr.concat(patronSpells1);
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-	// check if we already know spell
-			if (tempSpells.indexOf(temp) == -1) {
-				tempSpells.push(temp);				
-				x--;
-			}
-	}
-	tempSpells.wrlt();
-	mySpells = mySpells.concat(tempSpells);
-
-
-	//2nd level
-	tempSpells=[];
-	x=sp2;
-	
-	while (x > 0) {
-	tempAr = wa2;
-
-	if (Math.random() < 0.66)
-		tempAr=["Cloud of Daggers","Crown of Madness","Hold Person","Invisibility","Mirror Image","Misty Step","Ray of Enfeeblement","Shatter","Suggestion"];
-
-	tempAr = tempAr.concat(patronSpells2);
-	temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-		}
-	}
-	tempSpells.wrlt();
-	mySpells = mySpells.concat(tempSpells);
-
-//3rd level
-	tempSpells=[];
-	x=sp3;
-	while (x > 0) {
-		tempAr = wa3;
-		if (Math.random() < 0.66)
-			tempAr=["Counterspell","Dispel Magic","Fear","Fear","Fly","Gaseous Form","Hunger of Hadar","Hunger of Hadar","Hypnotic Pattern","Magic Circle","Major Image","Vampiric Touch","Vampiric Touch"];
-
-		tempAr = tempAr.concat(patronSpells3);
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.wrlt();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-
-
-//4th
-	tempSpells=[];
-	x=sp4;
-	while (x > 0) {
-		tempAr = wa4;
-		if (Math.random() < 0.5)
-			tempAr=["Banishment","Blight","Dimension Door"];
-
-		tempAr = tempAr.concat(patronSpells4);
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.wrlt();
-	mySpells = mySpells.concat(tempSpells);
-
-
-
-
-//5th
-	tempSpells=[];
-	x=sp5;
-	while (x > 0) {
-		tempAr = wa5;
-		tempAr = tempAr.concat(patronSpells5);
-		temp = tempAr[Math.floor(Math.random() * tempAr.length)];
-
-
-// check if we already know spell
-		if (tempSpells.indexOf(temp) == -1) {
-			tempSpells.push(temp);				
-			x--;
-			}
-			
-	}	
-	tempSpells.wrlt();
-	mySpells = mySpells.concat(tempSpells);
-}
-*/
 

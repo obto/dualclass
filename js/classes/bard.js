@@ -1,5 +1,6 @@
 bard = {};
 bard.class = "Bard";
+bard.short = "bard";
 bard.level = 1;
 bard.hDie = 8;
 bard.magic = [];
@@ -26,30 +27,35 @@ bard.magic.list[7] = ["Etherealness","Forcecage","Mirage Arcane","Mordenkainen's
 bard.magic.list[8] = ["Dominate Monster","Feeblemind","Glibness","Mind Blank","Power Word Stun"];
 bard.magic.list[9] = ["Foresight","Mass Polymorph","Power Word Heal","Power Word Kill","Psychic Scream","True Polymorph"];
 
+bard.reset = function() {
+	bard.name = "";
+	bard.level = 1;
+	bard.magic.spells = [];
+	bard.magic.slots = [];
+	bard.features = [];
+	bard.skills = [];
+	bard.expertise = [];
+	bard.proficiencies = {};
+	bard.proficiencies.weapons = ["Simple", "Crossbow", "Longsword", "Rapier", "Shortsword"];
+	bard.proficiencies.armor = ["Light"];
+	bard.proficiencies.other = [];
+	bard.saves = ["Dexterity", "Charisma"];
+	bard.subclass = "";
+}
 
 bard.generateClass = function(level, person) {
 	bard.level = level;
 	bard.addFeatures(level);
 
 	newSkills = bard.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	newSpells = bard.addSpells(level, person.spells);
+	bard.name = "Level " + bard.level + " Bard (" + bard.subclass + ")";
 	// person.spells = person.spells.concat(newSpells);
 }
 
 bard.printClass = function() {
-	// console.log("Level " + bard.level + " Bard in the " + bard.subclass);
-	// console.log("Features:");
-	// console.log(bard.features);
-	// console.log("Skills:");
-	// console.log(bard.skills);
-	// console.log("Expertise:");
-	// console.log(bard.expertise);
-	// console.log("Spells:");
-	// console.log(bard.magic.spells);
-	// console.log("Proficiencies:");
-	// console.log(bard.proficiencies);
 	$(".class .basics p").text("Level " + bard.level + " Bard (" + bard.subclass + ")");
 	$(".class .feat p").text(bard.features.join(", "));
 	$(".class .skills p").html(makeSkillText(bard.skills) + "<br />Expertise: "+makeSkillText(bard.expertise));
@@ -68,12 +74,10 @@ bard.getSpellDC = function(mods, prof) {
 
 // -------------- FEATURES ----------
 bard.addFeatures = function(level) {
+	console.log("Now we're adding features!");
 	var inspiration = bard.bardicInspiration(level);
 	bard.features.push("Spellcasting", inspiration);
 
-	// TODO: unique instrument - add inst to gear
-	// var music = ["Lute", "Flute","Harp", "Fiddle","Pipes", "Drums", "Bagpipes","Dulcimer","Lyre","Horn","Guitar","Pan flute","Shawm","Viol"];
-	//Can play 3 musical instruments,
 	for (i = 0; i < 3; i++) {
 		var inst = world.instruments[randInt(0, world.instruments.length)];
 		bard.proficiencies.other.push(inst);	
@@ -107,12 +111,12 @@ bard.addFeatures = function(level) {
 	if (level == 20) {
 		bard.features.push("Superior Inspiration");
 	}
+	console.log("done with features!");
 }
 
 bard.chooseSubclass = function(level) {
-	colleges = {};
-	colleges = ["Glamour","Lore","Swords","Valor","Whispers"];
-	x = colleges[randInt(0, colleges.length)];
+	var colleges = ["Glamour","Lore","Swords","Valor","Whispers"];
+	var x = colleges[randInt(0, colleges.length)];
 	// x = "Lore"; // TODO CHANGE ME BACK
 	bard.subclass = "College of " + x;
 	
@@ -134,11 +138,13 @@ bard.chooseSubclass = function(level) {
 		bard.proficiencies.armor.push("Medium");
 		bard.proficiencies.weapons.push("Scimitar");
 
-		f = bard.features.indexOf("Fighting Style");
-		y = Math.random();
-		style = "";
-		if (y < 0.5) style = "Dueling";
-		else style = "Two-Weapon Fighting";
+		var f = bard.features.indexOf("Fighting Style");
+		var y = Math.random();
+		var style = "";
+		if (y < 0.5)
+			style = "Dueling";
+		else
+			style = "Two-Weapon Fighting";
 
 		bard.features[f] = "Fighting Style - " + style;
 	}
@@ -168,28 +174,36 @@ bard.bardicInspiration = function(level) {
 // -------------- SKILLS ------------
 
 bard.addSkills = function(level, knownSkills) {
-	k = knownSkills.valueOf();
+	console.log("adding skills!");
+	var k = knownSkills.valueOf();
 	var skillCap = 3;
-	newSkills = [];
-	skills = [0,4,7,9,11,12,13,15,16];
+	var newSkills = [];
+	var skills = [0,4,7,9,11,12,13,15,16];
 
-	newSkills = skillChunk(skills, skillCap, k).valueOf();
-	bard.skills = newSkills.valueOf();
+	newSkills = skillChunk(skills, skillCap, knownSkills.slice(0));
+	bard.skills = newSkills;
+	console.log("added base skills");
+	console.log(bard.skills.toString());
 	
 	if (bard.subclass == "College of Lore") {
-		loreskills = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
-		toCheck = newSkills.concat(k);
-		newSkills = skillChunk(loreskills, skillCap, toCheck).valueOf();
-		bard.skills = bard.skills.concat(newSkills);
+		console.log("Adding lore skills");
+		var loreskills = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
+		var toCheck = newSkills.slice(0).concat(knownSkills.slice(0));
+		newSkills = skillChunk(loreskills, skillCap, toCheck);
+		bard.skills = bard.skills.concat(newSkills.slice(0));
+		console.log(bard.skills.toString());
 	}
 
 	// pick expertises
 	if (level >= 3) {
-		allSkills = bard.skills.concat(k);
-		bard.addExpertise(level, allSkills);
+		console.log("adding expertise");
+		var allSkills = bard.skills.slice(0).concat(knownSkills.slice(0));
+		bard.addExpertise(level, allSkills.slice(0));
+		console.log("done with expertise");
 	}
 
-	console.log("HOW ABOUT NOW");
+	// console.log("HOW ABOUT NOW");
+	console.log("done with skills!");
 	return bard.skills.slice(0);
 }
 
@@ -199,7 +213,7 @@ bard.halfProfSkills = function(level, skills) {
 
 bard.addExpertise = function(level, allSkills) {
 	// console.log("start exprs");
-	expCap = 2;
+	var expCap = 2;
 	if (level >= 10) {
 		expCap += 2
 	}
@@ -284,7 +298,7 @@ bard.magicalSecrets = function(level, knownSpells) {
 		var slots = bard.getSpellSlots(level);
 		var cl = world.casters[randInt(0, world.casters.length)];
 		var spLev = randInt(0, slots.length+1);
-		console.log("Taking "+spLev+"th level from "+cl.class);
+		// console.log("Taking "+spLev+"th level from "+cl.class);
 
 		if (typeof cl.magic.list[spLev] == 'undefined')
 			continue;
@@ -297,7 +311,7 @@ bard.magicalSecrets = function(level, knownSpells) {
 
 		var toCheck = world.combineSpellLists(knownSpells[spLev].slice(0), bard.magic.spells[spLev].slice(0));
 		var spell = skillChunk(cl.magic.list[spLev], 1, toCheck);
-		console.log("It's "+spell+"!");
+		// console.log("It's "+spell+"!");
 		secrets[spLev] = secrets[spLev].slice(0).concat(spell);
 		total++;
 	}
@@ -313,7 +327,7 @@ bard.getSpells = function(level, knownSpells) {
 		knownSpells[0] = [];
 	var cants = bard.getNumCantripsKnown(level);
 	bardSpells[0] = skillChunk(bard.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
-	console.log(bardSpells);
+	// console.log(bardSpells);
 	
 	var secrets = [];
 	var toCheck = world.combineSpellLists(knownSpells.slice(0), bardSpells.slice(0));
@@ -331,12 +345,11 @@ bard.getSpells = function(level, knownSpells) {
 		toCheck = world.combineSpellLists(secrets.slice(0), toCheck.slice(0));
 	}
 	if (level >= 6 && bard.subclass == "College of Lore") {
-		console.log("Gosh it's Lore!!");
 		secrets = world.combineSpellLists(bard.magicalSecrets(6, toCheck), secrets);
 		toCheck = world.combineSpellLists(secrets.slice(0), toCheck.slice(0));	
 	}
 
-	console.log(secrets);
+	// console.log(secrets);
 	bardSpells = world.combineSpellLists(bardSpells, secrets);
 
 	bard.magic.spells = bardSpells;

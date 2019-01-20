@@ -3,7 +3,7 @@ rngr.class = "Ranger";
 rngr.level = 1;
 rngr.hDie = 10;
 rngr.features = [];
-rngr.enemy = "";
+rngr.enemies = [];
 rngr.skills = [];
 rngr.magic = [];
 rngr.proficiencies = {};
@@ -22,15 +22,36 @@ rngr.magic.list[3] = ["Flame Arrows","Conjure Animals","Conjure Barrage","Daylig
 rngr.magic.list[4] = ["Conjure Woodland Beings","Freedom of Movement","Grasping Vine","Guardian of Nature","Locate Creature","Stoneskin"];
 rngr.magic.list[5] = ["Commune with Nature","Conjure Volley","Steel Wind Strike","Swift Quiver","Tree Stride","Wrath of Nature"];
 
+rngr.reset = function() {
+	rngr.name = "";
+	rngr.level = 1;
+	rngr.features = [];
+	rngr.enemies = [];
+	rngr.skills = [];
+	rngr.magic.spells = [];
+	rngr.magic.slots = [];
+	rngr.proficiencies = {};
+	rngr.proficiencies.weapons = ["Simple", "Martial"];
+	rngr.proficiencies.armor = ["Light","Medium","Shields"];
+	rngr.proficiencies.other = [];
+	rngr.saves = ["Strength", "Dexterity"];
+	rngr.companion = [];
+	rngr.subclass = "";
+	rngr.speed = 0;
+	rngr.extraLangs = 0;
+}
+
 rngr.generateClass = function(level, person) {
 	rngr.level = level;
 	rngr.addFeatures(level);
 
 	var newSkills = rngr.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	if (level >= 2)
 		var newSpells = rngr.addSpells(level, person.spells.slice(0));
+
+	rngr.name = "Level " + rngr.level + " Ranger (" + rngr.subclass + ")";
 }
 
 rngr.printClass = function() {
@@ -45,18 +66,19 @@ rngr.printClass = function() {
 }
 
 rngr.addFeatures = function(level) {
-	x = 2;
-	if (level >= 6) x = 4;
-	enemies = ["Beasts","Fey","Humanoids","Monstrosities","Undead"];
-	e = enemies[randInt(0,enemies.length)];
+	var x = 2;
+	if (level >= 6)
+		x = 4;
+	var enemies = ["Beasts","Fey","Humanoids","Monstrosities","Undead"];
+	var e = enemies[randInt(0,enemies.length)];
 	rngr.extraLangs += 1;
 	rngr.enemies = [e];
 
 	rngr.features.push("Favored Enemy - "+e+" (+"+x+" dmg)", "Natural Explorer");
 
 	if (level >= 2) {
-		styles = ["Archery","Defense","Dueling","Two-Weapon Fighting"];
-		s = styles[randInt(0,styles.length)]
+		var styles = ["Archery","Defense","Dueling","Two-Weapon Fighting"];
+		var s = styles[randInt(0,styles.length)]
 		rngr.features.push("Fighting Style - "+s,"Spellcasting");
 	}
 
@@ -66,8 +88,8 @@ rngr.addFeatures = function(level) {
 	}
 
 	if (level >= 6) {
-		grtr = ["Aberrations","Celestials","Constructs","Dragons","Elementals","Fiends","Giants"];
-		q = grtr[randInt(0,grtr.length)];
+		var grtr = ["Aberrations","Celestials","Constructs","Dragons","Elementals","Fiends","Giants"];
+		var q = grtr[randInt(0,grtr.length)];
 		rngr.enemies.push(q);
 		rngr.extraLangs += 1;
 
@@ -87,8 +109,8 @@ rngr.addFeatures = function(level) {
 }
 
 rngr.chooseSubclass = function(level) {
-	concs = ["Beast Master","Gloom Stalker","Horizon Walker","Hunter","Monster Slayer"];
-	c = concs[randInt(0,concs.length)];
+	var concs = ["Beast Master","Gloom Stalker","Horizon Walker","Hunter","Monster Slayer"];
+	var c = concs[randInt(0,concs.length)];
 	rngr.subclass = c;
 	rngr.features.push("Ranger Conclave - "+c+" Conclave");
 
@@ -115,8 +137,8 @@ rngr.chooseSubclass = function(level) {
 	}
 
 	if (c == "Beast Master") {
-		beasts = ["Ape","Black bear","Boar","Giant badger","Giant weasel","Mule","Panther","Wolf"];
-		b = beasts[randInt(0,beasts.length)];
+		var beasts = ["Ape","Black bear","Boar","Giant badger","Giant weasel","Mule","Panther","Wolf"];
+		var b = beasts[randInt(0,beasts.length)];
 
 		rngr.companion = [];
 		rngr.companion.race = b;
@@ -245,8 +267,6 @@ rngr.getConcSpells = function(slots) {
 		for (var i = 1; i < slots.length; i++) {
 			cSpells[i] = concSpell[c][i];
 		}
-		// console.log("conclave spells: ");
-		// console.log(cSpells);
 	}
 
 	return cSpells;

@@ -1,7 +1,7 @@
 wiz = {};
 wiz.class = "Wizard";
-wiz.level = 1;
 wiz.hDie = 6;
+wiz.level = 1;
 wiz.magic = [];
 wiz.magic.spells = [];
 wiz.features = [];
@@ -16,14 +16,33 @@ wiz.statMods = [0,0,0,0,0,0];
 wiz.subclass = "";
 wiz.extraHP = 0;
 
+wiz.reset = function() {
+	wiz.name = "";
+	wiz.level = 1;
+	wiz.magic.spells = [];
+	wiz.magic.slots = [];
+	wiz.features = [];
+	wiz.skills = [];
+	wiz.expertise = [];
+	wiz.proficiencies = {};
+	wiz.proficiencies.weapons = ["Dagger","Darts","Sling","Quarterstaff","Light crossbow"];
+	wiz.proficiencies.armor = [];
+	wiz.proficiencies.other = [];
+	wiz.saves = ["Intelligence", "Wisdom"];
+	wiz.statMods = [0,0,0,0,0,0];
+	wiz.subclass = "";
+	wiz.extraHP = 0;
+}
+
 wiz.generateClass = function(level, person) {
 	wiz.level = level;
 	wiz.addFeatures(level);
 
 	newSkills = wiz.addSkills(level, person.skills.slice(0));
-	person.skills = person.skills.concat(newSkills);
+	// person.skills = person.skills.concat(newSkills);
 
 	newSpells = wiz.addSpells(level, person.spells.slice(0));
+	wiz.name = "Level " + wiz.level + " Wizard (" + wiz.subclass + ")";
 }
 
 wiz.printClass = function() {
@@ -89,6 +108,7 @@ wiz.addSpells = function(level, knownSpells) {
 
 wiz.getSpells = function(level, knownSpells) {
 	var origSpells = [];
+	var beforeList = wiz.magic.list.slice(0);
 	origSpells[0] = [];
 	if (typeof knownSpells == 'undefined')
 		knownSpells = [];
@@ -100,8 +120,8 @@ wiz.getSpells = function(level, knownSpells) {
 		knownSpells[4] = [];
 
 	if (level >= 2 && wiz.subclass !== "War Magic") {
-		console.log("You're a "+wiz.subclass);
-		console.log(wiz.magic[wiz.subclass]);
+		// console.log("You're a "+wiz.subclass);
+		// console.log(wiz.magic[wiz.subclass]);
 		wiz.magic.list = world.combineSpellLists(wiz.magic.list.slice(0), wiz.magic[wiz.subclass].slice(0));
 	}
 	if (wiz.subclass == "Illusion" && level >= 2) {
@@ -124,10 +144,11 @@ wiz.getSpells = function(level, knownSpells) {
 
 	var cants = wiz.getNumCantripsKnown(level);
 	spells[0] = skillChunk(wiz.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
-	console.log("new cantrips: "+spells[0].join(", "));
+	// console.log("new cantrips: "+spells[0].join(", "));
 	spells = world.combineSpellLists(spells.slice(0), origSpells.slice(0));
-	console.log(spells);
+	// console.log(spells);
 
+	wiz.magic.list = beforeList.slice(0);
 	return spells;
 }
 
