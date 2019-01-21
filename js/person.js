@@ -22,11 +22,11 @@ person.proficiencies.other = [];
 person.immunity = [];
 person.resistance = [];
 person.advantage = [];
+person.statsMax = [20,20,20,20,20,20];
 
 person.restart = function() {
 	person.bg = "";
 	person.level = 1;
-	person.race = "";
 	person.stats = [];
 	person.modifiers = [];
 	person.hp = 0;
@@ -47,6 +47,10 @@ person.restart = function() {
 	person.immunity = [];
 	person.resistance = [];
 	person.advantage = [];
+	person.statsMax = [20,20,20,20,20,20];
+	person.class1 = [];
+	person.class2 = [];
+	person.race = [];
 }
 
 person.buildPerson = function(lev, r, cl) {
@@ -72,6 +76,7 @@ person.buildPerson = function(lev, r, cl) {
 	myClass.generateClass(classLevel, person);
 	interface.printRace(myClass, ".class", "Class");
 	person.roundUp(myClass);
+	person.class1 = myClass;
 	console.log("class 1 complete------------------------------");
 
 	var myClass2 = random.pick(world.classes);
@@ -82,6 +87,7 @@ person.buildPerson = function(lev, r, cl) {
 	myClass2.generateClass(classLevel, person);
 	interface.printRace(myClass2, ".class2", "Class 2");
 	person.roundUp(myClass2);
+	person.class2 = myClass2;
 	console.log("class 2 complete------------------------------");
 
 	person.getHP(myRace, myClass, myClass2, classLevel);
@@ -94,7 +100,12 @@ person.buildPerson = function(lev, r, cl) {
 }
 
 person.printPerson = function() {
-	$(".person .stats p").html(makeStatText(person.stats, person.modifiers));
+	$(".person .stats").html(function() {
+		var str = makeStatText(person.stats, person.modifiers);
+		str += makeSaveText(person.saves, person.modifiers, person.profBonus);
+		return str;
+
+	});
 	$(".person .skills p").html(function() {
 		var str = "";
 		str += makeSkillText(person.skills);
@@ -142,6 +153,10 @@ person.roundUp = function(r) {
 	if ("speed" in recent) {
 		person.speed += recent.speed;
 	}
+	if ("saves" in recent) {
+		person.saves = person.saves.slice(0).concat(recent.saves.slice(0));
+		person.saves = Array.from(new Set(person.saves));
+	}
 	if ("languages" in recent) {
 		person.languages = person.languages.concat(recent.languages.slice(0));
 	}
@@ -160,6 +175,9 @@ person.roundUp = function(r) {
 	if ("resistance" in recent) {
 		person.resistance = person.resistance.concat(recent.resistance.slice(0));
 	}
+	// if ("statsMax" in recent) {
+	// 	person.statsMax = recent.statsMax.slice(0);
+	// }
 }
 
 person.buildStats = function(race, level) {

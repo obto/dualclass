@@ -7,6 +7,7 @@
 <meta name="description" content="dualclass is a random dual-character generator for D&D 5e.">
 <meta name="keywords" content="DnD, D&D, Dungeons and Dragons, Character Generator, Character Maker, 5e, 5th edition, random, dual class">
 <link rel="icon" type="image/gif" href="http://i.imgur.com/6y35IBy.gif">
+<link href="https://fonts.googleapis.com/css?family=Roboto:900|Lato" rel="stylesheet">
 <!-- <script src="dndrando.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
@@ -109,6 +110,105 @@ float: right;
  	margin-top: 0;
  }
 
+div.stats {
+	float: left;
+	margin-right: 2em;
+ 	/*margin-left: 0;*/
+	width: 25%;
+}
+
+ ul.statBox, ul.savesBox {
+ 	list-style-type: none;
+ 	padding-left: 0;
+ 	width: 100%;
+ }
+
+ /*
+ div.stats p::after {
+ 	content: "";
+ 	clear: both;
+ 	display: table;
+} */
+
+ ul.statBox li {
+ 	display: flex;
+ 	align-items: center
+ 	font-size: 1.1em;
+ 	padding-bottom: .5em;
+ 	padding-left: 0;
+ 	width: 100%;
+ }
+
+ul.statBox li .statname  {
+	font-size: 0.8em;
+	line-height: 1.5;
+	width: 30%;
+}
+
+ ul.statbox li .stat {
+ 	/*font-size: 1.1em;*/
+ 	font-weight: bold;
+ 	text-align: right;
+ 	width: 30%;
+ }
+  ul.statbox li .mod {
+  	text-align: right;
+ 	width: 20%;	
+  }
+
+ul.savesBox li {
+	align-items: center;
+	display: flex;
+}
+ul.savesBox li {
+	width: 100%;
+}
+
+ul.savesbox li .profCircle {
+	margin-right: 10%;
+}
+ ul.savesBox li .mod {
+ 	width: 20%;
+ }
+
+.profCircle {
+	background-color: black;
+	border-radius: 50%;
+	border: 2px solid black;
+	display: inline-block;
+	height: 8px;
+	margin-right: 5%;
+	width: 8px;
+}
+
+.profCircle.notProf {
+	background-color: white;
+	border: 2px solid black;
+}
+
+.stats h3:first-of-type {
+	margin-top: 0;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Roboto', cursive;
+}
+h1 {
+	font-size: 2em;
+}
+h2 {
+	font-size: 1.5em;
+}
+h3 {
+	font-size: 1.3em;
+}
+h4 {
+	font-size: 1.2em;
+}
+ul, ol, p, div, span, blockquote, li {
+	font-family: 'Lato', sans-serif;
+}
+
 </style>
 </head> 
 <body>
@@ -124,8 +224,8 @@ float: right;
 		<div class="person">
 			<h1>Person Name</h1>
 			<div class="stats">
-				<h3>Stats</h3>
-				<p></p>
+				<!-- <h3>Stats</h3>
+				<p></p> -->
 			</div>
 			<div class="skills">
 				<h3>Skills</h3>

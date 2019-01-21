@@ -7,6 +7,7 @@ world.races = world.races.slice(0).concat(world.monsters.slice(0).concat(world.r
 world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wrl, wiz];
 world.casters = [bard, clr, drd, pal, rngr, sor, wiz];
 world.stats = ["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"];
+world.statsShort = ["STR","DEX","CON","INT","WIS","CHA"];
 
 world.languages = {};
 world.languages.standard = ["Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc"];
@@ -402,20 +403,50 @@ function skillChunk(skillList, limit, knownSkills) {
 }
 
 function makeStatText(stats, mods) {
-	var str = "<span>" + person.hp + "HP, +"+person.profBonus+" Proficiency Bonus, Speed: "+person.speed+"ft</span><br />";
-	str += "<span>";
+	var str = "<h3>Stats</h3>";
+	str += "<p><span>" + person.hp + "HP, +"+person.profBonus+" Proficiency Bonus, Speed: "+person.speed+"ft</p>";
 
+	str += "<ul class=statBox>";
 	for (i = 0; i < stats.length; i++) {
-		var modText = "";
-		if (mods[i] >= 0)
-			modText = "(+"+mods[i]+")";
-		else
-			modText = "("+mods[i]+")";
-
-		str += world.stats[i] + ": "+ stats[i]+" "+modText+", ";
+		var modText = "("+makeModText(mods[i])+")";
+		str += "<li><span class='statname'>"+world.statsShort[i]+"</span><span class='stat'>"+ stats[i]+"</span><span class='mod'>"+modText+"</span></li>";
 	}
-	str += "</span><br />";
+	str += "</ul>";
 
+	return str;
+}
+
+function makeModText(mod){
+	var modText = "";
+
+	if (mod >= 0)
+		modText = "+"+mod;
+	else
+		modText = mod;
+
+	return modText;
+}
+
+function makeSaveText(saves, mods, profBonus) {
+	console.log("WHICH SAVES WE GOT?");
+	console.log(saves);
+	var str = "<h3>Saves</h3>";
+	str += "<ul class='savesBox'>";
+
+	for (var i = 0; i < world.stats.length; i++) {
+		str += "<li>";
+		if (saves.includes(world.stats[i])) {
+			var modText = makeModText(mods[i]+profBonus);
+			str += "<span class='profCircle isProf'></span><span class='mod'>"+modText+"</span>";
+		}
+		else {
+			var modText = makeModText(mods[i]);
+			str += "<span class='profCircle notProf'></span><span class='mod'>"+modText+"</span>";
+		}
+		str += "<span class='statname'>"+world.stats[i]+"</span>";
+		str += "</li>";
+	}
+	str += "</ul>";
 	return str;
 }
 
