@@ -1,4 +1,4 @@
-bbn = {};
+var bbn = {};
 bbn.class = "Barbarian";
 bbn.short = "bbn";
 bbn.level = 1;
@@ -12,10 +12,10 @@ bbn.proficiencies.other = [];
 bbn.saves = ["Strength", "Constitution"];
 // bbn.stipulations = ["no heavy armor"];
 bbn.subclass = "";
-bbn.speedMod = 0;
+bbn.speed = 0;
 bbn.advantage = [];
 bbn.resistance = [];
-
+bbn.statMods = [0,0,0,0,0,0];
 
 bbn.reset = function() {
 	bbn.name = "";
@@ -29,12 +29,11 @@ bbn.reset = function() {
 	bbn.saves = ["Strength", "Constitution"];
 	bbn.subclass = "";
 	bbn.subclassType = "";
-	bbn.speedMod = 0;
+	bbn.speed = 0;
 	bbn.swimSpeed = 0;
 	bbn.advantage = [];
 	bbn.resistance = [];
 }
-
 // -------------- FEATURES ----------
 
 bbn.generateClass = function(level, person) {
@@ -87,8 +86,13 @@ bbn.addFeatures = function(level) {
 		bbn.features.push("Persistent Rage");
 	if (level >= 18)
 		bbn.features.push("Indomitable Might");
-	if (level >= 20)
+	if (level >= 20) {
 		bbn.features.push("Primal Champion");
+		// person.statsMax[0] = 24;
+		// person.statsMax[2] = 24;
+		person.stats[0] += 4;
+		person.stats[2] += 4;
+	}
 }
 
 bbn.rages = function(level) {
@@ -102,6 +106,8 @@ bbn.rages = function(level) {
 		x = 5;
 	if (level >= 17)
 		x = 6;
+	if (level >= 20)
+		x = "unlimited";
 
 	y = 2;
 
@@ -109,6 +115,7 @@ bbn.rages = function(level) {
 		y = 3;
 	if (level >= 16)
 		y = 4;
+
 
 	return "Rage " + x + "/day, +" + y + " Rage Damage";
 }

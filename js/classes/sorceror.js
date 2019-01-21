@@ -207,6 +207,9 @@ sor.getSpells = function(level, knownSpells) {
 		types["Stone"] = [["Resistance"],["Entangle"],["Spike Growth"]];
 		types["Storm"] = [["Thunderwave"],["Shocking Grasp"],["Gust of Wind"]];
 		origSpells = types[sor.subclassType];
+
+		if (level < 3)
+			origSpells.splice(2, 1);
 	}
 
 	knownSpells = world.combineSpellLists(knownSpells.slice(0), origSpells.slice(0));
