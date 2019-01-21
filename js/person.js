@@ -74,22 +74,18 @@ person.buildPerson = function(lev, r, cl) {
 	person.roundUp(myClass);
 	console.log("class 1 complete------------------------------");
 
-	var myClass2 = world.classes[randInt(0, world.classes.length)];
+	var myClass2 = random.pick(world.classes);
 	while (myClass2.name == myClass.name)
-		var myClass2 = world.classes[randInt(0, world.classes.length)];
+		var myClass2 = random.pick(world.classes);
+
 	myClass2.reset();
-	console.log("class2 reset");
 	myClass2.generateClass(classLevel, person);
-	console.log("class2 generated");
 	interface.printRace(myClass2, ".class2", "Class 2");
-	console.log("class2 printed");
 	person.roundUp(myClass2);
 	console.log("class 2 complete------------------------------");
 
 	person.getHP(myRace, myClass, myClass2, classLevel);
 
-	// person.languages = person.languages.concat(myRace.languages
-	// console.log("we've got "+person.extraLangs+" langs to add");
 	var newLangs = world.pickLanguages(person.languages.slice(0), [], person.extraLangs);
 	person.languages = person.languages.concat(newLangs);
 
@@ -105,7 +101,7 @@ person.printPerson = function() {
 		if ("expertise" in person && person.expertise.length > 0) {
 			str += "<br />Expertise: "+makeSkillText(person.expertise);
 		}
-		str += "<br />Languages: "+person.languages.join(", ");
+		str += "<br />Languages: "+Array.from(new Set(person.languages)).join(", ");
 		str += printAdvantages(person.immunity, person.advantage, person.resistance);
 		return str;
 	});
@@ -210,20 +206,21 @@ person.abilityScoreIncrease = function(level, stats) {
 		if (level >= levs[i]) {
 			isFair = false;
 
-			split = Math.random();
+			// split = Math.random();
 
 			while(!isFair) {
 				isFair = false;
-				if (split > 0.3) { // both points in one stat
-					s = randInt(0, stats.length);
+				if (random.bool(0.3)) { // both points in one stat
+					// s = randInt(0, stats.length);
+					s = random.integer(0, stats.length-1);
 					if (stats[s] + 2 <= 20) {
 						stats[s] += 2;
 						isFair = true;
 					}
 				}
 				else { // split between two stats
-					s = randInt(0, stats.length);
-					t = randInt(0, stats.length);
+					s = random.integer(0, stats.length-1);
+					t = random.integer(0, stats.length-1);
 					if (stats[s] + 1 <= 20 && stats[t] + 1 <= 20 && s != t) {
 						stats[s] += 1; stats[t] += 1;
 						isFair = true;
@@ -235,13 +232,5 @@ person.abilityScoreIncrease = function(level, stats) {
 
 	return stats;
 }
-
-
-
-
-// person.buildPerson();
-
-
-
 
 

@@ -41,14 +41,14 @@ $(".genStuff").submit(function(e) {
 	var myClass = ""; var myRace = ""; var myLevel = 0;
 
 	if (lev == "random") {
-		myLevel = randInt(1, 21);
+		myLevel = random.integer(1, 20);
 	}
 	else {
 		myLevel = lev;
 	}
 
 	if (r == "random") {
-		myRace = world.races[randInt(0, world.races.length)];
+		myRace = random.pick(world.races);
 	}
 	else {
 		for (var i = 0; i < world.races.length; i++) {
@@ -64,7 +64,7 @@ $(".genStuff").submit(function(e) {
 	}
 	// randomize classes
 	if (cl == "random") {
-		var myClass = world.classes[randInt(0, world.classes.length)];
+		var myClass = random.pick(world.classes);
 	}
 	// test a specific class
 	else {
@@ -79,11 +79,6 @@ $(".genStuff").submit(function(e) {
 			}
 		}
 	}
-
-	console.log("PICKING");
-	console.log(myLevel);
-	console.log(myRace);
-	console.log(myClass);
 
 	person.buildPerson(myLevel, myRace, myClass);
 })
@@ -100,6 +95,8 @@ interface.printRace = function(r, base, title) {
 	}
 	else
 		$(base + " .feats p").hide();
+
+	// console.log("pirnted all ye features");
 	
 	if ("skills" in r && r.skills.length > 0) {
 		$(base + " .skills").show();
@@ -109,7 +106,11 @@ interface.printRace = function(r, base, title) {
 		$(base + " .skills").hide();
 	}
 
+	// console.log("pirnted all ye skills");
+
 	interface.showMagic(r, base);
+
+	// console.log("pirnted all ye spells");
 
 	if (interface.areProficienciesEmpty(r)) {
 		var profs = makeProfText(r.proficiencies);
@@ -119,6 +120,8 @@ interface.printRace = function(r, base, title) {
 	else {
 		$(base + " .profs").hide();
 	}
+
+	// console.log("pirnted all ye proficiencies");
 }
 
 interface.areProficienciesEmpty = function(p) {
@@ -161,8 +164,8 @@ $(document).ready(function() {
 	interface.pickClass();
 	interface.pickRace();
 	interface.pickLevel();
-	var r = world.races[randInt(0, world.races.length)];
-	var cl = world.classes[randInt(0, world.classes.length)];
+	var r = random.pick(world.races);
+	var cl = random.pick(world.classes);
 	var lev = 1;
 	person.buildPerson(lev, r, cl);
 });

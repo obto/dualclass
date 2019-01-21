@@ -14,6 +14,7 @@ clr.proficiencies.armor = ["Light", "Medium", "Shields"];
 clr.proficiencies.other = [];
 clr.saves = ["Wisdom", "Charisma"];
 clr.langMod = 0;
+clr.resistance = [];
 
 clr.magic.list = [];
 clr.magic.list[0] = ["Guidance","Light","Mending","Resistance","Sacred Flame","Spare the Dying","Thaumaturgy"];
@@ -43,6 +44,7 @@ clr.reset = function() {
 	clr.proficiencies.other = [];
 	clr.saves = ["Wisdom", "Charisma"];
 	clr.langMod = 0;
+	clr.resistance = [];
 }
 
 clr.generateClass = function(level, person) {
@@ -125,7 +127,8 @@ clr.chooseDomain = function(level) {
 
 	// Pick subclass via key
 	var keys = Object.keys(domains);
-	clr.subclass = keys[randInt(0, keys.length)];
+	// clr.subclass = keys[randInt(0, keys.length)];
+	clr.subclass = random.pick(keys);
 	// clr.subclass = "Knowledge";
 	var path = clr.subclass;
 
@@ -133,6 +136,8 @@ clr.chooseDomain = function(level) {
 		case "Forge":
 			clr.proficiencies.armor.push("Heavy");
 			clr.proficiencies.other.push("Smith's tools");
+			if (level >= 6)
+				clr.resistance = ["fire"];
 			break;
 		case "Knowledge":
 			// also gets extra skill junk

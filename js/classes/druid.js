@@ -88,7 +88,7 @@ drd.addFeatures = function(level) {
 
 drd.chooseSubclass = function(level) {
 	var orig = ["Dreams","Land","Moon","Shepherd","Spores","Twilight"];
-	var c = orig[randInt(0,orig.length)];
+	var c = random.pick(orig);
 	drd.subclass = c;
 
 	orig["Dreams"] = [["Balm of the Summer Court"],"Hearth of Moonlight and Shadow","Hidden Paths","Walker in Dreams"];
@@ -104,7 +104,7 @@ drd.chooseSubclass = function(level) {
 	}
 	else if (c == "Land") {
 		var lands = ["Arctic","Coast","Desert","Forest","Grassland","Mountain","Swamp","Underdark"];
-		drd.subcircle = lands[randInt(0,lands.length)];
+		drd.subcircle = random.pick(lands);
 		toPrint = "Circle of the "+c+" - "+drd.subcircle;
 	}
 	else {

@@ -62,7 +62,7 @@ pal.addFeatures = function(level) {
 	
 	if (level >= 2) {
 		var styles = ["Defense","Dueling","Great Weapon Fighting","Protection"];
-		var s = styles[randInt(0,styles.length)];
+		var s = random.pick(styles);
 		pal.features.push("Fighting Style - "+s, "Spellcasting", "Divine Smite");
 	}
 	if (level >= 3) {
@@ -88,7 +88,7 @@ pal.addFeatures = function(level) {
 
 pal.chooseSubclass = function(level) {
 	var archs = ["Ancients","Conquest","Devotion","Redemption","Vengeance"];
-	var x = archs[randInt(0, archs.length)];
+	var x = random.pick(archs);
 	pal.subclass = x;
 	pal.features.push("Sacred Oath - "+pal.subclass);
 	

@@ -28,7 +28,7 @@ gnm.reset = function() {
 }
 
 gnm.generateRace = function(person) {
-	race = gnm.types[randInt(0, gnm.types.length)];
+	race = random.pick(gnm.types);
 	gnm.name = race;
 
 	gnm.addStatMods(race);

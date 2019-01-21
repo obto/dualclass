@@ -93,7 +93,7 @@ sor.addFeatures = function(level) {
 
 sor.chooseSubclass = function(level) {
 	var orig = ["Divine Soul","Draconic Bloodline","Giant Soul","Phoenix Sorcery","Shadow Magic","Stone Sorcery","Storm Sorcery","Wild Magic"];
-	var c = orig[randInt(0,orig.length)];
+	var c = random.pick(orig);
 	sor.subclass = c;
 	sor.features.push("Sorcerous Origin - "+c);
 
@@ -153,7 +153,7 @@ sor.chooseSubclass = function(level) {
 }
 
 sor.subclassTypeGen = function(c, types) {
-	var t = types[randInt(0,types.length)];
+	var t = random.pick(types);
 
 	sor.subclassType = t;
 	var f = sor.features.indexOf("Sorcerous Origin - "+c);
@@ -189,7 +189,7 @@ sor.getSpells = function(level, knownSpells) {
 		types["Chaos"] = ["Bane"];
 		types["Neutrality"] = ["Protection from Evil and Good"];
 
-		origSpells[1] = [types[sor.subclassType]];
+		origSpells[1] = types[sor.subclassType];
 	}
 	else if (sor.subclass == "Shadow Magic") {
 		origSpells[2] = ["Darkness"];

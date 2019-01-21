@@ -25,7 +25,7 @@ hlf.reset = function() {
 }
 
 hlf.generateRace = function(person) {
-	var race = hlf.types[randInt(0, hlf.types.length)];
+	var race = random.pick(hlf.types);
 	hlf.name = race;
 
 	hlf.addStatMods(race);

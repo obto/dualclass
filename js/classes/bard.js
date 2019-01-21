@@ -114,7 +114,8 @@ bard.addFeatures = function(level, knownProfs) {
 
 bard.chooseSubclass = function(level) {
 	var colleges = ["Glamour","Lore","Swords","Valor","Whispers"];
-	var x = colleges[randInt(0, colleges.length)];
+	var x = random.pick(colleges);
+	// var x = colleges[randInt(0, colleges.length)];
 	// x = "Lore"; // TODO CHANGE ME BACK
 	bard.subclass = "College of " + x;
 	
@@ -137,9 +138,9 @@ bard.chooseSubclass = function(level) {
 		bard.proficiencies.weapons.push("Scimitar");
 
 		var f = bard.features.indexOf("Fighting Style");
-		var y = Math.random();
+		// var y = Math.random();
 		var style = "";
-		if (y < 0.5)
+		if (random.bool())
 			style = "Dueling";
 		else
 			style = "Two-Weapon Fighting";
@@ -288,8 +289,9 @@ bard.magicalSecrets = function(level, knownSpells) {
 
 	while (total < 2) {
 		var slots = bard.getSpellSlots(level);
-		var cl = world.casters[randInt(0, world.casters.length)];
-		var spLev = randInt(0, slots.length+1);
+		var cl = random.pick(world.casters);
+		// var spLev = randInt(0, slots.length+1);
+		var spLev = random.integer(0, slots.length);
 		// console.log("Taking "+spLev+"th level from "+cl.class);
 
 		if (typeof cl.magic.list[spLev] == 'undefined')

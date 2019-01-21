@@ -30,7 +30,7 @@ elf.reset = function() {
 }
 
 elf.generateRace = function(person) {
-	race = elf.types[randInt(0, elf.types.length)];
+	race = random.pick(elf.types);
 	elf.name = race;
 
 	elf.addFeatures(race);
@@ -185,10 +185,10 @@ helf.generateRace = function(person) {
 
 helf.rollStats = function(mods) {
 	// elf.statMods[5] += 2;
-	x = randInt(0, 5);
-	y = randInt(0, 5);
+	x = random.integer(0, 5);
+	y = random.integer(0, 5);
 	while (x == y)
-		y = randInt(0, 5);
+		y = random.integer(0, 5);
 	helf.statMods[x] = 1;
 	helf.statMods[y] = 1;
 	return helf.statMods;

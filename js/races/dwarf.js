@@ -27,7 +27,7 @@ drf.reset = function() {
 }
 
 drf.generateRace = function(person) {
-	race = drf.types[randInt(0, drf.types.length)];
+	race = random.pick(drf.types);
 	drf.name = race;
 
 	drf.addStatMods(race);
@@ -59,7 +59,7 @@ drf.addFeatures = function(race, level) {
 	drf.advantage = ["saves/poison"];
 
 	tools = ["Smith's tools", "Brewer's supplies", "Mason's tools"];
-	drf.proficiencies.other.push(tools[randInt(0, tools.length)]);
+	drf.proficiencies.other = skillChunk(tools, 1, person.proficiencies.other);
 
 	if (race == "Hill Dwarf") {
 		drf.features.push("Dwarven Toughness");

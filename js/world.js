@@ -50,7 +50,7 @@ world.rollOneStat = function(rollCount) {
 	// roll x times
 	next = [];
 	for (j = 0; j < rollCount; j++) {
-		next[j] = randInt(1,7);
+		next[j] = random.integer(1,6);
 	}
 
 	// remove lowest x
@@ -115,7 +115,7 @@ world.rollHealth = function(die, level, conMod) {
 	
 	for (i = 1; i < level; i++) {
 		min = Math.floor(die * .6666);
-		h = Math.max(randInt(1, die + 1), min);
+		h = Math.max(random.integer(1, die), min);
 		health += h + conMod;
 	}
 
@@ -124,8 +124,8 @@ world.rollHealth = function(die, level, conMod) {
 
 world.pickLanguages = function(knownLangs, availLangs, numToLearn) {
 	// if (typeof availLangs == undefined) {
-		var x = Math.random();
-		if (x < 0.2)
+		// var x = Math.random();
+		if (random.bool(0.2))
 			availLangs = world.languages.exotic;
 		else
 			availLangs = world.languages.standard;
@@ -175,13 +175,19 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 	// console.log("switching out a spell! Here's what we've got:");
 	// console.log(beforeSpells.join(", "));
 	// console.log(mySpells.join(", "));
+	console.log("slots, beforeSpells, mySpells, knownSpells");
+	console.log(slots);
+	console.log(beforeSpells);
+	console.log(mySpells);
+	console.log(knownSpells);
 	var areSpellsDiff = false;
 	var levFrom, levTo, spellOut, spellIn, removeIndex;
 
 	while (!areSpellsDiff) {
-		// console.log("Starting the spell diff loop");
-		levFrom = randInt(1, slots.length);
-		levTo = randInt(1, slots.length);
+		console.log("looping inside replace");
+		levFrom = random.integer(1, slots.length-1);
+		levTo = random.integer(1, slots.length-1);
+		// console.log("takeFrom: "+levFrom+", giveTo: "+levTo);
 
 		if (typeof beforeSpells[levFrom] == 'undefined')
 			continue;
@@ -190,10 +196,11 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 		if (typeof knownSpells[levTo] == 'undefined')
 			knownSpells[levTo] = [];
 		
-		removeIndex = randInt(0, beforeSpells[levFrom].length);
+		removeIndex = random.integer(0, beforeSpells[levFrom].length-1);
 		spellOut = beforeSpells[levFrom][removeIndex];
 		spellIn = skillChunk(guy.magic.list[levTo].slice(0), 1, mySpells[levTo].slice(0));
-		
+		console.log("spellout: "+spellOut+", spellIn: "+spellIn);
+
 		if (knownSpells[levTo].includes(spellIn))
 			continue;
 		if (spellOut != spellIn)
@@ -207,13 +214,9 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 	return mySpells;
 }
 
-function pickAllSpells(base, level, guy, knownSpells, replace) {
+function pickAllSpells(base, level, guy, knownSpells, replaceAllowed) {
 	var mySpells = [];
 	var currentTotal = 0;
-
-	// mySpells[1] = skillChunk(guy.magic.list[1].slice(0), 2, []);
-	// console.log(mySpells.join(", "));
-	// currentTotal = 2;
 
 	for (var i = base; i <= level; i++) {
 		var tempSlots = guy.getSpellSlots(i);
@@ -226,10 +229,10 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 
 
 		if (difference > 0) { // if we need to learn something new
-			console.log("The difference is "+difference);
+			// console.log("The difference is "+difference);
 			for (var j = 0; j < difference; j++) {
 				console.log("loopin' spells??");
-				var x = randInt(1, tempSlots.length);
+				var x = random.integer(1, tempSlots.length-1);
 				// console.log("let's add to: "+x);
 				if (typeof mySpells[x] == 'undefined')
 					mySpells[x] = [];
@@ -243,16 +246,16 @@ function pickAllSpells(base, level, guy, knownSpells, replace) {
 				mySpells[x] = mySpells[x].concat(spell);
 				// console.log(mySpells);
 				currentTotal++;
-				console.log(mySpells.join(", "));
+				// console.log(mySpells.join(", "));
 			}
-			console.log(mySpells);
-			console.log(currentTotal);
+			// console.log("past the spell loop");
+			// console.log(mySpells);
+			// console.log(currentTotal);
 		}
 
 		// possibly switch spells out every level
-		if (replace && i >= 2) {
-			var chance = Math.random();
-			if (chance < 0.25) {
+		if (replaceAllowed && i >= base + 1 && typeof beforeSpells != 'undefined' && beforeSpells.length > 0) {
+			if (random.bool(0.25)) {
 				mySpells = replaceSpell(tempSlots, beforeSpells.slice(0), mySpells.slice(0), guy, knownSpells.slice(0));
 			}
 		}
@@ -265,19 +268,11 @@ function pickSpellsAgnostic(level, guy, knownSpells) {
 	var mySpells = [];
 	var slots = guy.getSpellSlots(level);
 	var shouldBeTotal = guy.getNumSpellsToday(level);
-	console.log(guy);
-	console.log("this class should know " + shouldBeTotal + " spells!");
+	
 	for (var i = 1; i <= shouldBeTotal; i++) {
-		console.log("This is "+i+" of "+shouldBeTotal);
-		// var tempSlots = guy.getSpellSlots(i);
-		// var shouldBeTotal = guy.getNumSpellsKnown(i);
-		// console.log("Slots: ");
-		
-		// var difference = shouldBeTotal - currentTotal;
-		// console.log("Level "+i+": We should have "+shouldBeTotal+" spells, have "+currentTotal+"spells");
 		var beforeSpells = mySpells.slice(0);
 
-		var x = randInt(1, slots.length);
+		var x = random.integer(1, slots.length-1);
 		if (typeof mySpells[x] == 'undefined')
 				mySpells[x] = [];
 		if (typeof knownSpells[x] == 'undefined')
@@ -290,8 +285,8 @@ function pickSpellsAgnostic(level, guy, knownSpells) {
 				mySpells[x] = [];
 			if (typeof knownSpells[x] == 'undefined')
 				knownSpells[x] = [];
-			x = randInt(1, slots.length);
-			console.log("could it be "+x+"??");
+			x = random.integer(1, slots.length-1);
+			// console.log("could it be "+x+"??");
 		}
 		// console.log("let's add to: "+x);
 		if (typeof mySpells[x] == 'undefined')
@@ -300,16 +295,9 @@ function pickSpellsAgnostic(level, guy, knownSpells) {
 			knownSpells[x] = [];
 
 		var toCheck = mySpells[x].slice(0).concat(knownSpells[x].slice(0));
-		// console.log(toCheck);
 
 		var spell = skillChunk(guy.magic.list[x].slice(0), 1, toCheck);
-		console.log("just got "+spell[0]+" from skillChunk");
 		mySpells[x] = mySpells[x].concat(spell);
-		// console.log(mySpells);
-		// currentTotal += difference;
-			// console.log(mySpells.join(", "));
-		console.log("we're adding "+spell);
-		console.log(mySpells[x]);
 	}
 	return mySpells;
 }
@@ -324,22 +312,11 @@ function agnosticChecker(guy, spells, knownSpells, x) {
 
 	var toReturn = false;
 	if (x in guy.magic.list) { 
-		// console.log("spell level "+x+" exists in list");
 		if (typeof guy.magic.list[x] != 'undefined') {
-			// console.log("spell list isn't busted");
 			if (guy.magic.list[x].length >= 0) {
-				console.log("length of this list is bigger than 0");
-				console.log("here's available spells at that level: ");
-				console.log(guy.magic.list[x]);
 				var toCheck = spells[x].concat(knownSpells[x]);
-				console.log("here's the class spells we know at that level: ");
-				console.log(spells[x]);
-				console.log("here's all the spells we know at that level");
-				console.log(toCheck[x]);
-				console.log("and here's all the spells we know?");
-				console.log(knownSpells);
 				if (guy.magic.list[x].length != spells[x].length) {	
-					console.log("we haven't reached the max number of spells possible");
+					// console.log("we haven't reached the max number of spells possible");
 					return true;
 				}
 			}
@@ -349,7 +326,7 @@ function agnosticChecker(guy, spells, knownSpells, x) {
 		return false;
 	}
 
-	console.log("one of those things was false");
+	// console.log("one of those things was false");
 	return toReturn;
 }
 
@@ -400,7 +377,7 @@ function pickUnique(chooseFrom, checkWith) {
 	// 	checkWith = [];
 
 	while (!shouldAdd) {
-		x = randInt(0, chooseFrom.length);
+		x = random.integer(0, chooseFrom.length-1);
 		if (!checkWith.includes(chooseFrom[x])) {
 			return chooseFrom[x];
 		}
@@ -475,7 +452,12 @@ function makeSpellText(spells) {
 	for (var i = 0; i < spells.length; i++) {
 		// console.log(spells[i]);
 		if (spells[i]) {
-			str += "<li>"+intervalHelper(i)+" level: " +spells[i].sort().join(", ")+ "</li>";
+			var s = spells[i].slice(0).sort();
+			for (var j = 0; j < s.length; j++) {
+				// console.log(s[j]);
+				s[j] = "<a href='https:\/\/dnd5e.fandom.com/wiki/"+s[j].split(' ').join('_')+"'>"+s[j]+"</a>";
+			}
+			str += "<li>"+intervalHelper(i)+" level: " +s.join(", ")+ "</li>";
 		}
 	}
 	str += "</ul>";
@@ -490,6 +472,7 @@ function printSpellSlots(slots) {
 	for (var i = 1; i < slots.length; i++) {
 		mySlots[i] = slots[i] + " of " + intervalHelper(i) + " level";
 	}
+	mySlots.splice(0, 1);
 	str += mySlots.join(", ");
 	str += "</span>";
 	return str;

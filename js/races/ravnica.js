@@ -42,18 +42,29 @@ var hybr = {};
 hybr.name = "Magic Hybrid";
 hybr.reset = function() { 
 	hybr.acBonus = 0;
+	hybr.adapts = [];
 	raceReset(hybr);
 }
 hybr.generateRace = function(person) {
 	hybr.rSize = "Medium";
 	hybr.speed = 30;
+	hybr.adapts = [];
 	hybr.features = ["Darkvision"];
-	hybr.statMods = [0,0,2,0,0,0];
+	hybr.statMods = hybr.pickMod([0,0,2,0,0,0]);
 	hybr.languages = ["Common"];
-	hybr.languages.push(pickUnique(["Elven","Vedalken"], []));
+	hybr.languages.push(random.pick(["Elven","Vedalken"]));
 	hybr.first = ["Manta Glide","Nimble Climber","Underwater Adaptation"];
 	hybr.second = ["Grappling Appendages","Carapace","Acid Spit"];	
 	hybr.pickAdapts(person.level);
+}
+
+hybr.pickMod = function(mods) {
+	var x = random.integer(0, 5);
+	while (x == 2) {
+		x = random.integer(0, 5);
+	}
+	mods[x] = 1;
+	return mods;
 }
 
 hybr.pickAdapts = function(level) {
@@ -79,8 +90,8 @@ hybr.addAdapts = function(ad, level) {
 		hybr.swimSpeed = hybr.speed;
 	}
 	else if (ad == "Grappling Appendages") {
-		var x = Math.random();
-		if (x > 0.5)
+		// var x = Math.random();
+		if (random.bool())
 			t = "Tentacles";
 		else
 			t = "Claws";

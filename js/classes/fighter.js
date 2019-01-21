@@ -53,7 +53,7 @@ fght.printClass = function() {
 
 fght.addFeatures = function(level) {	
 	var styles = ["Archery", "Defense", "Dueling", "Great Weapon Fighting", "Protection", "Two-Weapon Fighting"];
-	fght.features.push("Fighting Style - "+styles[randInt(0, styles.length)]);
+	fght.features.push("Fighting Style - "+random.pick(styles));
 	fght.features.push("Second Wind");
 
 	if (level >= 2) {
@@ -81,7 +81,7 @@ fght.addFeatures = function(level) {
 
 fght.chooseSubclass = function(level) {
 	var archs = ["Arcane Archer","Battle Master","Cavalier","Champion","Eldritch Knight"];
-	var x = archs[randInt(0, archs.length)];
+	var x = random.pick(archs);
 	// x = "Eldritch Knight";
 	fght.subclass = x;
 
@@ -180,39 +180,22 @@ fght.addSpells = function(level, knownSpells) {
 fght.getSpellSlots = function(level) {
 	var slots = [];
 
-	switch(level) {
-		case 3:
-			slots = [0, 2];
-			break;
-		case 4:
-		case 5:
-		case 6:
-			slots = [0, 3];
-			break;
-		case 7:
-		case 8:
-		case 9:
-			slots = [0, 4, 2];
-			break;
-		case 10:
-		case 11:
-		case 12:
-			slots = [0, 4, 3];
-		case 13:
-		case 14:
-		case 15:
-			slots = [0, 4, 3, 2];
-			break;
-		case 16:
-		case 17:
-		case 18:
-			slots = [0, 4, 3, 3];
-			break;
-		case 19:
-		case 20:
-			slots = [0, 4, 3, 3, 1];
-			break;
+	if (level >= 3)
+		slots[1] = 2;
+	if (level >= 4)
+		slots[1] = 3;
+	if (level >= 7) {
+		slots[1] = 4;
+		slots[2] = 2;
 	}
+	if (level >= 10)
+		slots[2] = 3;
+	if (level >= 13)
+		slots[3] = 2;
+	if (level >= 16)
+		slots[3] = 3;
+	if (level >= 19)
+		slots[4] = 1;
 
 	return slots;
 }
@@ -275,7 +258,7 @@ fght.getSpells = function(level, knownSpells) {
 	fght.magic.list = wiz.magic.list.slice(0);
 	knownSpells = world.combineSpellLists(knownSpells.slice(0), spells.slice(0));
 
-	var allSpells = pickAllSpells(3, level, fght, knownSpells.slice(0), false);
+	var allSpells = pickAllSpells(3, level, fght, knownSpells.slice(0), true);
 
 	spells = world.combineSpellLists(spells.slice(0), allSpells.slice(0));
 

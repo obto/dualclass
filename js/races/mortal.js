@@ -16,7 +16,7 @@ aasm.generateRace = function(person) {
 	aasm.resistance = ["radiant","necrotic"];
 	aasm.types = ["Protector Aasmiar","Scourge Aasimar","Fallen Aasimar"];
 
-	var race = aasm.types[randInt(0, aasm.types.length)];
+	var race = random.pick(aasm.types);
 	aasm.name = race;
 
 	if (race == "Protector Aasimar") {
@@ -45,7 +45,7 @@ drgb.generateRace = function(person) {
 	drgb.statMods = [2,0,0,0,0,1];
 	drgb.languages = ["Common","Draconic"];
 	var types = ["Black","Blue","Brass","Bronze","Copper","Gold","Green","Red","Silver","White"];
-	var t = types[randInt(0, types.length)];
+	var t = random.pick(types);
 
 	var elem = drgb.breathType(t);
 	drgb.resistance = [elem];

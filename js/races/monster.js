@@ -58,7 +58,7 @@ gnsi.generateRace = function(person) {
 	gnsi.castAbility = 2;
 	gnsi.types = ["Air Genasi","Earth Genasi","Fire Genasi","Water Genasi"];
 
-	var race = gnsi.types[randInt(0,gnsi.types.length)];
+	var race = random.pick(gnsi.types);
 	gnsi.name = race;
 	if (race == "Air Genasi") {
 		gnsi.statMods[1] = 1;

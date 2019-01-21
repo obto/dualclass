@@ -55,7 +55,7 @@ mnk.getAC = function(mods) {
 }
 
 mnk.addFeatures = function(level, knownProfs) {
-	if (Math.random() > 0.5) {
+	if (random.bool()) {
 		var inst = skillChunk(world.instruments, 1, knownProfs);
 		mnk.proficiencies.other = inst;
 	}
@@ -127,7 +127,7 @@ mnk.addFeatures = function(level, knownProfs) {
 
 mnk.chooseSubclass = function(level) {
 	var archs = ["Shadow","Four Elements","Open Hand","Sun Soul"];
-	var x = archs[randInt(0, archs.length)];
+	var x = random.pick(archs);
 	mnk.subclass = "Way of the " + x;
 	mnk.features.push("Monastic Tradition - "+mnk.subclass);
 	
@@ -152,20 +152,20 @@ mnk.chooseSubclass = function(level) {
 		fe[2] = ["Flames of the Phoenix","Mist Stance","Ride the Wind"];
 		fe[3] = ["Breath of Winter","Eternal Mountain Defense","River of Hungry Flame","Wave of Rolling Earth"];
 
-		mnk.features.push(fe[0][randInt(0,fe[0].length)]);
+		mnk.features.push(random.pick(fe[0]));
 
 		full = [];
 		if (level >= 6) {
-			full = fe[0].concat(fe[1]);
-			mnk.features.push(full[randInt(0,full.length)]);
+			full = fe[0].concat(fe[1].slice(0));
+			mnk.features.push(random.pick(full));
 		}
 		if (level >= 11) {
-			full = full.concat(fe[2]);
-			mnk.features.push(full[randInt(0,full.length)]);
+			full = full.concat(fe[2].slice(0));
+			mnk.features.push(random.pick(full));
 		}
 		if (level >= 17) {
-			full = full.concat(fe[3]);
-			mnk.features.push(full[randInt(0,full.length)]);
+			full = full.concat(fe[3].slice(0));
+			mnk.features.push(random.pick(full));
 		}
 	}
 }

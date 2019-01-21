@@ -89,12 +89,12 @@ wrl.addFeatures = function(level) {
 		var pacts = ["Pact of the Chain","Pact of the Blade","Pact of the Tome"];
 		if (wrl.subclass == "Seeker")
 			pacts.push("Pact of the Star Chain");
-		var p = pacts[randInt(0,pacts.length)];
+		var p = random.pick(pacts);
 		wrl.pact = p;
 
 		if (p == "Pact of the Chain") {
 			var f = ["bat","cat","crab","toad","hawk","lizard","octopus","owl","poisonous snake","fish","rat","raven","sea horse","spider","weasel","imp","pseudodragon","quasit","sprite"];
-			wrl.familiar = f[randInt(0, f.length)];
+			wrl.familiar = random.pick(f);
 			wrl.features.push("Pact Boon - "+p+" ("+wrl.familiar+")");
 		}
 		else
@@ -110,7 +110,7 @@ wrl.addFeatures = function(level) {
 
 wrl.chooseSubclass = function(level) {
 	var patr = ["Archfey","Celestial","Fiend","Great Old One","Hexblade","Raven Queen","Seeker","Undying"];
-	var p = patr[randInt(0,patr.length)];
+	var p = random.pick(patr);
 	wrl.subclass = p;
 	wrl.features.push("Otherworldly Patron - The "+p);
 
@@ -210,22 +210,22 @@ wrl.chooseInvocations = function(level, knownSpells) {
 	if (level >= 18)
 		myInvos = wrl.levelInvocations(myInvos.slice(0), invos.slice(0));
 
-	console.log(invos);
+	// console.log(invos);
 	return myInvos;
 }
 
 wrl.levelInvocations = function(myInvos, invoList) {
 	// maybe replace 1 invocation
 
-	var r = Math.random();
-	if (r < 0.25) {
-		var x = randInt(0, myInvos.length);
+	// var r = Math.random();
+	if (random.bool(0.25)) {
+		var x = random.integer(0, myInvos.length-1);
 		myInvos[x] = skillChunk(invoList.slice(0), 1, myInvos.slice(0))[0];
-		console.log("we replaced something with "+myInvos[x]);
+		// console.log("we replaced something with "+myInvos[x]);
 	}
 
 	if (myInvos.includes("Sign of Ill Omen")) {
-		console.log("We can hex because of Sign of Ill Omen!");
+		// console.log("We can hex because of Sign of Ill Omen!");
 		wrl.hasHex = true;
 	}
 	// Add new ones
@@ -252,9 +252,8 @@ wrl.addSkills = function(level, knownSkills) {
 
 wrl.spellsfromInvo = function(tempAr) {
 // SPELLS BASED ON INVOCATIONS
-	console.log("Inside of spellsFromInvo: ");
-	console.log(tempAr);
-	console.log(wrl.invocations);
+	// console.log("Inside of spellsFromInvo: ");
+	// console.log(tempAr);
 	var waSpells = [];
 	waSpells[1] = [];
 	if (tempAr.indexOf("Eldritch Sight") > -1) {
@@ -404,7 +403,7 @@ wrl.tomeSpells = function(level, knownSpells) {
 	while (total < 3) {
 		// var slots = bard.getSpellSlots(level);
 		var cl = [bard,drd,clr,wiz,wrl,sor];
-		var randCl = cl[randInt(0, cl.length)];
+		var randCl = random.pick(cl);
 		// console.log("Taking from "+randCl.class);
 
 		if (typeof knownSpells == 'undefined')
@@ -467,7 +466,6 @@ wrl.getSpellSlots = function(level) {
 }
 
 wrl.realSpellSlots = function(level) {
-	console.log("what?");
 	var sp = 1;
 	if (level >= 2)
 		sp++;

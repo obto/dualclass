@@ -30,6 +30,9 @@ bbn.reset = function() {
 	bbn.subclass = "";
 	bbn.subclassType = "";
 	bbn.speedMod = 0;
+	bbn.swimSpeed = 0;
+	bbn.advantage = [];
+	bbn.resistance = [];
 }
 
 // -------------- FEATURES ----------
@@ -61,8 +64,10 @@ bbn.getAC = function(mods) {
 bbn.addFeatures = function(level) {	
 	bbn.features.push(bbn.rages(level), "Unarmored Defense");
 
-	if (level >= 2)
+	if (level >= 2) {
 		bbn.features.push("Reckless Attack", "Danger Sense");
+		bbn.advantage.push("Dexterity saves/visible traps, spells");
+	}
 	if (level >= 3) {
 		bbn.chooseSubclass(level);
 	}
@@ -110,7 +115,7 @@ bbn.rages = function(level) {
 
 bbn.chooseSubclass = function(level) {
 	var paths = ["Ancestral Guardian","Berzerker","Storm Herald","Totem Warrior","Zealot"];
-	var x = paths[randInt(0, paths.length)];
+	var x = random.pick(paths);
 	bbn.subclass = x;
 
 	paths["Ancestral Guardian"] = ["Ancestral Protectors", "Spirit Shield", "Consult the Spirits", "Vengeful Ancestors"];
@@ -136,7 +141,7 @@ bbn.chooseSubclass = function(level) {
 		bbn.features.push(paths[x][3]);
 
 	if (x == "Totem Warrior") {
-		x = randInt(0, 3);
+		x = random.integer(0, 2);
 		var path = "";
 		
 		if (x == 0)
@@ -148,23 +153,27 @@ bbn.chooseSubclass = function(level) {
 
 		bbn.subclassType = path;
 		bbn.subclass = "Path of the Totem Warrior - " + bbn.subclassType;
+		if (path == "Bear" && level >= 6) {
+			bbn.advantage.push("Strength/pull,push,lift,break");
+		}
 	}
 	if (x == "Storm Herald") {
-		var types = ["Desert","Sea","Storm"];
-		var t = types[randInt(0, 3)];
+		// var types = ["Desert","Sea","Storm"];
+		var t = random.pick(["Desert","Sea","Tundra"]);
 		bbn.subclass = "Path of the Storm Herald - "+t;
 		bbn.subclassType = t;
 
 		if (level >= 6) {
 			switch(t) {
 				case "Desert":
-					bbn.resistance.push("fire damage");
+					bbn.resistance.push("fire");
 					break;
 				case "Sea":
-					bbn.resistance.push("lightning damage");
+					bbn.resistance.push("lightning");
+					bbn.swimSpeed = 30;
 					break;
 				case "Tundra":
-					bbn.resistance.push("cold damage");
+					bbn.resistance.push("cold");
 			}
 		}
 	}

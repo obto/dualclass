@@ -67,7 +67,7 @@ wiz.addFeatures = function(level) {
 
 wiz.chooseSubclass = function(level) {
 	var types = ["Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation","War Magic"];
-	var t = types[randInt(0, types.length)];
+	var t = random.pick(types);
 	wiz.subclass = t;
 	wiz.features.push("Arcane Tradition - School of "+wiz.subclass);
 

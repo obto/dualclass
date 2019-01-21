@@ -70,7 +70,7 @@ rngr.addFeatures = function(level) {
 	if (level >= 6)
 		x = 4;
 	var enemies = ["Beasts","Fey","Humanoids","Monstrosities","Undead"];
-	var e = enemies[randInt(0,enemies.length)];
+	var e = random.pick(enemies);
 	rngr.extraLangs += 1;
 	rngr.enemies = [e];
 
@@ -78,7 +78,7 @@ rngr.addFeatures = function(level) {
 
 	if (level >= 2) {
 		var styles = ["Archery","Defense","Dueling","Two-Weapon Fighting"];
-		var s = styles[randInt(0,styles.length)]
+		var s = random.pick(styles);
 		rngr.features.push("Fighting Style - "+s,"Spellcasting");
 	}
 
@@ -89,7 +89,7 @@ rngr.addFeatures = function(level) {
 
 	if (level >= 6) {
 		var grtr = ["Aberrations","Celestials","Constructs","Dragons","Elementals","Fiends","Giants"];
-		var q = grtr[randInt(0,grtr.length)];
+		var q = random.pick(grtr);
 		rngr.enemies.push(q);
 		rngr.extraLangs += 1;
 
@@ -110,7 +110,7 @@ rngr.addFeatures = function(level) {
 
 rngr.chooseSubclass = function(level) {
 	var concs = ["Beast Master","Gloom Stalker","Horizon Walker","Hunter","Monster Slayer"];
-	var c = concs[randInt(0,concs.length)];
+	var c = random.pick(concs);
 	rngr.subclass = c;
 	rngr.features.push("Ranger Conclave - "+c+" Conclave");
 
@@ -138,7 +138,7 @@ rngr.chooseSubclass = function(level) {
 
 	if (c == "Beast Master") {
 		var beasts = ["Ape","Black bear","Boar","Giant badger","Giant weasel","Mule","Panther","Wolf"];
-		var b = beasts[randInt(0,beasts.length)];
+		var b = random.pick(beasts);
 
 		rngr.companion = [];
 		rngr.companion.race = b;
@@ -149,21 +149,21 @@ rngr.chooseSubclass = function(level) {
 		// statmods??
 	}
 	else if (c == "Hunter") {
-		main = concs[c];
-		feats = [["Colossus Slayer","Giant Killer","Horde Breaker"],["Escape the Horde","Multi-attack Defense","Steel Will"],["Volley","Whirlwind Attack"],["Evasion","Stand Against the Tide","Uncanny Dodge"]];
-		rngr.features.push(main[0] +" - "+ feats[0][randInt(0,feats[0].length)]);
+		var main = concs[c];
+		var feats = [["Colossus Slayer","Giant Killer","Horde Breaker"],["Escape the Horde","Multi-attack Defense","Steel Will"],["Volley","Whirlwind Attack"],["Evasion","Stand Against the Tide","Uncanny Dodge"]];
+		rngr.features.push(main[0] +" - "+ random.pick(feats[0]));
 
 		if (level >= 5)
 			rngr.features.push(main[1]);
 			
 		if (level >= 7)
-			rngr.features.push(main[2] +" - "+ feats[1][randInt(0,feats[1].length)]);
+			rngr.features.push(main[2] +" - "+ random.pick(feats[1]));
 			
 		if (level >= 11)
-			rngr.features.push(main[3] +" - "+ feats[2][randInt(0,feats[2].length)]);
+			rngr.features.push(main[3] +" - "+ random.pick(feats[2]));
 			
 		if (level >= 15)
-			rngr.features.push(main[4] +" - "+ feats[3][randInt(0,feats[3].length)]);		
+			rngr.features.push(main[4] +" - "+ random.pick(feats[3]));
 	}
 }
 
@@ -175,55 +175,38 @@ rngr.addSkills = function(level, knownSkills) {
 
 rngr.addSpells = function(level, knownSpells) {
 	rngr.magic.slots = rngr.getSpellSlots(level);
-	var toLearn = rngr.getNumSpellsKnown(level);
+	// var toLearn = rngr.getNumSpellsKnown(level);
 	var spells = rngr.getSpells(level, rngr.magic.slots, knownSpells.slice(0));
 	rngr.magic.spells = spells;
 	return spells;
 }
 
 rngr.getSpellSlots = function(level) {
-	var slots = [];
-
-	switch(level) {
-		case 2:
-			slots = [0, 2];
-			break;
-		case 3:
-		case 4:
-			slots = [0, 3];
-			break;
-		case 5:
-		case 6:
-			slots = [0, 4, 2];
-			break;
-		case 7:
-		case 8:
-			slots = [0, 4, 3];
-		case 9:
-		case 10:
-			slots = [0, 4, 3, 2];
-			break;
-		case 11:
-		case 12:
-			slots = [0, 4, 3, 3];
-			break;
-		case 13:
-		case 14:
-			slots = [0, 4, 3, 3, 1];
-			break;
-		case 15:
-		case 16:
-			slots = [0, 4, 3, 3, 2];
-			break;
-		case 17:
-		case 18:
-			slots = [0, 4, 3, 3, 3, 1];
-			break;
-		case 19:
-		case 20:
-			slots = [0, 4, 3, 3, 3, 2];
-			break;
+		var slots = [];
+	if (level >= 2)
+		slots[1] = 2;
+	if (level >= 3)
+		slots[1]++;
+	if (level >= 5)  {
+		slots[1]++;
+		slots[2] = 2;
 	}
+	if (level >= 7)
+		slots[2]++;
+	if (level >= 9)
+		slots[3] = 2;
+	if (level >= 11)
+		slots[3]++;
+	if (level >= 13)
+		slots[4] = 1;
+	if (level >= 15)
+		slots[4]++;
+	if (level >= 17) {
+		slots[4]++;
+		slots[5] = 1;
+	}
+	if (level >= 19)
+		slots[5]++;
 
 	return slots;
 }
@@ -274,13 +257,13 @@ rngr.getConcSpells = function(slots) {
 
 rngr.getSpells = function(level, slots, knownSpells) {
 	var concSpells = rngr.getConcSpells(slots);
-	var mySpells = pickAllSpells(2, level, rngr, knownSpells);	
+	var mySpells = pickAllSpells(2, level, rngr, knownSpells, true);
 
 	var allSpells = [];
 	if (concSpells.length > 0)
-		allSpells = world.combineSpellLists(mySpells, concSpells);
+		allSpells = world.combineSpellLists(mySpells.slice(0), concSpells.slice(0));
 	else
-		allSpells = mySpells;
+		allSpells = mySpells.slice(0);
 
 	return allSpells;
 	// return mySpells;
