@@ -82,28 +82,38 @@ float: right;
 
 }
 
-.side-area {
-	float: right;
-	width: 350px;
-	padding-bottom: .5em;
-	padding-left: .5em;
-	border-left:  1px solid;
-	border-bottom:  1px solid;
-	margin-left: .5em;
-  }
+.full-content {
+	font: 12pt sans-serif;
+	margin: 0 auto;
+	width: 80%;
+}
 
- h4 {
- 	margin-bottom: .5em;
+.history, .classes {
+ 	display: flex;
+ 	border-bottom: 2px solid grey;
+ }
+
+ .race, .bg {
+ 	width: 48%;
+ }
+ .class, .class2 {
+ 	width: 48%;
+ }
+ .bg, .class2 {
+ 	margin-left: 2%;
+ }
+ div h4 {
+ 	margin-bottom: 0;
  }
  div p, div ul {
- 	margin-top: 0em;
+ 	margin-top: 0;
  }
 
 </style>
 </head> 
 <body>
 
-<div class="complete">
+<div class="full-content">
 	<form class="genStuff">
 		<select class="levelSelector"></select>
 		<select class="raceSelector"></select>
@@ -131,6 +141,7 @@ float: right;
 			</div>
 		</div>
 		<hr />
+		<div class="history">
 		<div class="race">
 			<div class="basics">
 				<h3>Race</h3>
@@ -154,16 +165,16 @@ float: right;
 				<p class="spellnotes"></p>
 			</div>
 		</div>
-
-				<hr />
 		<div class="bg">
 			<div class="basics"><h3>Background</h3></div>
 			<div class="feats"><p></p></div>
 			<div class="skills"><p></p></div>
 			<div class="profs"><p></p></div>
 		</div>
+		</div>
 
-		<hr />
+		<!-- <hr /> -->
+		<div class="classes">
 		<div class="class">
 			<div class="basics">
 				<h3>Class</h3>
@@ -212,11 +223,17 @@ float: right;
 				<div class="spellnotes"></div>
 			</div>
 		</div>
+	</div>
 
 		<hr />
 	</div>
 </div>
 
+
+<script src="js/lib/random.js"></script>
+<script>
+	var random = new Random(Random.engines.mt19937().autoSeed());
+</script>
 
 <script src="js/classes/barbarian.js"></script>
 <script src="js/classes/bard.js"></script>
