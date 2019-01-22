@@ -12,8 +12,8 @@ fght.saves = ["Strength", "Constitution"];
 fght.subclass = "";
 fght.magic = [];
 
-fght.reset = function() {
-	fght.name = "";
+fght.reset = function(classes) {
+	fght.name = "Fighter";
 	fght.level = 1;
 	fght.features = [];
 	fght.skills = [];
@@ -25,6 +25,12 @@ fght.reset = function() {
 	fght.subclass = "";
 	fght.magic = [];
 	fght.slots = [];
+
+	var list = ["Champion","Battle Master","Eldritch Knight"];
+	if (typeof classes != 'undefined')
+		fght.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		fght.subclassList = list;
 }
 
 fght.generateClass = function(level, person) {
@@ -80,7 +86,7 @@ fght.addFeatures = function(level) {
 }
 
 fght.chooseSubclass = function(level) {
-	var archs = ["Arcane Archer","Battle Master","Cavalier","Champion","Eldritch Knight"];
+	var archs = fght.subclassList.slice(0);
 	var x = random.pick(archs);
 	// x = "Eldritch Knight";
 	fght.subclass = x;

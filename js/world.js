@@ -1,10 +1,12 @@
 var world = {};
-world.races = [aasm, drgb, drf, elf, gnm, helf, hlf, horc, humn, tief];
-world.monsters = [frbl, bugb, gnsi, gobl, hobl, glth, kenk, kobl, lzrd, orc, tbxi, trit, ynti];
-world.ravnica = [centa, loxo, mino, hybr, veda];
-world.races = world.races.slice(0).concat(world.monsters.slice(0).concat(world.ravnica.slice(0)));
+world.races = [drgb, drf, elf, gnm, helf, hlf, horc, humn, tief];
+world.baseRaces = [drgb, drf, elf, gnm, helf, hlf, horc, humn, tief];
+// world.monsters = [frbl, bugb, gnsi, gobl, hobl, glth, kenk, kobl, lzrd, orc, tbxi, trit, ynti];
+// world.ravnica = [centa, loxo, mino, hybr, veda];
+// world.races = world.races.slice(0).concat(world.monsters.slice(0).concat(world.ravnica.slice(0)));
 
 world.classes = [bbn, bard, clr, drd, fght, mnk, pal, rngr, rog, sor, wrl, wiz];
+world.classNames = ["Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorceror","Warlock","Wizard"];
 world.casters = [bard, clr, drd, pal, rngr, sor, wiz];
 world.stats = ["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"];
 world.statsShort = ["STR","DEX","CON","INT","WIS","CHA"];
@@ -176,16 +178,16 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 	// console.log("switching out a spell! Here's what we've got:");
 	// console.log(beforeSpells.join(", "));
 	// console.log(mySpells.join(", "));
-	console.log("slots, beforeSpells, mySpells, knownSpells");
-	console.log(slots);
-	console.log(beforeSpells);
-	console.log(mySpells);
-	console.log(knownSpells);
+	// console.log("slots, beforeSpells, mySpells, knownSpells");
+	// console.log(slots);
+	// console.log(beforeSpells);
+	// console.log(mySpells);
+	// console.log(knownSpells);
 	var areSpellsDiff = false;
 	var levFrom, levTo, spellOut, spellIn, removeIndex;
 
 	while (!areSpellsDiff) {
-		console.log("looping inside replace");
+		// console.log("looping inside replace");
 		levFrom = random.integer(1, slots.length-1);
 		levTo = random.integer(1, slots.length-1);
 		// console.log("takeFrom: "+levFrom+", giveTo: "+levTo);
@@ -200,7 +202,7 @@ function replaceSpell(slots, beforeSpells, mySpells, guy, knownSpells) {
 		removeIndex = random.integer(0, beforeSpells[levFrom].length-1);
 		spellOut = beforeSpells[levFrom][removeIndex];
 		spellIn = skillChunk(guy.magic.list[levTo].slice(0), 1, mySpells[levTo].slice(0));
-		console.log("spellout: "+spellOut+", spellIn: "+spellIn);
+		// console.log("spellout: "+spellOut+", spellIn: "+spellIn);
 
 		if (knownSpells[levTo].includes(spellIn))
 			continue;
@@ -232,7 +234,7 @@ function pickAllSpells(base, level, guy, knownSpells, replaceAllowed) {
 		if (difference > 0) { // if we need to learn something new
 			// console.log("The difference is "+difference);
 			for (var j = 0; j < difference; j++) {
-				console.log("loopin' spells??");
+				// console.log("loopin' spells??");
 				var x = random.integer(1, tempSlots.length-1);
 				// console.log("let's add to: "+x);
 				if (typeof mySpells[x] == 'undefined')
@@ -428,8 +430,8 @@ function makeModText(mod){
 }
 
 function makeSaveText(saves, mods, profBonus) {
-	console.log("WHICH SAVES WE GOT?");
-	console.log(saves);
+	// console.log("WHICH SAVES WE GOT?");
+	// console.log(saves);
 	var str = "<h3>Saves</h3>";
 	str += "<ul class='savesBox'>";
 

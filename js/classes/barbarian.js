@@ -17,7 +17,7 @@ bbn.advantage = [];
 bbn.resistance = [];
 bbn.statMods = [0,0,0,0,0,0];
 
-bbn.reset = function() {
+bbn.reset = function(classes) {
 	bbn.name = "";
 	bbn.level = 1;
 	bbn.features = [];
@@ -33,6 +33,19 @@ bbn.reset = function() {
 	bbn.swimSpeed = 0;
 	bbn.advantage = [];
 	bbn.resistance = [];
+	bbn.extraTotem = false;
+
+	var list = ["Berzerker","Totem Warrior"];
+
+	if (typeof classes != 'undefined') {
+		if (classes.includes("Totem Warrior")){
+			bbn.extraTotem = true;
+			bbn.subclassList = Array.from(new Set(list.slice(0).concat(classes)));
+		}
+	}
+	else {
+		bbn.subclassList = list;
+	}
 }
 // -------------- FEATURES ----------
 
@@ -121,7 +134,7 @@ bbn.rages = function(level) {
 }
 
 bbn.chooseSubclass = function(level) {
-	var paths = ["Ancestral Guardian","Berzerker","Storm Herald","Totem Warrior","Zealot"];
+	var paths = bbn.subclassList.slice(0);
 	var x = random.pick(paths);
 	bbn.subclass = x;
 
@@ -148,15 +161,11 @@ bbn.chooseSubclass = function(level) {
 		bbn.features.push(paths[x][3]);
 
 	if (x == "Totem Warrior") {
-		x = random.integer(0, 2);
-		var path = "";
-		
-		if (x == 0)
-			path = "Bear";
-		if (x == 1)
-			path = "Eagle";
-		if (x == 2)
-			path = "Wolf";
+		var totes = ["Bear","Eagle","Wolf"];
+		if (bbn.extraTotem)
+			totes.push("Elk","Tiger");
+
+		var path = random.pick(totes);
 
 		bbn.subclassType = path;
 		bbn.subclass = "Path of the Totem Warrior - " + bbn.subclassType;

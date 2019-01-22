@@ -27,8 +27,8 @@ sor.magic.list[7] = ["Crown of Stars","Delayed Blast Fireball","Etherealness","F
 sor.magic.list[8] = ["Abi-Dalzim's Horrid Writing","Dominate Monster","Earthquake","Incendiary Cloud","Power Word Stun","Sunburst"];
 sor.magic.list[9] = ["Gate","Mass Polymorph","Meteor Swarm","Power Word Kill","Psychic Scream","Time Stop","Wish"];
 
-sor.reset = function() {
-	sor.name = "";
+sor.reset = function(classes) {
+	sor.name = "Sorceror";
 	sor.level = 1;
 	sor.magic.spells = [];
 	sor.magic.slots = [];
@@ -45,6 +45,12 @@ sor.reset = function() {
 	sor.subclassType = "";
 	sor.languages = [];
 	sor.extraHP = 0;
+
+	var list = ["Draconic Bloodline","Wild Magic"];
+	if (typeof classes != 'undefined')
+		sor.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		sor.subclassList = list;
 }
 
 sor.generateClass = function(level, person) {
@@ -92,7 +98,7 @@ sor.addFeatures = function(level) {
 }
 
 sor.chooseSubclass = function(level) {
-	var orig = ["Divine Soul","Draconic Bloodline","Giant Soul","Phoenix Sorcery","Shadow Magic","Stone Sorcery","Storm Sorcery","Wild Magic"];
+	var orig = sor.subclassList.slice(0);
 	var c = random.pick(orig);
 	sor.subclass = c;
 	sor.features.push("Sorcerous Origin - "+c);

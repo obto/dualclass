@@ -27,8 +27,8 @@ bard.magic.list[7] = ["Etherealness","Forcecage","Mirage Arcane","Mordenkainen's
 bard.magic.list[8] = ["Dominate Monster","Feeblemind","Glibness","Mind Blank","Power Word Stun"];
 bard.magic.list[9] = ["Foresight","Mass Polymorph","Power Word Heal","Power Word Kill","Psychic Scream","True Polymorph"];
 
-bard.reset = function() {
-	bard.name = "";
+bard.reset = function(classes) {
+	bard.name = "Bard";
 	bard.level = 1;
 	bard.magic.spells = [];
 	bard.magic.slots = [];
@@ -41,6 +41,12 @@ bard.reset = function() {
 	bard.proficiencies.other = [];
 	bard.saves = ["Dexterity", "Charisma"];
 	bard.subclass = "";
+
+	var list = ["Lore","Valor"];
+	if (typeof classes != 'undefined')
+		bard.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		bard.subclassList = list;
 }
 
 bard.generateClass = function(level, person) {
@@ -113,7 +119,7 @@ bard.addFeatures = function(level, knownProfs) {
 }
 
 bard.chooseSubclass = function(level) {
-	var colleges = ["Glamour","Lore","Swords","Valor","Whispers"];
+	var colleges = bard.subclassList.slice(0);
 	var x = random.pick(colleges);
 	// var x = colleges[randInt(0, colleges.length)];
 	// x = "Lore"; // TODO CHANGE ME BACK

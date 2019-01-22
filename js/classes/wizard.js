@@ -16,8 +16,8 @@ wiz.statMods = [0,0,0,0,0,0];
 wiz.subclass = "";
 wiz.extraHP = 0;
 
-wiz.reset = function() {
-	wiz.name = "";
+wiz.reset = function(classes) {
+	wiz.name = "Wizard";
 	wiz.level = 1;
 	wiz.magic.spells = [];
 	wiz.magic.slots = [];
@@ -32,6 +32,12 @@ wiz.reset = function() {
 	wiz.statMods = [0,0,0,0,0,0];
 	wiz.subclass = "";
 	wiz.extraHP = 0;
+
+	var list = ["Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"];
+	if (typeof classes != 'undefined')
+		wiz.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		wiz.subclassList = list;
 }
 
 wiz.generateClass = function(level, person) {

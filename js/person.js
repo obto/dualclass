@@ -53,7 +53,9 @@ person.restart = function() {
 	person.race = [];
 }
 
-person.buildPerson = function(lev, r, cl) {
+person.buildPerson = function(lev, r, cl, opt) {
+	console.log("WHAT ARE MY OPTIONS?");
+	console.log(opt);
 	person.restart();
 
 	var classLevel = lev;
@@ -72,9 +74,15 @@ person.buildPerson = function(lev, r, cl) {
 	person.buildStats(myRace, classLevel);
 
 	var myClass = cl;
-	cl.reset();
+	console.log(myClass);
+	if (typeof opt != 'undefined' && myClass.class in opt) {
+		myClass.reset(opt[myClass.class]);
+	}
+	else
+		myClass.reset();
+
 	myClass.generateClass(classLevel, person);
-	interface.printRace(myClass, ".class", "Class");
+	interface.printRace(myClass, ".class", "Class 1");
 	person.roundUp(myClass);
 	person.class1 = myClass;
 	console.log("class 1 complete------------------------------");
@@ -83,7 +91,10 @@ person.buildPerson = function(lev, r, cl) {
 	while (myClass2.name == myClass.name)
 		var myClass2 = random.pick(world.classes);
 
-	myClass2.reset();
+	if (typeof opt != 'undefined' && myClass2.class in opt)
+		myClass2.reset(opt[myClass2.class]);
+	else
+		myClass2.reset();
 	myClass2.generateClass(classLevel, person);
 	interface.printRace(myClass2, ".class2", "Class 2");
 	person.roundUp(myClass2);

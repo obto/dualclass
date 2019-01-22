@@ -22,8 +22,8 @@ rngr.magic.list[3] = ["Flame Arrows","Conjure Animals","Conjure Barrage","Daylig
 rngr.magic.list[4] = ["Conjure Woodland Beings","Freedom of Movement","Grasping Vine","Guardian of Nature","Locate Creature","Stoneskin"];
 rngr.magic.list[5] = ["Commune with Nature","Conjure Volley","Steel Wind Strike","Swift Quiver","Tree Stride","Wrath of Nature"];
 
-rngr.reset = function() {
-	rngr.name = "";
+rngr.reset = function(classes) {
+	rngr.name = "Ranger";
 	rngr.level = 1;
 	rngr.features = [];
 	rngr.enemies = [];
@@ -39,6 +39,12 @@ rngr.reset = function() {
 	rngr.subclass = "";
 	rngr.speed = 0;
 	rngr.extraLangs = 0;
+
+	var list = ["Hunter","Beast Master"];
+	if (typeof classes != 'undefined')
+		rngr.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		rngr.subclassList = list;
 }
 
 rngr.generateClass = function(level, person) {
@@ -109,7 +115,7 @@ rngr.addFeatures = function(level) {
 }
 
 rngr.chooseSubclass = function(level) {
-	var concs = ["Beast Master","Gloom Stalker","Horizon Walker","Hunter","Monster Slayer"];
+	var concs = rngr.subclassList.slice(0);
 	var c = random.pick(concs);
 	rngr.subclass = c;
 	rngr.features.push("Ranger Conclave - "+c+" Conclave");

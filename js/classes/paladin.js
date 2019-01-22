@@ -20,7 +20,8 @@ pal.magic.list[3] = ["Aura of Vitality","Blinding Smite","Create Food and Water"
 pal.magic.list[4] = ["Aura of Life","Aura of Purity","Banishment","Banishment","Death Ward","Dimension Door","Freedom of Movement","Guardian of Faith","Ice Storm","Locate Creature","Staggering Smite","Stoneskin"];
 pal.magic.list[5] = ["Banishing Smite","Circle of Power","Commune","Commune with Nature","Destructive Smite/Wave?","Dispel Evil and Good","Flame Strike","Geas","Hold Monster","Raise Dead","Scrying","Tree Stride"];
 
-pal.reset = function() {
+pal.reset = function(classes) {
+	pal.name = "Paladin";
 	pal.level = 1;
 	pal.features = [];
 	pal.auraLength = 10;
@@ -33,6 +34,12 @@ pal.reset = function() {
 	pal.proficiencies.other = [];
 	pal.saves = ["Charisma", "Wisdom"];
 	pal.subclass = "";
+
+	var list = ["Devotion","Ancients","Vengeance"];
+	if (typeof classes != 'undefined')
+		pal.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		pal.subclassList = list;
 }
 
 pal.generateClass = function(level, person) {
@@ -87,7 +94,7 @@ pal.addFeatures = function(level) {
 }
 
 pal.chooseSubclass = function(level) {
-	var archs = ["Ancients","Conquest","Devotion","Redemption","Vengeance"];
+	var archs = pal.subclassList.slice(0);
 	var x = random.pick(archs);
 	pal.subclass = x;
 	pal.features.push("Sacred Oath - "+pal.subclass);

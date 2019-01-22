@@ -15,8 +15,8 @@ mnk.speed = 0;
 mnk.languages = [];
 mnk.immunity = [];
 
-mnk.reset = function() {
-	mnk.name = "";
+mnk.reset = function(classes) {
+	mnk.name = "Monk";
 	mnk.level = 1;
 	mnk.features = [];
 	mnk.skills = [];
@@ -30,6 +30,12 @@ mnk.reset = function() {
 	mnk.speed = 0;
 	mnk.languages = [];
 	mnk.immunity = [];
+
+	var list = ["Open Hand","Shadow","Four Elements"];
+	if (typeof classes != 'undefined')
+		mnk.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		mnk.subclassList = list;
 }
 
 mnk.generateClass = function(level, person) {
@@ -126,7 +132,7 @@ mnk.addFeatures = function(level, knownProfs) {
 }
 
 mnk.chooseSubclass = function(level) {
-	var archs = ["Shadow","Four Elements","Open Hand","Sun Soul"];
+	var archs = mnk.subclassList.slice(0);
 	var x = random.pick(archs);
 	mnk.subclass = "Way of the " + x;
 	mnk.features.push("Monastic Tradition - "+mnk.subclass);

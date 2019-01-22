@@ -3,7 +3,7 @@ interface.previous = [];
 
 interface.pickClass = function() {
 	$("select.classSelector").html(function() {
-		var fullStr = "<option value='random'>(randomize)</option>";
+		var fullStr = "<option value='random'>(random class)</option>";
 		for (cl in world.classes) {
 			fullStr += "<option value='"+world.classes[cl].class+"'>"+world.classes[cl].class+"</option>";
 		}
@@ -13,7 +13,7 @@ interface.pickClass = function() {
 }
 interface.pickLevel = function() {
 	$("select.levelSelector").html(function() {
-		var fullStr = "<option value='random'>(randomize)</option>";
+		var fullStr = "<option value='random'>(random level)</option>";
 		for (var i = 1; i <= 20; i++) {
 			fullStr += "<option value='"+i+"'>"+i+"</option>";
 		}
@@ -24,13 +24,58 @@ interface.pickLevel = function() {
 
 interface.pickRace = function() {
 	$("select.raceSelector").html(function() {
-		var fullStr = "<option value='random'>(randomize)</option>";
+		var fullStr = "<option value='random'>(random race)</option>";
 		for (r in world.races) {
 			fullStr += "<option value='"+world.races[r].name+"'>"+world.races[r].name+"</option>";
 		}
 
 		return fullStr;
 	});
+}
+
+interface.books = [];
+interface.titles = [];
+
+$(".bookCheck").change(function() {
+	var x = $(this).val();
+	var b = [];
+
+	$(".bookCheck").each(function(key) {
+		if (this.checked)
+			b.push($(this).val());
+	});
+
+	interface.books = books.getRequestedBooks(b);
+
+	var r = interface.regenRaces();
+	interface.classOptions = interface.regenClasses();
+});
+
+interface.regenRaces = function() {
+	var races = world.baseRaces.slice(0);
+	for (b in interface.books) {
+		if ('races' in interface.books[b])
+			races = races.slice(0).concat(interface.books[b].races.slice(0));
+	}
+
+	world.races = Array.from(new Set(races));
+	interface.pickRace(); //refresh the list
+	return races;
+}
+
+interface.regenClasses = function() {
+	var classOptions = [];
+	for (var i in interface.books) {
+		for (var c in world.classNames) {
+			var n = world.classNames[c];
+			if ("classes" in interface.books[i] && n in interface.books[i].classes) {
+				if (typeof classOptions[n] == 'undefined')
+					classOptions[n] = [];
+				classOptions[n] = classOptions[n].slice(0).concat(interface.books[i].classes[n].slice(0));
+			}
+		}
+	}
+	return classOptions;
 }
 
 $(".genStuff").submit(function(e) {
@@ -54,11 +99,9 @@ $(".genStuff").submit(function(e) {
 		for (var i = 0; i < world.races.length; i++) {
 			world.races[i].reset();
 			if (world.races[i].name == r) {
+				console.log(world.races);
 				myRace = world.races[i];
 				break;
-				// world.races[i].reset();
-				// person.buildPerson(r, world.races[i]);
-				// return;
 			}
 		}
 	}
@@ -80,7 +123,7 @@ $(".genStuff").submit(function(e) {
 		}
 	}
 
-	person.buildPerson(myLevel, myRace, myClass);
+	person.buildPerson(myLevel, myRace, myClass, interface.classOptions);
 })
 
 interface.printRace = function(r, base, title) {
@@ -161,6 +204,7 @@ interface.showMagic = function(r, base) {
 }
 
 $(document).ready(function() {
+	// interface.genBooks();
 	interface.pickClass();
 	interface.pickRace();
 	interface.pickLevel();

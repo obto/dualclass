@@ -28,8 +28,8 @@ clr.magic.list[7] = ["Conjure Celestial","Divine Word","Etherealness","Fire Stor
 clr.magic.list[8] = ["Antimagic Field","Control Weather","Earthquake","Holy Aura"];
 clr.magic.list[9] = ["Astral Projection","Gate","Mass Heal","True Resurrection"];
 
-clr.reset = function() {
-	clr.name = "";
+clr.reset = function(classes) {
+	clr.name = "Cleric";
 	clr.subclass = "";
 	clr.level = 1;
 	clr.magic.spells = [];
@@ -45,6 +45,12 @@ clr.reset = function() {
 	clr.saves = ["Wisdom", "Charisma"];
 	clr.langMod = 0;
 	clr.resistance = [];
+
+	var list = ["Knowledge","Life","Light","Nature","Tempest","Trickery","War"];
+	if (typeof classes != 'undefined')
+		clr.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		clr.subclassList = list;
 }
 
 clr.generateClass = function(level, person) {
@@ -126,10 +132,7 @@ clr.chooseDomain = function(level) {
 	domains["War"] = ["War Priest", "Guided Strike*", "War God's Blessing*", "Divine Strike", "Avatar of Battle"];
 
 	// Pick subclass via key
-	var keys = Object.keys(domains);
-	// clr.subclass = keys[randInt(0, keys.length)];
-	clr.subclass = random.pick(keys);
-	// clr.subclass = "Knowledge";
+	clr.subclass = random.pick(clr.subclassList.slice(0));
 	var path = clr.subclass;
 
 	switch (clr.subclass) {

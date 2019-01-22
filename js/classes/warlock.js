@@ -30,8 +30,8 @@ wrl.magic.list[7] = ["Etherealness","Finger of Death","Forcecage","Plane Shift"]
 wrl.magic.list[8] = ["Demiplane","Dominate Monster","Feeblemind","Glibness","Power Word Stun"];
 wrl.magic.list[9] = ["Astral Projection","Foresight","Imprisonment","Power Word Kill","True Polymorph"];
 
-wrl.reset = function() {
-	wrl.name = "";
+wrl.reset = function(classes) {
+	wrl.name = "Warlock";
 	wrl.level = 1;
 	wrl.magic.spells = [];
 	wrl.magic.arcanum = [];
@@ -51,6 +51,12 @@ wrl.reset = function() {
 	wrl.extraHP = 0;
 	wrl.hasHex = false;
 	wrl.hasEldritch = false;
+
+	var list = ["Archfey","Fiend","Great Old One"];
+	if (typeof classes != 'undefined')
+		wrl.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		wrl.subclassList = list;
 }
 
 wrl.generateClass = function(level, person) {
@@ -109,7 +115,7 @@ wrl.addFeatures = function(level) {
 }
 
 wrl.chooseSubclass = function(level) {
-	var patr = ["Archfey","Celestial","Fiend","Great Old One","Hexblade","Raven Queen","Seeker","Undying"];
+	var patr = wrl.subclassList.slice(0);
 	var p = random.pick(patr);
 	wrl.subclass = p;
 	wrl.features.push("Otherworldly Patron - The "+p);
@@ -436,7 +442,7 @@ wrl.arcanumSpells = function(level) {
 }
 
 wrl.spellsfromPatron = function(p) {
-	var allP = ["Archfey","Celestial","Fiend","Great Old One","Hexblade","Raven Queen","Seeker","Undying"];
+	var allP = wrl.subclassList.slice(0);
 	
 	allP["Archfey"] = [[],["Faerie Fire","Sleep"],["Calm Emotions","Phantasmal Force"],["Blink","Plant Growth"],["Dominate Beast"],["Greater Invisibility"],["Dominate Person","Seeming"]];
 	allP["Celestial"] = [[],["Guiding Bolt","Cure Wounds"],["Flaming Sphere","Lesser Restoration"],["Daylight","Revivify"],["Guardian of Faith","Wall of Fire"],["Flame Strike","Greater Restoration"]];

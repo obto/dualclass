@@ -26,8 +26,8 @@ drd.magic.list[7] = ["Fire Storm","Mirage Arcane","Plane Shift","Regenerate","Re
 drd.magic.list[8] = ["Animal Shapes","Antipathy/Sympathy","Control Weather","Earthquake","Feeblemind","Sunburst","Tsunami"];
 drd.magic.list[9] = ["Foresight","Shapechange","Storm of Vengeance","True Resurrection"];
 
-drd.reset = function() {
-	drd.name = "";
+drd.reset = function(classes) {
+	drd.name = "Druid";
 	drd.subclassName = "";
 	drd.level = 1;
 	drd.magic.spells = [];
@@ -43,6 +43,12 @@ drd.reset = function() {
 	drd.languages = ["Druidic"];
 	drd.subclass = "";
 	drd.subcircle = "";
+
+	var list = ["Land","Moon"];
+	if (typeof classes != 'undefined')
+		drd.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		drd.subclassList = list;
 }
 
 drd.generateClass = function(level, person) {
@@ -87,7 +93,7 @@ drd.addFeatures = function(level) {
 }
 
 drd.chooseSubclass = function(level) {
-	var orig = ["Dreams","Land","Moon","Shepherd","Spores","Twilight"];
+	var orig = drd.subclassList.slice(0);
 	var c = random.pick(orig);
 	drd.subclass = c;
 

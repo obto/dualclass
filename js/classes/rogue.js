@@ -15,7 +15,7 @@ rog.extraLangs = 0;
 rog.expertise = [];
 rog.magic = [];
 
-rog.reset = function() {
+rog.reset = function(classes) {
 	rog.name = "";
 	rog.level = 1;
 	rog.features = [];
@@ -30,6 +30,16 @@ rog.reset = function() {
 	rog.extraLangs = 0;
 	rog.expertise = [];
 	rog.magic = [];
+
+	var list = ["Thief","Assassin","Arcane Trickster"];
+	if (typeof classes != 'undefined') {
+		rog.subclassList = list.slice(0).concat(classes.slice(0));
+	}
+	else
+		rog.subclassList = list;
+
+	console.log(rog.subclassList);
+	console.log(classes);
 }
 
 rog.generateClass = function(level, person) {
@@ -84,8 +94,8 @@ rog.addFeatures = function(level) {
 }
 
 rog.chooseSubclass = function(level) {
-	archs = ["Arcane Trickster","Assassin","Mastermind","Scout","Swashbuckler","Thief"];
-	c = random.pick(archs);
+	var archs = rog.subclassList;
+	var c = random.pick(archs);
 	rog.subclass = c;
 	// rog.subclass = "Arcane Trickster";
 	rog.features.push("Roguish Archetype - "+c);

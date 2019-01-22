@@ -89,18 +89,23 @@ float: right;
 	width: 80%;
 }
 
-.history, .classes {
+.history {
  	display: flex;
  	border-bottom: 2px solid grey;
+ }
+ .history::before, .savesBox::after {
+ 	content: "";
+ 	clear: both;
+ 	display: table;
  }
 
  .race, .bg {
  	width: 48%;
  }
- .class, .class2 {
+ /*.class, .class2 {
  	width: 48%;
- }
- .bg, .class2 {
+ }*/
+ .bg {
  	margin-left: 2%;
  }
  div h4 {
@@ -145,16 +150,16 @@ ul.statBox li .statname  {
 	width: 30%;
 }
 
- ul.statbox li .stat {
- 	/*font-size: 1.1em;*/
- 	font-weight: bold;
- 	text-align: right;
- 	width: 30%;
- }
-  ul.statbox li .mod {
-  	text-align: right;
- 	width: 20%;	
-  }
+ul.statbox li .stat {
+	/*font-size: 1.1em;*/
+	font-weight: bold;
+	text-align: right;
+	width: 30%;
+}
+ul.statbox li .mod {
+	text-align: right;
+	width: 20%;	
+}
 
 ul.savesBox li {
 	align-items: center;
@@ -167,9 +172,10 @@ ul.savesBox li {
 ul.savesbox li .profCircle {
 	margin-right: 10%;
 }
- ul.savesBox li .mod {
- 	width: 20%;
- }
+
+ul.savesBox li .mod {
+	width: 20%;
+}
 
 .profCircle {
 	background-color: black;
@@ -214,6 +220,16 @@ ul, ol, p, div, span, blockquote, li {
 <body>
 
 <div class="full-content">
+	<form class="bookSelector">
+		<input class="bookCheck" type="checkbox" value="Xanathars Guide to Everything">Xanathar's Guide to Everything<br>
+		<input class="bookCheck" type="checkbox" value="Volos Guide to Monsters">Volo's Guide to Monsters<br>
+		<input class="bookCheck" type="checkbox" value="Guildmasters Guide to Ravnica">Guildmasters' Guide to Ravnica<br>
+		<!-- <input class="bookCheck" type="checkbox" value="Mordenkainens Tome of Foes">Mordenkainen's Tome of Foes<br>
+		<input class="bookCheck" type="checkbox" value="Sword Coast Adventurers Guide">Sword Coast Adventurer's Guide<br>
+		<input class="bookCheck" type="checkbox" value="Elemental Evil">Elemental Evil<br>
+		<input class="bookCheck" type="checkbox" value="Unearthed Arcana">Unearthed Arcana<br>
+		<input class="bookCheck" type="checkbox" value="Dungeon Masters Guide">Dungeon Master's Guide<br> -->
+	</form>
 	<form class="genStuff">
 		<select class="levelSelector"></select>
 		<select class="raceSelector"></select>
@@ -224,8 +240,6 @@ ul, ol, p, div, span, blockquote, li {
 		<div class="person">
 			<h1>Person Name</h1>
 			<div class="stats">
-				<!-- <h3>Stats</h3>
-				<p></p> -->
 			</div>
 			<div class="skills">
 				<h3>Skills</h3>
@@ -359,6 +373,7 @@ ul, ol, p, div, span, blockquote, li {
 <script src="js/world.js"></script>
 <script src="js/backgrounds.js"></script>
 <script src="js/person.js"></script>
+<script src="js/splatbooks.js"></script>
 <script src="js/interface.js"></script>
 </body>
 </html>
