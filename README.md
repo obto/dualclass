@@ -1,4 +1,4 @@
-#### Random Dual Class
+## Random Dual Class
 
 This is a D&D 5e dual-class random character generator. Everything is random - race, classes, spells, skills, backgrounds.
 
@@ -11,12 +11,14 @@ Since randomness is a handicap in itself, we're forgoing the typical 5e multicla
 5. Proficiency bonus is based on the individual level, not the combined level. So your proficiency bonus increases to +3 at 5/5, not 3/3.
 6. ASIs work the same way, except you gain it twice (once for each class). So at 4/4, you have two ASIs to work with.
 
-Things it can do right now:
+### Things it can do right now:
+
 * Generate dual-class characters, levels 1-20
 * Mostly keep from learning duplicate spells and skills
 * Selectable splatbook inclusion
 
-Things on its to-do list include:
+### Things on its to-do list include:
+
 * Cantrip order-of-operations fixes
 * Including the rest of the splatbooks
 * Slowly better interface
