@@ -452,6 +452,18 @@ function makeSaveText(saves, mods, profBonus) {
 	return str;
 }
 
+// function makeSkillText(skills, mods, profBonus) {
+// 	var str = "<h3>Skills</h3>";
+// 	str += "<ul class='skillsBox'>";
+
+// 	for (var i = 0; i < world.skills.length; i++) {
+// 		str += "<li>";
+// 		if (skills.includes(i)) {
+// 			var mod = 
+// 		}
+// 	}
+// }
+
 function makeSkillText(skills) {
 	var str = "<span>";
 	var skillList = [];

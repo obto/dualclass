@@ -44,7 +44,7 @@ drd.reset = function(classes) {
 	drd.subclass = "";
 	drd.subcircle = "";
 
-	var list = ["Land","Moon"];
+	var list = ["Land", "Moon"];
 	if (typeof classes != 'undefined')
 		drd.subclassList = list.slice(0).concat(classes.slice(0));
 	else

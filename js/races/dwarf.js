@@ -24,6 +24,7 @@ drf.reset = function() {
 	drf.proficiencies.other = [];
 	drf.skills = [];
 	drf.spells = [];
+	drf.extraHP = 0;
 }
 
 drf.generateRace = function(person) {

@@ -55,7 +55,7 @@ books.xanth.classes = {
 	"Bard": ["Glamour","Swords","Whispers"],
 	"Cleric": ["Forge","Grave"],
 	"Druid": ["Dreams","Shepherd"],
-	"Fighter": ["Arcane Archer","Cavalier"],
+	"Fighter": ["Arcane Archer","Cavalier","Samurai"],
 	"Monk": ["Drunken Master","Kensei","Sun Soul"],
 	"Paladin": ["Conquest","Redemption"],
 	"Ranger": ["Horizon Walker","Monster Slayer","Gloom Stalker"],

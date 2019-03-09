@@ -36,6 +36,10 @@ bbn.reset = function(classes) {
 	bbn.extraTotem = false;
 
 	var list = ["Berzerker","Totem Warrior"];
+	if (typeof classes != 'undefined')
+		bbn.subclassList = list.slice(0).concat(classes.slice(0));
+	else
+		bbn.subclassList = list;
 
 	if (typeof classes != 'undefined') {
 		if (classes.includes("Totem Warrior")){

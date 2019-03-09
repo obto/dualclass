@@ -9,6 +9,7 @@ fght.proficiencies.weapons = ["Simple", "Martial"];
 fght.proficiencies.armor = ["Light", "Medium", "Heavy", "Shields"];
 fght.proficiencies.other = [];
 fght.saves = ["Strength", "Constitution"];
+fght.extraLangs = 0;
 fght.subclass = "";
 fght.magic = [];
 
@@ -18,6 +19,7 @@ fght.reset = function(classes) {
 	fght.features = [];
 	fght.skills = [];
 	fght.proficiencies = {};
+	fght.extraLangs = 0;
 	fght.proficiencies.weapons = ["Simple", "Martial"];
 	fght.proficiencies.armor = ["Light", "Medium", "Heavy", "Shields"];
 	fght.proficiencies.other = [];
@@ -96,6 +98,7 @@ fght.chooseSubclass = function(level) {
 	archs["Cavalier"] = [["Bonus Proficiencies", "Born to the Saddle", "Unwavering Mark"], "Warding Maneuver", "Hold the Line", "Ferocious Charger", "Vigilant Defender"];
 	archs["Champion"] = ["Improved Critical", "Remarkable Athlete", "Additional Fighting Style", "Superior Critical", "Survivor"];
 	archs["Eldritch Knight"] = [["Spellcasting","Weapon Bond"], "War Magic", "Eldritch Strike", "Arcane Charge", "Improved War Magic"];
+	archs["Samurai"] = [["Bonus Proficiency","Fighting Spirit"], "Elegant Courtier","Tireless Spirit","Rapid Strike","Strength Before Death"];
 
 	style = archs[x];
 
@@ -154,7 +157,15 @@ fght.chooseSubclass = function(level) {
 		var f = fght.features.indexOf("Combat Superiority");
 		fght.features[f] = "Combat Superiority " + numdie + " - " + m.join(", ");
 	}
-
+	else if (x == "Samurai" && level >= 7) {
+		fght.skillBonusSpecial = [13, "Wisom"]; //TODO make this do something
+		if (!person.saves.includes("Wisdom")) {
+			fght.saves.push("Wisdom");
+		}
+		else {
+			fght.saves.push(random.pick(["Intelligence","Charisma"]));
+		}
+	}
 }
 
 
@@ -165,6 +176,14 @@ fght.addSkills = function(level, knownSkills) {
 	}
 	else if (fght.subclass == "Cavalier") { //  && fght.subclass.notLanguage
 		pathSkills = skillChunk([1, 5, 6, 12, 13], 1, knownSkills);
+	}
+	else if (fght.subclass == "Samurai") {
+		if (random.bool()) {
+			fght.extraLangs += 1;
+		}
+		else {
+			pathSkills = skillChunk([5,6,12,13], 1, knownSkills);
+		}
 	}
 
 	var toCheck = pathSkills.concat(knownSkills);
