@@ -501,7 +501,7 @@ function makeSkillTextNew(skills, expers, mods, profBonus) {
 			circStatus = "isProf";
 		}
 		else if (!skills.includes(i) && person.hasJOAT) {
-			tempProf = profBonus / 2;
+			tempProf = Math.floor(profBonus / 2);
 			circStatus = "halfProf";
 		}
 		else {

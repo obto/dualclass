@@ -133,6 +133,9 @@ rog.chooseSubclass = function(level) {
 
 rog.addExpertise = function(level, skills) {	
 	var thief = false;
+	if ("Thieves' tools" in rog.expertise) {
+		thief = true;
+	}
 	var exp = [];
 
 	var retval = rog.addExpInner(level, skills, thief, exp);
@@ -152,7 +155,7 @@ rog.addExpInner = function(level, skills, thief, known) {
 	if (thief)
 		r = 1;
 
-	if (random.bool(0.3)) {
+	if (thief || random.bool(0.7)) {
 		exp = skillChunk(skills, 2, known);
 	}
 	else {
