@@ -22,6 +22,7 @@ person.proficiencies.other = [];
 person.immunity = [];
 person.resistance = [];
 person.advantage = [];
+person.hasJOAT = false;
 person.statsMax = [20,20,20,20,20,20];
 
 person.restart = function() {
@@ -48,6 +49,7 @@ person.restart = function() {
 	person.resistance = [];
 	person.advantage = [];
 	person.statsMax = [20,20,20,20,20,20];
+	person.hasJOAT = false;
 	person.class1 = [];
 	person.class2 = [];
 	person.race = [];
@@ -186,6 +188,9 @@ person.roundUp = function(r) {
 	}
 	if ("resistance" in recent) {
 		person.resistance = person.resistance.concat(recent.resistance.slice(0));
+	}
+	if ("hasJOAT" in recent) {
+		person.hasJOAT = true;
 	}
 	// if ("statsMax" in recent) {
 	// 	person.statsMax = recent.statsMax.slice(0);

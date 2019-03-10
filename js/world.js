@@ -489,21 +489,35 @@ function makeSkillTextNew(skills, expers, mods, profBonus) {
 	for (i = 0; i < world.skills.length; i++) {
 		str += "<li>";
 		var s = world.skillText[i];
-		if (skills.includes(i)) {
-			var tempProf = profBonus;
-			if (expers.includes(i)) {
-				tempProf = profBonus * 2;
-			}
-			var modText = makeModText(mods[skillMods[i]]+tempProf);
-
-			str += "<span class='profCircle isProf'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
-			if (expers.includes(i)) str += "*";
+		var tempProf = 0;
+		var circStatus = "";
+		
+		if (expers.includes(i)) {
+			tempProf = profBonus * 2;
+			circStatus = "isProf isExper";
+		}
+		else if (skills.includes(i)) {
+			tempProf = profBonus;
+			circStatus = "isProf";
+		}
+		else if (!skills.includes(i) && person.hasJOAT) {
+			tempProf = profBonus / 2;
+			circStatus = "halfProf";
 		}
 		else {
-			var modText = makeModText(mods[skillMods[i]]);
-
-			str += "<span class='profCircle notProf'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
+			circStatus = "notProf";
 		}
+		// if (skills.includes(i)) {
+		var modText = makeModText(mods[skillMods[i]]+tempProf);
+
+		str += "<span class='profCircle "+circStatus+"'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
+		if (expers.includes(i)) str += "*";
+		// }
+		// else {
+		// 	var modText = makeModText(mods[skillMods[i]]);
+
+		// 	str += "<span class='profCircle notProf'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
+		// }
 		str += "</li>";
 	}
 

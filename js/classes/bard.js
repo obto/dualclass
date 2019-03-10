@@ -8,6 +8,7 @@ bard.magic.spells = [];
 bard.features = [];
 bard.skills = [];
 bard.expertise = [];
+bard.hasJOAT = false;
 bard.proficiencies = [];
 bard.proficiencies.weapons = ["Simple", "Crossbow", "Longsword", "Rapier", "Shortsword"];
 bard.proficiencies.armor = ["Light"];
@@ -41,6 +42,7 @@ bard.reset = function(classes) {
 	bard.proficiencies.other = [];
 	bard.saves = ["Dexterity", "Charisma"];
 	bard.subclass = "";
+	bard.hasJOAT = false;
 
 	var list = ["Lore","Valor"];
 	if (typeof classes != 'undefined')
@@ -96,6 +98,7 @@ bard.addFeatures = function(level, knownProfs) {
 		}
 
 		bard.features.push("Jack of All Trades", "Song of Rest " + restdie);
+		bard.hasJOAT = true;
 	}
 
 	if (level >= 3) {
