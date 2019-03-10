@@ -116,13 +116,17 @@ float: right;
  }
 
 div.stats {
+	background-color: #dcdcff;
 	float: left;
-	margin-right: 2em;
+	margin-bottom: 2em;
+	margin-right: 3em;
+	padding: 3%;
+	padding-right: 1%;
  	/*margin-left: 0;*/
 	width: 25%;
 }
 
- ul.statBox, ul.savesBox {
+ ul.statBox, ul.savesBox, ul.skillsBox {
  	list-style-type: none;
  	padding-left: 0;
  	width: 100%;
@@ -137,7 +141,7 @@ div.stats {
 
  ul.statBox li {
  	display: flex;
- 	align-items: center
+ 	align-items: center;
  	font-size: 1.1em;
  	padding-bottom: .5em;
  	padding-left: 0;
@@ -161,21 +165,23 @@ ul.statbox li .mod {
 	width: 20%;	
 }
 
-ul.savesBox li {
+ul.savesBox li, ul.skillsBox li {
 	align-items: center;
 	display: flex;
-}
-ul.savesBox li {
 	width: 100%;
 }
 
-ul.savesbox li .profCircle {
+ul.savesbox li .profCircle, ul.skillsBox li .profCircle {
 	margin-right: 10%;
 }
 
-ul.savesBox li .mod {
+ul.savesBox li .mod, ul.skillsBox li .mod {
 	width: 20%;
 }
+
+/*ul.skillsBox li .mod {
+	width: 30%;
+}*/
 
 .profCircle {
 	background-color: black;
@@ -221,14 +227,14 @@ ul, ol, p, div, span, blockquote, li {
 
 <div class="full-content">
 	<form class="bookSelector">
+		<input class="bookCheck" type="checkbox" value="Dungeon Masters Guide">Dungeon Master's Guide<br>
 		<input class="bookCheck" type="checkbox" value="Xanathars Guide to Everything">Xanathar's Guide to Everything<br>
 		<input class="bookCheck" type="checkbox" value="Volos Guide to Monsters">Volo's Guide to Monsters<br>
 		<input class="bookCheck" type="checkbox" value="Guildmasters Guide to Ravnica">Guildmasters' Guide to Ravnica<br>
 		<!-- <input class="bookCheck" type="checkbox" value="Mordenkainens Tome of Foes">Mordenkainen's Tome of Foes<br>
 		<input class="bookCheck" type="checkbox" value="Sword Coast Adventurers Guide">Sword Coast Adventurer's Guide<br>
 		<input class="bookCheck" type="checkbox" value="Elemental Evil">Elemental Evil<br>
-		<input class="bookCheck" type="checkbox" value="Unearthed Arcana">Unearthed Arcana<br>
-		<input class="bookCheck" type="checkbox" value="Dungeon Masters Guide">Dungeon Master's Guide<br> -->
+		<input class="bookCheck" type="checkbox" value="Unearthed Arcana">Unearthed Arcana<br> -->
 	</form>
 	<form class="genStuff">
 		<select class="levelSelector"></select>
@@ -373,6 +379,7 @@ ul, ol, p, div, span, blockquote, li {
 <script src="js/world.js"></script>
 <script src="js/backgrounds.js"></script>
 <script src="js/person.js"></script>
+<script src="js/gear.js"></script>
 <script src="js/splatbooks.js"></script>
 <script src="js/interface.js"></script>
 </body>

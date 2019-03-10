@@ -82,7 +82,7 @@ bbn.addFeatures = function(level) {
 
 	if (level >= 2) {
 		bbn.features.push("Reckless Attack", "Danger Sense");
-		bbn.advantage.push("Dexterity saves/visible traps, spells");
+		bbn.advantage.push("Dexterity saves vs visible traps & spells");
 	}
 	if (level >= 3) {
 		bbn.chooseSubclass(level);

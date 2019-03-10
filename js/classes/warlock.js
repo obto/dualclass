@@ -217,6 +217,10 @@ wrl.chooseInvocations = function(level, knownSpells) {
 		myInvos = wrl.levelInvocations(myInvos.slice(0), invos.slice(0));
 
 	// console.log(invos);
+	var feat = wrl.features.indexOf("Eldritch Invocations");
+	console.log("Hey, let's test what invocations look like!!");
+	console.log(myInvos);
+	wrl.features[feat] = "Eldritch Invocations - " + myInvos.toString();
 	return myInvos;
 }
 
@@ -336,7 +340,6 @@ wrl.spellsfromInvo = function(tempAr) {
 }
 
 
-
 wrl.addSpells = function(level, knownSpells) {
 	wrl.magic.slots = wrl.realSpellSlots(level);
 	var spells = wrl.getSpells(level, knownSpells);
@@ -344,7 +347,7 @@ wrl.addSpells = function(level, knownSpells) {
 	return spells;
 }
 
-wrl.getSpells = function(level, knownSpells) {
+wrl.getFixedSpells = function(level, knownSpells) {
 	var origSpells = [];
 	origSpells[0] = [];
 	if (typeof knownSpells == 'undefined')
@@ -373,13 +376,23 @@ wrl.getSpells = function(level, knownSpells) {
 		origSpells[1] = ["Find Familiar"];
 	}
 
+	return origSpells;
+}
+
+
+// Actual spell-getting logic
+wrl.getSpells = function(level, knownSpells) {
+	// Get the spells you know already
+	var origSpells = wrl.getFixedSpells(level, knownSpells);
+
+	// Combine those lists and pick spells afterwards
 	wrl.magic.list = world.combineSpellLists(wrl.magic.list.slice(0), wrl.spellsfromPatron(wrl.subclass));
 	knownSpells = world.combineSpellLists(knownSpells.slice(0), origSpells.slice(0));
 	var spells = pickAllSpells(1, level, wrl, knownSpells, true);
 
+	// Now figure out your cantrips
 	var cants = wrl.getNumCantripsKnown(level);
 	spells[0] = skillChunk(wrl.magic.list[0].slice(0), cants, knownSpells[0].slice(0));
-	// console.log("new cantrips: "+spells[0].join(", "));
 	spells = world.combineSpellLists(spells.slice(0), origSpells.slice(0));
 
 	if (spells[0].includes("Eldritch Blast"))
@@ -387,6 +400,7 @@ wrl.getSpells = function(level, knownSpells) {
 	if (spells[1].includes("Hex"))
 		wrl.hasHex = true;
 
+	// Now figure out your invocations, and spells from those invocations
 	if (level >= 2) {
 		wrl.invocations = wrl.chooseInvocations(level, knownSpells);
 
@@ -394,6 +408,8 @@ wrl.getSpells = function(level, knownSpells) {
 		spells = world.combineSpellLists(spells.slice(0), invoSpells.slice(0));
 		// console.log("Your invocation spells are: " + invoSpells.join(", "));
 	}
+
+	// And your arcanum spells, once you have your invocations
 	if (level >= 11) {
 		var arcSpells = wrl.arcanumSpells(level);
 		spells = world.combineSpellLists(spells.slice(0), arcSpells.slice(0));
@@ -402,6 +418,7 @@ wrl.getSpells = function(level, knownSpells) {
 	return spells;
 }
 
+// Pact of the Tome spells: randomly select 3 cantrips from all caster classes
 wrl.tomeSpells = function(level, knownSpells) {
 	var secrets = [];
 	var total = 0;
@@ -427,6 +444,7 @@ wrl.tomeSpells = function(level, knownSpells) {
 	return secrets;
 }
 
+// Arcanum spells: pick high-level spells when above level 11
 wrl.arcanumSpells = function(level) {
 	var spells = [];
 	if (level >= 11)
@@ -441,6 +459,7 @@ wrl.arcanumSpells = function(level) {
 	return spells;
 }
 
+// Spells your patron adds to your list
 wrl.spellsfromPatron = function(p) {
 	var allP = wrl.subclassList.slice(0);
 	

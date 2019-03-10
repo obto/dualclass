@@ -477,6 +477,40 @@ function makeSkillText(skills) {
 	return str;
 }
 
+function makeSkillTextNew(skills, expers, mods, profBonus) {
+	if (typeof expers == "undefined") {
+		expers = [];
+	}
+
+	var str = "<h3>Skills</h3><ul class='skillsBox'>";
+	var skillList = [];
+	var skillMods = [1,4,3,0,5,3,4,5,3,4,3,4,5,5,3,1,1,4];
+
+	for (i = 0; i < world.skills.length; i++) {
+		str += "<li>";
+		var s = world.skillText[i];
+		if (skills.includes(i)) {
+			var tempProf = profBonus;
+			if (expers.includes(i)) {
+				tempProf = profBonus * 2;
+			}
+			var modText = makeModText(mods[skillMods[i]]+tempProf);
+
+			str += "<span class='profCircle isProf'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
+			if (expers.includes(i)) str += "*";
+		}
+		else {
+			var modText = makeModText(mods[skillMods[i]]);
+
+			str += "<span class='profCircle notProf'></span><span class='mod'>"+modText+"</span><span class='skill'>"+s+"</span>";
+		}
+		str += "</li>";
+	}
+
+	str += "</ul>";
+	return str;
+}
+
 function makeProfText(p) {
 	var str = "<ul>";
 	if (p.weapons && p.weapons.length > 0)

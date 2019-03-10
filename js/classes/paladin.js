@@ -6,6 +6,7 @@ pal.features = [];
 pal.auraLength = 10;
 pal.skills = [];
 pal.magic = [];
+pal.resistance = [];
 pal.proficiencies = [];
 pal.proficiencies.weapons = ["Simple", "Martial"];
 pal.proficiencies.armor = ["Light","Medium","Heavy","Shields"];
@@ -28,6 +29,7 @@ pal.reset = function(classes) {
 	pal.skills = [];
 	pal.magic.slots = [];
 	pal.magic.spells = [];
+	pal.resistance = [];
 	pal.proficiencies = {};
 	pal.proficiencies.weapons = ["Simple", "Martial"];
 	pal.proficiencies.armor = ["Light","Medium","Heavy","Shields"];
@@ -53,6 +55,8 @@ pal.generateClass = function(level, person) {
 		newSpells = pal.addSpells(level, person.spells.slice(0));
 	
 	pal.name = "Level " + pal.level + " Paladin (Oath of " + pal.subclass+")";
+	if (pal.subclass == "Oathbreaker")
+		pal.name = "Level "+pal.level+" Paladin (Oathbreaker)";
 }
 pal.printClass = function(){
 	$(".basics p").text("Level " + pal.level + " Paladin (" + pal.subclass + " Domain)");
@@ -102,14 +106,19 @@ pal.chooseSubclass = function(level) {
 	archs["Ancients"] = ["Channel Divinity (Nature's Wrath, Turn the Faithless)","Aura of Warding","Undying Sentinel","Elder Champion"];
 	archs["Conquest"] = ["Channel Divinity (Conquering Presence, Guided Strike)","Aura of Conquest","Scornful Rebuke","Invincible Conqueror"];
 	archs["Devotion"] = ["Channel Divinity (Sacred Weapon, Turn the Unholy)", "Aura of Devotion","Purity of Spirit","Holy Nimbus"];
+	archs["Oathbreaker"] = ["Channel Divinity (Control Undead, Dreadful Aspect)","Aura of Hate","Supernatural Resistance","Dread Lord"];
 	archs["Redemption"] = ["Channel Divinity (Emissary of Peace, Rebuke the Violent)", "Aura of the Guardian","Protective Spirit","Emissary of Redemption"];
 	archs["Vengeance"] = ["Channel Divinity (Abjure Enemy, Vow of Enmity)", "Relentless Avenger", "Soul of Vengeance","Avenging Angel"];
 
 	pal.features.push(archs[x][0]);
 	if (level >= 7)
 		pal.features.push(archs[x][1]);
-	if (level >= 15)
+	if (level >= 15) {
 		pal.features.push(archs[x][2]);
+		if (x == "Oathbreaker") {
+			pal.resistance.push("nonmagical bludgeoning/piercing/slashing");
+		}
+	}
 	if (level >= 20)
 		pal.features.push(archs[x][3]);
 }
@@ -168,6 +177,7 @@ pal.getSpells = function(level, knownSpells) {
 	oaths["Ancients"] = [[],["Ensnaring Strike","Speak with Animals"],["Moonbeam","Misty Step"],["Plant Growth","Protection from Energy"],["Ice Storm","Stoneskin"],["Commune with Nature","Tree Stride"]];
 	oaths["Conquest"] = [[],["Armor of Agathys","Command"],["Hold Person","Spiritual Weapon"],["Bestow Curse","Fear"],["Dominate Beast","Stoneskin"],["Cloudkill","Dominate Person"]];
 	oaths["Devotion"] = [[],["Protection from Evil and Good","Sanctuary"],["Lesser Restoration","Zone of Truth"],["Beacon of Hope","Dispel Magic"],["Freedom of Movement","Guardian of Faith"],["Commune","Flame Strike"]];
+	oaths["Oathbreaker"] = [[],["Hellish Rebuke","Inflict Wounds"],["Crown of Madness","Darkness"],["Animate Dead","Bestow Curse"],["Blight","Confusion"],["Contagion","Dominate Person"]];
 	oaths["Redemption"] = [[],["Sanctuary","Sleep"],["Calm Emotions","Hold Person"],["Counterspell","Hypnotic Pattern"],["Otiluke's Resilient Sphere","Stoneskin"],["Hold Monster","Wall of Force"]];
 	oaths["Vengeance"] = [[],["Bane","Hunter's Mark"],["Hold Person","Misty Step"],["Haste","Protection from Energy"],["Banishment","Dimension Door"],["Hold Monster","Scrying"]];
 	

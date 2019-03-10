@@ -98,7 +98,7 @@ mnk.addFeatures = function(level, knownProfs) {
 	}
 
 	if (level >= 3) {
-		mnk.chooseSubclass(level);
+		mnk.chooseSubclass(level, knownProfs.slice(0).concat(mnk.proficiencies.other.slice(0)));
 		mnk.features.push("Deflect Missiles");
 	}
 	if (level >= 4)
@@ -131,7 +131,7 @@ mnk.addFeatures = function(level, knownProfs) {
 		mnk.features.push("Perfect Self");
 }
 
-mnk.chooseSubclass = function(level) {
+mnk.chooseSubclass = function(level, knownProfs) {
 	var archs = mnk.subclassList.slice(0);
 	var x = random.pick(archs);
 	mnk.subclass = "Way of the " + x;
@@ -141,6 +141,8 @@ mnk.chooseSubclass = function(level) {
 	archs["Four Elements"] = ["Disciple of the Elements","","",""];
 	archs["Open Hand"] = ["Open Hand Technique","Wholeness of Body","Tranquility","Quivering Palm"];
 	archs["Sun Soul"] = ["Radiant Sun Bolt","Searing Arc Strike","Searing Sunburst","Sun Shield"];
+	archs["Drunken Master"] = ["Drunken Technique","Tipsy Sway","Drunkard's Luck","Intoxicated Frenzy"];
+	archs["Kensei"] = ["Path of the Kensei","One with the Blade","Sharpen the Blade","Unerring Accuracy"];
 
 	mnk.features.push(archs[x][0]);
 	if (level >= 6 && x != "Four Elements")
@@ -174,11 +176,49 @@ mnk.chooseSubclass = function(level) {
 			mnk.features.push(random.pick(full));
 		}
 	}
+	else if (x == "Kensei") {
+		var kens = mnk.kenseiWeaponFilter();
+		mnk.proficiencies.weapons.push(kens[0].name);
+		mnk.proficiencies.weapons.push(kens[1].name);
+		mnk.features.push("Kensei Weapons - "+kens[0].name+", "+kens[1].name);
+		var artist = skillChunk(["Calligrapher","Painter"], 1, knownProfs);
+		mnk.proficiencies.other.push(artist + "'s tools");
+	}
+}
+
+mnk.kenseiWeaponFilter = function() {
+	var melee = gear.weapons.filter(function(item) {
+		// var item = gear.weapons[key];
+		if (item.type == "Melee" && !("Heavy" in item.tags) && !("Special" in item.tags)) {
+			return item;
+		}
+	});
+	var ranged = gear.weapons.filter(function(item) {
+		// var item = gear.weapons[key];
+		if (item.type == "Ranged" && !("Heavy" in item.tags) && !("Special" in item.tags)) {
+			return item;
+		}
+		else if (item.name == "Longbow")
+			return item;
+	});
+
+	var m = random.pick(melee);
+	var r = random.pick(ranged);
+
+	return [m, r];
 }
 
 mnk.addSkills = function(level, knownSkills) {
-	var mySkills = skillChunk([0,3,5,6,14,16], 2, knownSkills);
-	mnk.skills = mySkills;
-	return mySkills;
+	var clskills = [];
+	if (mnk.subclass == "Drunken Master"){
+		clskills = skillChunk(12, 1, knownSkills);
+		// clr.expertise = domainSkills;
+	}
+	var toCheck = clskills.concat(knownSkills);
+
+	var newSkills = skillChunk([0,3,5,6,14,16], 2, toCheck).concat(clskills);
+	// var mySkills = skillChunk([0,3,5,6,14,16], 2, knownSkills);
+	mnk.skills = newSkills;
+	return newSkills;
 }
 

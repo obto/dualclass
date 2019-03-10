@@ -131,6 +131,7 @@ clr.chooseDomain = function(level) {
 	domains["Trickery"] = ["Blessing of the Trickster", "Invoke Duplicity*", "Cloak of Shadows*", "Divine Strike", "Improved Duplicity"];
 	domains["War"] = ["War Priest", "Guided Strike*", "War God's Blessing*", "Divine Strike", "Avatar of Battle"];
 	domains["Grave"] = ["Eyes of the Grave","Path to the Grave*","Sentinel at Death's Door","Potent Spellcasting","Keeper of Souls"];
+	domains["Death"] = ["Reaper","Touch of Death*","Inescapable Destruction","Divine Strike","Improved Reaper"];
 
 	// Pick subclass via key
 	clr.subclass = random.pick(clr.subclassList.slice(0));
@@ -168,6 +169,9 @@ clr.chooseDomain = function(level) {
 			break;
 		case "Grave":
 			clr.features.push("Circle of Mortality");
+			break;
+		case "Death":
+			clr.proficiencies.weapons.push("Martial");
 			break;
 	}
 
@@ -280,6 +284,9 @@ clr.getSpells = function(level, knownSpells) {
 	else if (clr.subclass == "Grave") {
 		newSpells = ["Spare the Dying"];
 	}
+	else if (clr.subclass == "Death") {
+		newSpells = skillChunk(["Chill Touch","Spare the Dying","Toll the Dead"],1,knownSpells);
+	}
 	
 	var cantripsKnown = clr.getNumCantripsKnown(level);
 	var cantos = skillChunk(clr.magic.list[0], cantripsKnown, newSpells.slice(0));
@@ -296,6 +303,7 @@ clr.getSpells = function(level, knownSpells) {
 	domSpells["Trickery"] = [[],["Charm Person", "Disguise Self"],["Mirror Image","Pass without Trace"],["Blink","Dispel Magic"],["Dimension Door","Polymorph"],["Dominate Person","Modify Memory"]];
 	domSpells["War"] = [[],["Divine Favor","Shield of Faith"],["Magic Weapon","Spiritual Weapon"],["Crusader's Mantle","Spirit Guardians"],["Freedom of Movement","Stoneskin"],["Flame Strike","Hold Monster"]];
 	domSpells["Grave"] = [[],["Bane","False Life"],["Gentle Repose","Ray of Enfeeblement"],["Revivify","Vampiric Touch"],["Blight","Death Ward"],["Antilife Shell","Raise Dead"]];
+	domSpells["Death"] = [[],["False Life","Ray of Sickness"],["Blindness/Deafness","Ray of Enfeeblement"],["Animate Dead","Vampiric Touch"],["Blight","Death Ward"],["Antilife Shell","Cloudkill"]];
 
 	var beforeList = clr.magic.list.slice(0);
 	clr.magic.list = world.combineSpellLists(clr.magic.list.slice(0), domSpells[clr.subclass].slice(0));

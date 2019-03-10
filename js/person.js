@@ -114,6 +114,7 @@ person.printPerson = function() {
 	$(".person .stats").html(function() {
 		var str = makeStatText(person.stats, person.modifiers);
 		str += makeSaveText(person.saves, person.modifiers, person.profBonus);
+		str += makeSkillTextNew(person.skills, person.expertise, person.modifiers, person.profBonus);
 		return str;
 
 	});
@@ -218,18 +219,15 @@ person.buildStats = function(race, level) {
 person.getHP = function(race, cl, cl2, level) {
 	var mod = person.modifiers[2];
 	person.hp = world.rollHealth(cl.hDie, level, mod);
-	console.log("health from cl1: "+person.hp);
+	// console.log("health from cl1: "+person.hp);
 	person.hp += world.rollHealth(cl2.hDie, level, mod);
-	console.log("health from cl2: "+person.hp);
+	// console.log("health from cl2: "+person.hp);
 	if ("extraHP" in race)
 		person.hp += parseInt(race["extraHP"]);
-	console.log("extra health from race: "+person.hp);
 	if ("extraHP" in cl)
 		person.hp += parseInt(cl["extraHP"]);
-	console.log("extra health from cl1: "+person.hp);
 	if ("extraHP" in cl2)
 		person.hp += parseInt(cl2["extraHP"]);
-	console.log("extra health from cl2: "+person.hp);
 }
 
 person.abilityScoreIncrease = function(level, stats) {

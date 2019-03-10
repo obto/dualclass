@@ -36,6 +36,7 @@ interface.pickRace = function() {
 interface.books = [];
 interface.titles = [];
 
+// Regen class/race info when books are selected
 $(".bookCheck").change(function() {
 	var x = $(this).val();
 	var b = [];
@@ -78,6 +79,7 @@ interface.regenClasses = function() {
 	return classOptions;
 }
 
+// "Go" button any time after the first generation
 $(".genStuff").submit(function(e) {
 	e.preventDefault();
 	var lev = $(".levelSelector").val();
