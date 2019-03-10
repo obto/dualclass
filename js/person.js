@@ -190,7 +190,7 @@ person.roundUp = function(r) {
 		person.resistance = person.resistance.concat(recent.resistance.slice(0));
 	}
 	if ("hasJOAT" in recent) {
-		person.hasJOAT = true;
+		person.hasJOAT = recent.hasJOAT;
 	}
 	// if ("statsMax" in recent) {
 	// 	person.statsMax = recent.statsMax.slice(0);
