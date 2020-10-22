@@ -129,6 +129,16 @@ $(".genStuff").submit(function(e) {
 })
 
 interface.printRace = function(r, base, title) {
+	if (!r) {
+		// So we can use this same function to clear all the text
+		r = {
+			name: '',
+			features: [],
+			skills: [],
+			proficiencies: {},
+		};
+	}
+
 	$(base + " .basics h3").text(title+": "+r.name);
 	if ("features" in r && r.features.length > 1) {
 		$(base + " .feats p").show();
@@ -142,7 +152,7 @@ interface.printRace = function(r, base, title) {
 		$(base + " .feats p").hide();
 
 	// console.log("pirnted all ye features");
-	
+
 	if ("skills" in r && r.skills.length > 0) {
 		$(base + " .skills").show();
 		$(base + " .skills p").html(makeSkillText(r.skills));

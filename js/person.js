@@ -66,7 +66,7 @@ person.buildPerson = function(lev, r, cl, opt) {
 	var myBg = bgs.chooseBg(person);
 	person.roundUp(myBg);
 	interface.printRace(myBg, ".bg", "Background");
-	
+
 	var myRace = r;
 	r.reset();
 	myRace.generateRace(person);
@@ -75,7 +75,31 @@ person.buildPerson = function(lev, r, cl, opt) {
 
 	person.buildStats(myRace, classLevel);
 
-	var myClass = cl;
+	const first_class_level = Math.round(Math.random() * (lev - 1)) + 1;
+	const second_class_level = lev - first_class_level;
+
+	const first_class = createAndAddClass(person, first_class_level, cl, opt, '.class');
+	person.class1 = first_class;
+
+	let second_class = null;
+	if (second_class_level > 0) {
+		second_class = createAndAddClass(person, second_class_level, null, opt, '.class2');
+		person.class2 = second_class;
+	} else {
+		interface.printRace(null, '.class2', 'No second class');
+	}
+
+	person.getHP(myRace, first_class, first_class_level, second_class, second_class_level);
+	var newLangs = world.pickLanguages(person.languages.slice(0), [], person.extraLangs);
+	person.languages = person.languages.concat(newLangs);
+
+	$.uniqueSort(person.skills);
+	person.printPerson();
+}
+
+function createAndAddClass(person, classLevel, dndClass, opt, selector) {
+  // TODO: dont generate two identical classes
+	var myClass = dndClass || random.pick(world.classes);
 	console.log(myClass);
 	if (typeof opt != 'undefined' && myClass.class in opt) {
 		myClass.reset(opt[myClass.class]);
@@ -84,32 +108,11 @@ person.buildPerson = function(lev, r, cl, opt) {
 		myClass.reset();
 
 	myClass.generateClass(classLevel, person);
-	interface.printRace(myClass, ".class", "Class 1");
+	interface.printRace(myClass, selector, "Class");
 	person.roundUp(myClass);
-	person.class1 = myClass;
-	console.log("class 1 complete------------------------------");
 
-	var myClass2 = random.pick(world.classes);
-	while (myClass2.name == myClass.name)
-		var myClass2 = random.pick(world.classes);
-
-	if (typeof opt != 'undefined' && myClass2.class in opt)
-		myClass2.reset(opt[myClass2.class]);
-	else
-		myClass2.reset();
-	myClass2.generateClass(classLevel, person);
-	interface.printRace(myClass2, ".class2", "Class 2");
-	person.roundUp(myClass2);
-	person.class2 = myClass2;
-	console.log("class 2 complete------------------------------");
-
-	person.getHP(myRace, myClass, myClass2, classLevel);
-
-	var newLangs = world.pickLanguages(person.languages.slice(0), [], person.extraLangs);
-	person.languages = person.languages.concat(newLangs);
-
-	$.uniqueSort(person.skills);
-	person.printPerson();
+	console.log("class complete------------------------------");
+	return myClass;
 }
 
 person.printPerson = function() {
@@ -138,7 +141,7 @@ person.printPerson = function() {
 	else {
 		$(".person .spells").hide();
 	}
-	
+
 	// $("div.rSpells p").text(elf.spells + "");
 	// $("div.rProfs p").text(person.proficiencies.weapons.toString() + person.proficiencies.armor.toString());
 }
@@ -151,7 +154,7 @@ person.roundUp = function(r) {
 		// console.log(recent.proficiencies);
 		person.proficiencies = world.combineProficiencies(recent.proficiencies, person.proficiencies);
 	}
-	
+
 	if ("skills" in recent) {
 		person.skills = person.skills.slice(0).concat(recent.skills.slice(0));
 	}
@@ -182,7 +185,7 @@ person.roundUp = function(r) {
 	}
 	if ("immunity" in recent) {
 		person.immunity = person.immunity.concat(recent.immunity.slice(0));
-	} 
+	}
 	if ("advantage" in recent) {
 		person.advantage = person.advantage.concat(recent.advantage.slice(0));
 	}
@@ -221,23 +224,25 @@ person.buildStats = function(race, level) {
 		person.profBonus = 6;
 }
 
-person.getHP = function(race, cl, cl2, level) {
+person.getHP = function(race, cl, cl_level, cl2, cl2_level) {
 	var mod = person.modifiers[2];
-	person.hp = world.rollHealth(cl.hDie, level, mod);
+	person.hp = world.rollHealth(cl.hDie, cl_level, mod);
 	// console.log("health from cl1: "+person.hp);
-	person.hp += world.rollHealth(cl2.hDie, level, mod);
+	if (cl2) {
+		person.hp += world.rollHealth(cl2.hDie, cl2_level, mod);
+	}
 	// console.log("health from cl2: "+person.hp);
 	if ("extraHP" in race)
 		person.hp += parseInt(race["extraHP"]);
 	if ("extraHP" in cl)
 		person.hp += parseInt(cl["extraHP"]);
-	if ("extraHP" in cl2)
+	if (cl2 && "extraHP" in cl2)
 		person.hp += parseInt(cl2["extraHP"]);
 }
 
 person.abilityScoreIncrease = function(level, stats) {
 	isFair = false;
-	
+
 	levs = [4, 8, 12, 14, 16, 19];
 	for (i = 0; i < levs.length; i++) {
 		if (level >= levs[i]) {
